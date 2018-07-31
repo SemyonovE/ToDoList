@@ -1,0 +1,43 @@
+{
+  "categories": [
+    "job", "studies", "other"
+  ],
+  "tasks": [
+    {
+      "id": 0,
+      "title": "Task1",
+      "text": "This is some task, you need to finished it",
+      "importance": "0",
+      "category": "job",
+      "date": "20 Jul 2018 10:15",
+      "finished": ""
+    },
+    {
+      "id": 1,
+      "title": "Task2",
+      "text": "This is some task, you need to finished it",
+      "importance": "1",
+      "category": "studies",
+      "date": "20 Sep 2018 10:15",
+      "finished": ""
+    },
+    {
+      "id": 2,
+      "title": "Task3",
+      "text": "This is some task, you need to finished it",
+      "importance": "3",
+      "category": "other",
+      "date": "20 Sep 2018 10:15",
+      "finished": "20 Jul 2018 10:15"
+    },
+    {
+      "id": 3,
+      "title": "Task4",
+      "text": "This is some task, you need to finished it",
+      "importance": "3",
+      "category": "",
+      "date": "20 Nov 2018 10:15",
+      "finished": ""
+    }
+  ]
+}
