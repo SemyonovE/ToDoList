@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class FormAddTask extends Component {
+class Filter extends Component {
   render() {
     return (
       <div>
@@ -10,4 +10,4 @@ class FormAddTask extends Component {
   }
 }
 
-export default FormAddTask;
+export default Filter;

@@ -1,24 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 
 import Task from '../Task'
 
 import "./style.css"
 
-class TasksList extends Component {
+class TasksList extends React.Component {
   static propTypes = {
-    taskList: PropTypes.object
+    tasks: PropTypes.array
   }
 
   static defaultProps = {
-    taskList: {
-      categories: [],
-      tasks: []
-    }
+    tasks: []
   }
 
   render() {
-    const {tasks} = this.props.tasklist
+    const {tasks} = this.props
+
     const body = tasks.map(task => (
         <Task task={task} key={task.id} />
       )
@@ -32,4 +31,8 @@ class TasksList extends Component {
   }
 }
 
-export default TasksList;
+export default connect( state => {
+  return {
+    tasks: state.taskslist
+  }
+})(TasksList);

@@ -1,22 +1,28 @@
-import React, { Component } from 'react';
-import './App.css';
-import Filter from '../Filter';
-import TasksList from '../TasksList';
-import FormAddTask from '../FormAddTask'
+import React from "react";
+import store from "../../store";
+import { Provider } from "react-redux";
 
-import tasklist from '../../tasks.json'
+import Filter from "../Filter";
+import CreateTask from "../CreateTask";
+import TasksList from "../TasksList";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
+import "./App.css";
+
+export default function App(props) {
+  return (
+    <Provider store={store}>
+      <div className="body">
         <h1>My To Do List:</h1>
-        <Filter />
-        <FormAddTask />
-        <TasksList tasklist={tasklist} />
-      </div>
-    );
-  }
-}
 
-export default App;
+        {/* Future filter for display selected tasks */}
+        <Filter />
+
+        {/* Form for set main fields of the task and create new task */}
+        <CreateTask />
+
+        {/* Displaying everything tasks with its properties */}
+        <TasksList />
+      </div>
+    </Provider>
+  );
+}
