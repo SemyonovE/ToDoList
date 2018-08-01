@@ -29,7 +29,7 @@ class TaskBody extends React.Component {
               <span className="task-text">{task.text}</span>
             </Col>
             <Col xs={6} sm={2}>
-              <span className="task-date">{"from: " + task.date}</span>
+              <span className="task-date">{"from: " + (task.date ? task.date : "date don't set")}</span>
             </Col>
             <Col xs={6} sm={2}>
               <span className="task-finished">

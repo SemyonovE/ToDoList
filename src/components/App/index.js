@@ -17,14 +17,14 @@ export default function App(props) {
         <Grid>
           <Row className="show-grid">
             <Col xs={12} sm={12}>
-              <h1>My To Do List:</h1>
+              <h1>My ToDo List:</h1>
 
               {/* Future filter for display selected tasks */}
               <Filter />
 
               {/* Form for set main fields of the task and create new task */}
               <CreateTask />
-              
+
               {/* Displaying everything tasks with its properties */}
               <TasksList />
             </Col>

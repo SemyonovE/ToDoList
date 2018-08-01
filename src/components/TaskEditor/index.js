@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
@@ -16,7 +16,11 @@ import {
   FormGroup
 } from "react-bootstrap";
 
-class TaskEditor extends Component {
+import Datetime from 'react-datetime'
+
+import '../../../node_modules/react-datetime/css/react-datetime.css'
+
+class TaskEditor extends React.Component {
   static propTypes = {
     task: PropTypes.object,
     toggleEditMode: PropTypes.func
@@ -76,11 +80,13 @@ class TaskEditor extends Component {
                 <Col xs={6} sm={2}>
                   <FormGroup>
                     <ControlLabel>Date</ControlLabel>
-                    <FormControl
-                      type="input"
-                      value={task.date}
-                      onChange={ev => this.changeFieldOfTask(ev, "date")}
-                    />
+                    <Datetime
+                      value={Date.parse(this.state.task.date)}
+                      defaultValue={this.state.task.date}
+                      dateFormat="DD MMM YYYY"
+                      timeFormat="HH:mm"
+                      onChange={this.setDate}
+                    /> 
                   </FormGroup>
                 </Col>
                 <Col xs={6} sm={2}>
@@ -103,6 +109,15 @@ class TaskEditor extends Component {
         </Panel.Body>
       </Panel>
     );
+  }
+
+  setDate = (moment) => {
+    const task = { ...this.state.task };
+    task.date = moment.format("DD MMM YYYY HH:mm");
+
+    this.setState({
+      task: task
+    });
   }
 
   editCurrentTask = () => {

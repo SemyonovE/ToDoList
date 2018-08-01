@@ -24,9 +24,9 @@ class Task extends React.Component {
 
     //Determining status of the current task for change its' style
     const status =
-      task.finished.length > 0
+      task.finished
         ? "success"
-        : Date.parse(task.date) > new Date()
+        : Date.parse(task.date) > new Date() || !task.date
           ? ""
           : "danger";
 

@@ -25,7 +25,7 @@ class TaskHeader extends React.Component {
   render() {
     const { task } = this.props;
 
-    const importance = +task.importance * (task.finished.length === 0);
+    const importance = +task.importance * (task.finished === "");
 
     return (
         <Panel.Heading>

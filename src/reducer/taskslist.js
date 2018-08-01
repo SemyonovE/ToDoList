@@ -7,7 +7,11 @@ export default (tasklist = loadFromLocalStorage('taskslist'), action) => {
 
   switch (type) {
     case ADD_TASK:
-      templist = [...tasklist, payload.task]
+      let temptask = {...payload.task}
+      while(tasklist.filter(task => task.id === temptask.id).length !== 0) {
+        temptask.id = temptask.id + "0"
+      }
+      templist = [...tasklist, temptask]
       saveToLocalStorage(templist, 'taskslist')
       return templist;
     case DEL_TASK:
@@ -33,6 +37,13 @@ function saveToLocalStorage(data, name) {
 }
 
 function loadFromLocalStorage(name) {
-  if(!localStorage[name]) saveToLocalStorage({}, name)
+  if(!localStorage[name]) saveToLocalStorage([{
+    id: "0",
+    title: "Sample task",
+    text: "This is some task, you need to finished it!",
+    importance: "3",
+    date: "22 Nov 2018 23:05",
+    finished: ""
+  }], name)
   return JSON.parse(localStorage.getItem(name))
 }

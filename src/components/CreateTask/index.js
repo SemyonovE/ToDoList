@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { connect } from "react-redux";
 import { addTask } from "../../actionCreator";
 
@@ -15,16 +16,19 @@ import {
   FormGroup
 } from "react-bootstrap";
 
+import Datetime from 'react-datetime'
+
 import hashCode from "../../hashCode";
+
+import '../../../node_modules/react-datetime/css/react-datetime.css'
 
 //Empty task for initialization of the state of the component
 const initTask = () => ({
   id: "",
   title: "",
   text: "",
-  importance: "",
+  importance: "0",
   date: "",
-  category: "",
   finished: ""
 });
 
@@ -81,11 +85,12 @@ class CreateTask extends React.Component {
                 <Col xs={6} sm={2}>
                   <FormGroup>
                     <ControlLabel>Date</ControlLabel>
-                    <FormControl
-                      type="input"
-                      value={task.date}
-                      onChange={ev => this.changeFieldOfTask(ev, "date")}
-                    />
+                    <Datetime
+                      value={Date.parse(this.state.task.date)}
+                      dateFormat="DD MMM YYYY"
+                      timeFormat="HH:mm"
+                      onChange={this.setDate}
+                    />                    
                   </FormGroup>
                 </Col>
                 <Col xs={6} sm={2}>
@@ -110,12 +115,35 @@ class CreateTask extends React.Component {
     );
   }
 
+  setDate = (moment) => {
+    const task = { ...this.state.task };
+    if(moment.length) return
+    task.date = moment.format("DD MMM YYYY HH:mm");
+
+    this.setState({
+      task: task
+    });
+  }
+
   addTaskToList = () => {
     const { addTask } = this.props;
-    const { task } = this.state;
+    const task = {...this.state.task};
 
     //Validation of fields of the task
-    if (!this.validation(task)) return;
+    if (task.title === "") {
+      alert("The title of your new task is empty!");
+      return;
+    }
+    if (task.text === "") {
+      alert("The text of your new task is empty!");
+      return;
+    }
+    if (task.importance === "") {
+      alert("You don't select importance of current task!");
+      return;
+    }
+
+    task.id = hashCode(task.title + task.text + task.date);
 
     //Change store by add the task
     addTask(task);
@@ -131,30 +159,9 @@ class CreateTask extends React.Component {
     const task = { ...this.state.task };
     task[field] = ev.target.value;
 
-    if (field === "title") {
-      task.id = hashCode(task.title);
-    }
-
     this.setState({
       task: task
     });
-  };
-
-  validation = task => {
-    if (task.title === "") {
-      alert("The title of your new task is empty!");
-      return false;
-    }
-    if (task.text === "") {
-      alert("The text of your new task is empty!");
-      return false;
-    }
-    if (task.importance === "") {
-      alert("You don't select importance of current task!");
-      return false;
-    }
-
-    return true;
   };
 }
 
