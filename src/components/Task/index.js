@@ -1,15 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { deleteTask } from "../../actionCreator";
 
-import "./style.css";
+import { Panel } from "react-bootstrap";
+
+import TaskHeader from "../TaskHeader";
+import TaskBody from "../TaskBody";
+import TaskEditor from "../TaskEditor";
 
 //The component receive the task and display its
 class Task extends React.Component {
   static propTypes = {
     task: PropTypes.object,
-    deleteTask: PropTypes.func
+    deleteTask: PropTypes.func,
+    editTask: PropTypes.func
+  };
+
+  state = {
+    editMode: false
   };
 
   render() {
@@ -18,34 +25,30 @@ class Task extends React.Component {
     //Determining status of the current task for change its' style
     const status =
       task.finished.length > 0
-        ? "finished"
+        ? "success"
         : Date.parse(task.date) > new Date()
           ? ""
-          : "overdue";
+          : "danger";
 
     return (
-      <li className={status}>
-        <span className="task-title">{task.title}</span>
-        <span className="task-text">{task.text}</span>
-        <span className="task-date">{task.date}</span>
-        <span className="task-finished">{task.finished}</span>
-        <span className="task-status" />
-        <span className="task-importance">
-          {"!".repeat(task.importance * (task.finished.length === 0))}
-        </span>
-        <button>edit</button>
-        <button onClick={this.deleteTask}>X</button>
-      </li>
+      <div>
+        {this.state.editMode ? (
+          <TaskEditor task={task} toggleEditMode={this.toggleEditMode} />
+        ) : (
+          <Panel {...(status ? { bsStyle: status } : {})}>
+            <TaskHeader task={task} toggleEditMode={this.toggleEditMode} />
+            <TaskBody task={task} />
+          </Panel>
+        )}
+      </div>
     );
   }
 
-  deleteTask = () => {
-    const { deleteTask, task } = this.props;
-    deleteTask(task.id);
+  toggleEditMode = () => {
+    this.setState({
+      editMode: !this.state.editMode
+    });
   };
 }
 
-export default connect(
-  null,
-  { deleteTask }
-)(Task);
+export default Task;

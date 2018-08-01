@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 import { connect } from "react-redux";
-import { addTask } from "../../actionCreator";
+import { editTask } from "../../actionCreator";
 
 import {
   Button,
@@ -15,42 +16,36 @@ import {
   FormGroup
 } from "react-bootstrap";
 
-import hashCode from "../../hashCode";
-
-//Empty task for initialization of the state of the component
-const initTask = () => ({
-  id: "",
-  title: "",
-  text: "",
-  importance: "",
-  date: "",
-  category: "",
-  finished: ""
-});
-
-//The component send created task to reducer for addition the task to list
-class CreateTask extends React.Component {
+class TaskEditor extends Component {
   static propTypes = {
-    addTask: PropTypes.func
+    task: PropTypes.object,
+    toggleEditMode: PropTypes.func
   };
 
   state = {
-    task: initTask()
+    task: { ...this.props.task }
   };
 
   render() {
     const { task } = this.state;
 
     return (
-      <Panel bsStyle="info">
+      <Panel>
         <Panel.Heading className="clear">
           <span className="right">
             <Button
-              bsStyle="primary"
+              bsStyle="success"
               bsSize="xsmall"
-              onClick={this.addTaskToList}
+              onClick={this.editCurrentTask}
             >
-              <Glyphicon glyph="plus" />
+              <Glyphicon glyph="ok-circle" />
+            </Button>
+            <Button
+              bsStyle="danger"
+              bsSize="xsmall"
+              onClick={this.props.toggleEditMode}
+            >
+              <Glyphicon glyph="remove-circle" />
             </Button>
           </span>
         </Panel.Heading>
@@ -110,20 +105,10 @@ class CreateTask extends React.Component {
     );
   }
 
-  addTaskToList = () => {
-    const { addTask } = this.props;
-    const { task } = this.state;
-
-    //Validation of fields of the task
-    if (!this.validation(task)) return;
-
-    //Change store by add the task
-    addTask(task);
-
-    //Clear the task and fields of creating form
-    this.setState({
-      task: initTask()
-    });
+  editCurrentTask = () => {
+    const { editTask } = this.props;
+    editTask(this.state.task);
+    this.props.toggleEditMode()
   };
 
   changeFieldOfTask = (ev, field) => {
@@ -131,34 +116,13 @@ class CreateTask extends React.Component {
     const task = { ...this.state.task };
     task[field] = ev.target.value;
 
-    if (field === "title") {
-      task.id = hashCode(task.title);
-    }
-
     this.setState({
       task: task
     });
-  };
-
-  validation = task => {
-    if (task.title === "") {
-      alert("The title of your new task is empty!");
-      return false;
-    }
-    if (task.text === "") {
-      alert("The text of your new task is empty!");
-      return false;
-    }
-    if (task.importance === "") {
-      alert("You don't select importance of current task!");
-      return false;
-    }
-
-    return true;
   };
 }
 
 export default connect(
   null,
-  { addTask }
-)(CreateTask);
+  { editTask }
+)(TaskEditor);

@@ -1,4 +1,4 @@
-import { ADD_TASK, DEL_TASK } from "../constants/constants";
+import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../constants/constants";
 
 export function addTask(task) {
   return {
@@ -12,4 +12,11 @@ export function deleteTask(id) {
     type: DEL_TASK,
     payload: { id }
   };
+}
+
+export function editTask(task) {
+  return {
+    type: EDIT_TASK,
+    payload: { task }
+  }
 }

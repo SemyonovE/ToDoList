@@ -1,5 +1,5 @@
 // import { tasks as defaultTaskList } from "../tasks.json";
-import { ADD_TASK, DEL_TASK } from "../constants/constants";
+import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../constants/constants";
 
 export default (tasklist = loadFromLocalStorage('taskslist'), action) => {
   const { type, payload } = action;
@@ -12,6 +12,15 @@ export default (tasklist = loadFromLocalStorage('taskslist'), action) => {
       return templist;
     case DEL_TASK:
       templist = tasklist.filter(task => task.id !== payload.id)
+      saveToLocalStorage(templist, 'taskslist')
+      return templist;
+    case EDIT_TASK:
+      templist = tasklist.map(task => {
+        if(task.id === payload.task.id) {
+          return payload.task
+        }
+        return task
+      })
       saveToLocalStorage(templist, 'taskslist')
       return templist;
     default:
