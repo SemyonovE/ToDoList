@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 
 import Filter from "../Filter";
 import CreateTask from "../CreateTask";
-import TasksList from "../TasksList";
+import TasksList from "../TaskList";
 
 import { Jumbotron, Grid, Row, Col } from "react-bootstrap";
 
@@ -13,7 +13,7 @@ import "./App.css";
 export default function App(props) {
   return (
     <Provider store={store}>
-      <Jumbotron>
+      <Jumbotron className="withoutmargins allscreen">
         <Grid>
           <Row className="show-grid">
             <Col xs={12} sm={12}>

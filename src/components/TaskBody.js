@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 
 import { Grid, Row, Col, Panel } from "react-bootstrap";
 
-import "./style.css";
-
 //The component receive the task and display its
 class TaskBody extends React.Component {
   static propTypes = {

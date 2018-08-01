@@ -1,3 +1,11 @@
 h1 {
   text-align: center;
 }
+
+.withoutmargins {
+  margin: 0;
+}
+
+.allscreen {
+  min-height: 100vh;
+}

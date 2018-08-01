@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteTask, editTask } from "../../actionCreator";
+import { deleteTask, editTask } from "../actionCreator";
 
 import {
   Button,
@@ -13,8 +13,6 @@ import {
   OverlayTrigger,
   Tooltip
 } from "react-bootstrap";
-
-import "./style.css";
 
 const monthNamesShort = [
   "Jan",

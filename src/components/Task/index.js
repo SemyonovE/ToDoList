@@ -7,6 +7,8 @@ import TaskHeader from "../TaskHeader";
 import TaskBody from "../TaskBody";
 import TaskEditor from "../TaskEditor";
 
+import "./style.css";
+
 //The component receive the task and display its
 class Task extends React.Component {
   static propTypes = {
