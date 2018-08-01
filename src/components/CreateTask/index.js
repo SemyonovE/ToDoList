@@ -13,14 +13,16 @@ import {
   Col,
   FormControl,
   ControlLabel,
-  FormGroup
+  FormGroup,
+  OverlayTrigger,
+  Tooltip
 } from "react-bootstrap";
 
-import Datetime from 'react-datetime'
+import Datetime from "react-datetime";
 
 import hashCode from "../../hashCode";
 
-import '../../../node_modules/react-datetime/css/react-datetime.css'
+import "../../../node_modules/react-datetime/css/react-datetime.css";
 
 //Empty task for initialization of the state of the component
 const initTask = () => ({
@@ -49,13 +51,18 @@ class CreateTask extends React.Component {
       <Panel bsStyle="info">
         <Panel.Heading className="clear">
           <span className="right">
-            <Button
-              bsStyle="primary"
-              bsSize="xsmall"
-              onClick={this.addTaskToList}
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id={task.id + "add"}>Add the new task</Tooltip>}
             >
-              <Glyphicon glyph="plus" />
-            </Button>
+              <Button
+                bsStyle="primary"
+                bsSize="xsmall"
+                onClick={this.addTaskToList}
+              >
+                <Glyphicon glyph="plus" />
+              </Button>
+            </OverlayTrigger>
           </span>
         </Panel.Heading>
         <Panel.Body>
@@ -90,7 +97,7 @@ class CreateTask extends React.Component {
                       dateFormat="DD MMM YYYY"
                       timeFormat="HH:mm"
                       onChange={this.setDate}
-                    />                    
+                    />
                   </FormGroup>
                 </Col>
                 <Col xs={6} sm={2}>
@@ -115,19 +122,19 @@ class CreateTask extends React.Component {
     );
   }
 
-  setDate = (moment) => {
+  setDate = moment => {
     const task = { ...this.state.task };
-    if(moment.length) return
+    if (moment.length) return;
     task.date = moment.format("DD MMM YYYY HH:mm");
 
     this.setState({
       task: task
     });
-  }
+  };
 
   addTaskToList = () => {
     const { addTask } = this.props;
-    const task = {...this.state.task};
+    const task = { ...this.state.task };
 
     //Validation of fields of the task
     if (task.title === "") {

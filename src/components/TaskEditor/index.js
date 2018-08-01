@@ -13,12 +13,14 @@ import {
   Col,
   FormControl,
   ControlLabel,
-  FormGroup
+  FormGroup,
+  OverlayTrigger,
+  Tooltip
 } from "react-bootstrap";
 
-import Datetime from 'react-datetime'
+import Datetime from "react-datetime";
 
-import '../../../node_modules/react-datetime/css/react-datetime.css'
+import "../../../node_modules/react-datetime/css/react-datetime.css";
 
 class TaskEditor extends React.Component {
   static propTypes = {
@@ -37,20 +39,32 @@ class TaskEditor extends React.Component {
       <Panel>
         <Panel.Heading className="clear">
           <span className="right">
-            <Button
-              bsStyle="success"
-              bsSize="xsmall"
-              onClick={this.editCurrentTask}
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id={task.id + "ok"}>Set changes</Tooltip>}
             >
-              <Glyphicon glyph="ok-circle" />
-            </Button>
-            <Button
-              bsStyle="danger"
-              bsSize="xsmall"
-              onClick={this.props.toggleEditMode}
+              <Button
+                bsStyle="success"
+                bsSize="xsmall"
+                onClick={this.editCurrentTask}
+              >
+                <Glyphicon glyph="ok-circle" />
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip id={task.id + "cancel"}>Cansel changes</Tooltip>
+              }
             >
-              <Glyphicon glyph="remove-circle" />
-            </Button>
+              <Button
+                bsStyle="danger"
+                bsSize="xsmall"
+                onClick={this.props.toggleEditMode}
+              >
+                <Glyphicon glyph="remove-circle" />
+              </Button>
+            </OverlayTrigger>
           </span>
         </Panel.Heading>
         <Panel.Body>
@@ -86,7 +100,7 @@ class TaskEditor extends React.Component {
                       dateFormat="DD MMM YYYY"
                       timeFormat="HH:mm"
                       onChange={this.setDate}
-                    /> 
+                    />
                   </FormGroup>
                 </Col>
                 <Col xs={6} sm={2}>
@@ -111,19 +125,19 @@ class TaskEditor extends React.Component {
     );
   }
 
-  setDate = (moment) => {
+  setDate = moment => {
     const task = { ...this.state.task };
     task.date = moment.format("DD MMM YYYY HH:mm");
 
     this.setState({
       task: task
     });
-  }
+  };
 
   editCurrentTask = () => {
     const { editTask } = this.props;
     editTask(this.state.task);
-    this.props.toggleEditMode()
+    this.props.toggleEditMode();
   };
 
   changeFieldOfTask = (ev, field) => {
