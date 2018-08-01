@@ -1,4 +1,3 @@
-// import { tasks as defaultTaskList } from "../tasks.json";
 import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../constants/constants";
 
 export default (tasklist = loadFromLocalStorage("taskslist"), action) => {

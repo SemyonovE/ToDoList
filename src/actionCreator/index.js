@@ -18,5 +18,5 @@ export function editTask(task) {
   return {
     type: EDIT_TASK,
     payload: { task }
-  }
+  };
 }
