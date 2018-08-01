@@ -1,8 +1,19 @@
 import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../constants/constants";
 
+const defaultValue = [
+  {
+    id: "0",
+    title: "Sample task",
+    text: "This is some task, you need to finished it!",
+    importance: "3",
+    date: "22 Nov 2018 23:05",
+    finished: ""
+  }
+];
+
 export default (tasklist = loadFromLocalStorage("taskslist"), action) => {
   const { type, payload } = action;
-  var templist;
+  let templist = [];
 
   switch (type) {
     case ADD_TASK:
@@ -12,11 +23,11 @@ export default (tasklist = loadFromLocalStorage("taskslist"), action) => {
       }
       templist = [...tasklist, temptask];
       saveToLocalStorage(templist, "taskslist");
-      return templist;
+      break;
     case DEL_TASK:
       templist = tasklist.filter(task => task.id !== payload.id);
       saveToLocalStorage(templist, "taskslist");
-      return templist;
+      break;
     case EDIT_TASK:
       templist = tasklist.map(task => {
         if (task.id === payload.task.id) {
@@ -25,10 +36,11 @@ export default (tasklist = loadFromLocalStorage("taskslist"), action) => {
         return task;
       });
       saveToLocalStorage(templist, "taskslist");
-      return templist;
+      break;
     default:
-      return tasklist;
+      templist = [...tasklist];
   }
+  return templist;
 };
 
 function saveToLocalStorage(data, name) {
@@ -36,19 +48,6 @@ function saveToLocalStorage(data, name) {
 }
 
 function loadFromLocalStorage(name) {
-  if (!localStorage[name])
-    saveToLocalStorage(
-      [
-        {
-          id: "0",
-          title: "Sample task",
-          text: "This is some task, you need to finished it!",
-          importance: "3",
-          date: "22 Nov 2018 23:05",
-          finished: ""
-        }
-      ],
-      name
-    );
+  if (!localStorage[name]) saveToLocalStorage(defaultValue, name);
   return JSON.parse(localStorage.getItem(name));
 }
