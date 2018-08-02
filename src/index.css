@@ -48,10 +48,6 @@ Button {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-.panel-header {
-  min-height: 43px;
-}
-
 #uncontrolled-tab-example {
   position: relative;
 }

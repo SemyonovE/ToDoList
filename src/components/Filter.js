@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Panel, Row, Grid, Col } from "react-bootstrap";
 
 import FilterSelect from "./SelectForm";
+import ButtonWithTrigger from "./ButtonWithTrigger";
 import tabDecorator from "../decorators/tabDecorator";
 
 Filter.propTypes = {
@@ -13,7 +14,9 @@ Filter.propTypes = {
   changeFilterParameter: PropTypes.func,
   importances: PropTypes.array,
   displayMods: PropTypes.array,
-  filterTitles: PropTypes.array
+  filterTitles: PropTypes.array,
+  clearFilterTooltip: PropTypes.string,
+  clearFilters: PropTypes.func
 };
 
 function Filter(props) {
@@ -21,7 +24,17 @@ function Filter(props) {
 
   return (
     <Panel bsStyle="info">
-      <Panel.Heading className="panel-header" />
+      <Panel.Heading className="clear">
+        <span className="right">
+          <ButtonWithTrigger
+            id=""
+            iconType="repeat"
+            tooltipText={props.clearFilterTooltip}
+            activateFunction={props.clearFilters}
+            buttonStyle="primary"
+          />
+        </span>
+      </Panel.Heading>
       <Panel.Body>
         <Grid>
           <Row>
@@ -44,7 +57,7 @@ function Filter(props) {
                 title={filterTitles[1]}
                 field="displayMode"
                 changeFunction={props.changeFilterParameter}
-                currentValue={props.showFinished}
+                currentValue={props.displayMode}
                 options={[
                   { value: -1, title: displayMods[0] },
                   { value: 0, title: displayMods[1] },
@@ -64,7 +77,8 @@ export default tabDecorator(
     return {
       importances: state.language.importances,
       displayMods: state.language.displayMods,
-      filterTitles: state.language.filterTitles
+      filterTitles: state.language.filterTitles,
+      clearFilterTooltip: state.language.clearFilterTooltip
     };
   })(Filter)
 );

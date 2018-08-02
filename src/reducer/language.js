@@ -7,12 +7,12 @@ import {
 const LANG = {
   en: {
     language: "en",
-    toggleLanguage: "ru",
     authorDefault: "My",
     navbarTitles: ["Creating the new task", "Filters"],
     propmptText: "How can I call you?",
     appHeader: "ToDo List",
     createTaskTooltip: "Add the new task",
+    clearFilterTooltip: "Clear filters",
     emptyTitle: "The title of your new task is empty",
     emptyText: "The text of your new task is empty",
     filterTitles: [
@@ -39,12 +39,12 @@ const LANG = {
   },
   ru: {
     language: "ru",
-    toggleLanguage: "en",
     authorDefault: "Мой",
     navbarTitles: ["Новая задача", "Фильтры"],
     propmptText: "Как к вам обращаться?",
     appHeader: "список дел",
     createTaskTooltip: "Добавить новую задачу",
+    clearFilterTooltip: "Очистить фильтры",
     emptyTitle: "Укажите название Вашей новой статьи",
     emptyText: "Укажите описание Вашей новой статьи",
     filterTitles: ["Фильтр задач по важности", "Фильтр задач по завершенности"],

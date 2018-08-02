@@ -3,15 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addTask } from "../actionCreator";
 
-import {
-  Button,
-  Glyphicon,
-  Panel,
-  OverlayTrigger,
-  Tooltip
-} from "react-bootstrap";
+import { Panel } from "react-bootstrap";
 
 import FormTaskData from "./FormTaskData";
+import ButtonWithTrigger from "./ButtonWithTrigger";
 import tabDecorator from "../decorators/tabDecorator";
 
 import hashCode from "../helpers/hashCode";
@@ -48,22 +43,13 @@ class CreateTask extends React.Component {
       <Panel bsStyle="info">
         <Panel.Heading className="clear">
           <span className="right">
-            <OverlayTrigger
-              placement="bottom"
-              overlay={
-                <Tooltip id={task.id + "add"}>
-                  {this.props.createTaskTooltip}
-                </Tooltip>
-              }
-            >
-              <Button
-                bsStyle="primary"
-                bsSize="xsmall"
-                onClick={this.addTaskToList}
-              >
-                <Glyphicon glyph="plus" />
-              </Button>
-            </OverlayTrigger>
+            <ButtonWithTrigger
+              id={task.id}
+              iconType="plus"
+              tooltipText={this.props.createTaskTooltip}
+              activateFunction={this.addTaskToList}
+              buttonStyle="primary"
+            />
           </span>
         </Panel.Heading>
         <FormTaskData

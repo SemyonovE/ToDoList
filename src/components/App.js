@@ -14,6 +14,11 @@ import {
   loadFromLocalStorage
 } from "../helpers/workWithStorage";
 
+const initialFilter = {
+  filterKey: -1,
+  displayMode: -1
+}
+
 class App extends React.Component {
   static propTypes = {
     appHeader: PropTypes.string,
@@ -22,13 +27,22 @@ class App extends React.Component {
     navbarTitles: PropTypes.array
   };
 
-  state = {
-    filterKey: -1,
-    displayMode: -1
-  };
+  // Initialize filter parameters:
+  //  filterKey for filtering by importance:
+  //    -1 : everything
+  //     0 : normal
+  //     1 : importance
+  //     2 : very importance
+  //  displayMode for filterring by complete
+  //    -1 : enerything
+  //     0 : currents
+  //     1 : completed
+  state = initialFilter;
 
   render() {
     const { filterKey, displayMode } = this.state;
+    
+    // Creating storage with name of author of the list, on the first start
     const author = loadFromLocalStorage("", "listAuthor");
 
     return (
@@ -47,7 +61,6 @@ class App extends React.Component {
                 {" " + this.props.appHeader + ":"}
               </h1>
               <Tabs
-                // bsStyle="pills"
                 defaultActiveKey={1}
                 animation={false}
                 id="uncontrolled-tab-example"
@@ -61,15 +74,20 @@ class App extends React.Component {
                   filterKey={filterKey}
                   displayMode={displayMode}
                   changeFilterParameter={this.changeFilterParameter}
+                  clearFilters={this.clearFilters} 
                 />
               </Tabs>
               {/* Displaying everything tasks with its properties */}
-              <TasksList filterKey={filterKey} displayMode={displayMode} />
+              <TasksList filterKey={filterKey} displayMode={displayMode}/>
             </Col>
           </Row>
         </Grid>
       </Jumbotron>
     );
+  }
+
+  clearFilters = () => {
+    this.setState(initialFilter)
   }
 
   changeFilterParameter = (ev, filter) => {
