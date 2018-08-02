@@ -34,7 +34,8 @@ const LANG = {
     editTTaskooltip: "Edit the task",
     completeTaskTooltip: "Toggle the task as complete",
     incompleteTaskTooltip: "Return the task as incomplete",
-    deleteTaskTooltip: "Delete the task"
+    deleteTaskTooltip: "Delete the task",
+    toggleLanguageTooltip: "Toogle language"
   },
   ru: {
     language: "ru",
@@ -62,7 +63,8 @@ const LANG = {
     editTTaskooltip: "Редактировать задачу",
     completeTaskTooltip: "Пометить как завершенная",
     incompleteTaskTooltip: "Пометить как незавершенная",
-    deleteTaskTooltip: "Удалить задачу"
+    deleteTaskTooltip: "Удалить задачу",
+    toggleLanguageTooltip: "Переключить язык"
   }
 };
 

@@ -7,7 +7,8 @@ import ButtonWithTrigger from "./ButtonWithTrigger";
 
 class Language extends React.Component {
   static propTypes = {
-    language: PropTypes.string
+    language: PropTypes.string,
+    toggleLanguageTooltip: PropTypes.string
   };
 
   render() {
@@ -16,7 +17,7 @@ class Language extends React.Component {
         <ButtonWithTrigger
           id={"lang"}
           iconType="book"
-          tooltipText="Toogle language"
+          tooltipText={this.props.toggleLanguageTooltip}
           activateFunction={this.toggleLanguage}
           buttonStyle="primary"
         />
@@ -32,7 +33,8 @@ class Language extends React.Component {
 export default connect(
   state => {
     return {
-      language: state.language.language
+      language: state.language.language,
+      toggleLanguageTooltip: state.language.toggleLanguageTooltip
     };
   },
   { toggleLanguage }
