@@ -4,6 +4,46 @@ body {
   font-family: sans-serif;
 }
 
-#root {
-  /* padding: 0 25px; */
+h1 {
+  text-align: center;
+}
+
+.without-margins {
+  margin: 0;
+}
+
+.all-screen {
+  min-height: 100vh;
+}
+
+Button {
+  margin: 0 3px;
+}
+
+.task-importance {
+  font-weight: bold;
+  color: red;
+}
+
+.without-paddings {
+  padding: 0;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.clear::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.select-when-hover:hover {
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0.05);
 }

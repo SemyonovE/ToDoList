@@ -1,27 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Panel, Row, Grid } from "react-bootstrap";
-import FilterSelect from "./FilterSelect";
+import { Panel, Row, Grid, Col } from "react-bootstrap";
 
-class Filter extends React.Component {
-  static propTypes = {
-    filterKey: PropTypes.number,
-    displayMode: PropTypes.number,
-    changeFilter: PropTypes.func,
-    changeDisplayMode: PropTypes.func
-  };
+import FilterSelect from "./SelectForm";
 
-  render() {
-    return (
-      <Panel>
-        <Panel.Body>
-          <Grid>
-            <Row>
+Filter.propTypes = {
+  filterKey: PropTypes.number,
+  displayMode: PropTypes.number,
+  changeFilterParameter: PropTypes.func
+};
+
+function Filter(props) {
+  return (
+    <Panel>
+      <Panel.Body>
+        <Grid>
+          <Row>
+            <Col xs={12} sm={6}>
               <FilterSelect
                 title="Filtering tasks by importance"
-                changeFunction={this.props.changeFilter}
-                currentValue={this.props.filterKey}
+                field="filterKey"
+                changeFunction={props.changeFilterParameter}
+                currentValue={props.filterKey}
                 options={[
                   { value: -1, title: "everything" },
                   { value: 0, title: "normal" },
@@ -29,22 +30,25 @@ class Filter extends React.Component {
                   { value: 3, title: "very important" }
                 ]}
               />
+            </Col>
+            <Col xs={12} sm={6}>
               <FilterSelect
                 title="Filtering tasks by completeness"
-                changeFunction={this.props.changeDisplayMode}
-                currentValue={this.props.showFinished}
+                field="displayMode"
+                changeFunction={props.changeFilterParameter}
+                currentValue={props.showFinished}
                 options={[
                   { value: -1, title: "everything" },
                   { value: 0, title: "currents" },
                   { value: 1, title: "completed" }
                 ]}
               />
-            </Row>
-          </Grid>
-        </Panel.Body>
-      </Panel>
-    );
-  }
+            </Col>
+          </Row>
+        </Grid>
+      </Panel.Body>
+    </Panel>
+  );
 }
 
 export default Filter;

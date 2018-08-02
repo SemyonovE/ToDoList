@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
 import { editTask } from "../actionCreator";
 
@@ -12,9 +11,9 @@ import {
   Tooltip
 } from "react-bootstrap";
 
-import "../../node_modules/react-datetime/css/react-datetime.css";
-
 import FormTaskData from "./FormTaskData";
+
+import "../../node_modules/react-datetime/css/react-datetime.css";
 
 class TaskEditor extends React.Component {
   static propTypes = {

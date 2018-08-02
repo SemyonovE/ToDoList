@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 
 import { Panel } from "react-bootstrap";
 
-import TaskHeader from "../TaskHeader";
-import TaskBody from "../TaskBody";
-import TaskEditor from "../TaskEditor";
-
-import "./style.css";
+import TaskHeader from "./TaskHeader";
+import TaskBody from "./TaskBody";
+import TaskEditor from "./TaskEditor";
 
 //The component receive the task and display its
 class Task extends React.Component {

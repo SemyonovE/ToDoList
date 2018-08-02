@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
-import { addTask } from "../../actionCreator";
+import { addTask } from "../actionCreator";
 
 import {
   Button,
@@ -12,10 +11,11 @@ import {
   Tooltip
 } from "react-bootstrap";
 
-import hashCode from "../../hashCode";
+import FormTaskData from "./FormTaskData";
 
-import "../../../node_modules/react-datetime/css/react-datetime.css";
-import FormTaskData from "../FormTaskData";
+import hashCode from "../helpers/hashCode";
+
+import "../../node_modules/react-datetime/css/react-datetime.css";
 
 //Empty task for initialization of the state of the component
 const initTask = () => ({

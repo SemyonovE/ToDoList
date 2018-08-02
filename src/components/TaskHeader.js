@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { deleteTask, editTask } from "../actionCreator";
 
 import {
-  Button,
   Glyphicon,
   Grid,
   Row,
@@ -13,21 +12,9 @@ import {
   OverlayTrigger,
   Tooltip
 } from "react-bootstrap";
+import moment from "../../node_modules/moment";
 
-const monthNamesShort = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec"
-];
+import ButtonWithTrigger from "./ButtonWithTrigger";
 
 //The component receive the task and display its
 class TaskHeader extends React.Component {
@@ -44,14 +31,16 @@ class TaskHeader extends React.Component {
 
   render() {
     const { task } = this.props;
-
-    const importance = +task.importance * (task.finished === "");
+    const importance = "!"
+      .repeat(+task.importance)
+      .split("")
+      .map((_, index) => <Glyphicon key={index} glyph="fire" />);
 
     return (
       <Panel.Heading>
         <Grid className="clear">
           <Row>
-            <Col xs={6} className="withoutpaddings">
+            <Col xs={6} className="without-paddings">
               <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -60,89 +49,44 @@ class TaskHeader extends React.Component {
                   </Tooltip>
                 }
               >
-                <span className="task-importance left">
-                  {importance > 0 ? <Glyphicon glyph="fire" /> : null}
-                  {importance > 1 ? (
-                    <span>
-                      <Glyphicon glyph="fire" />
-                      <Glyphicon glyph="fire" />
-                    </span>
-                  ) : null}
-                </span>
+                <span className="task-importance left">{importance}</span>
               </OverlayTrigger>
             </Col>
-            <Col xs={6} className="withoutpaddings">
+            <Col xs={6} className="without-paddings">
               <span className="right">
                 {!task.finished ? (
                   <span>
-                    <OverlayTrigger
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={task.id + "edit"}>Edit the task</Tooltip>
-                      }
-                    >
-                      <Button
-                        bsStyle="primary"
-                        bsSize="xsmall"
-                        onClick={this.props.toggleEditMode}
-                      >
-                        <Glyphicon glyph="edit" />
-                      </Button>
-                    </OverlayTrigger>
-                    <OverlayTrigger
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={task.id + "complete"}>
-                          Toggle the task as complete
-                        </Tooltip>
-                      }
-                    >
-                      <Button
-                        bsStyle="success"
-                        bsSize="xsmall"
-                        onClick={this.finishedCurrentTask}
-                      >
-                        <Glyphicon glyph="check" />
-                      </Button>
-                    </OverlayTrigger>
+                    <ButtonWithTrigger
+                      id={task.id}
+                      iconType="edit"
+                      tooltipText="Edit the task"
+                      activateFunction={this.props.toggleEditMode}
+                      buttonStyle="primary"
+                    />
+                    <ButtonWithTrigger
+                      id={task.id}
+                      iconType="check"
+                      tooltipText="Toggle the task as complete"
+                      activateFunction={this.completeCurrentTask}
+                      buttonStyle="success"
+                    />
                   </span>
                 ) : (
-                  <OverlayTrigger
-                    placement="bottom"
-                    overlay={
-                      <Tooltip id={task.id + "return"}>
-                        Return the task as incomplete
-                      </Tooltip>
-                    }
-                  >
-                    <Button
-                      bsStyle="success"
-                      bsSize="xsmall"
-                      onClick={() => {
-                        const { task, editTask } = this.props;
-                        let temptask = { ...task };
-                        temptask.finished = "";
-                        editTask(temptask);
-                      }}
-                    >
-                      <Glyphicon glyph="unchecked" />
-                    </Button>
-                  </OverlayTrigger>
+                  <ButtonWithTrigger
+                    id={task.id}
+                    iconType="unchecked"
+                    tooltipText="Return the task as incomplete"
+                    activateFunction={this.incompleteCurrentTask}
+                    buttonStyle="success"
+                  />
                 )}
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={
-                    <Tooltip id={task.id + "delete"}>Delete the task</Tooltip>
-                  }
-                >
-                  <Button
-                    bsStyle="danger"
-                    bsSize="xsmall"
-                    onClick={this.deleteTask}
-                  >
-                    <Glyphicon glyph="remove" />
-                  </Button>
-                </OverlayTrigger>
+                <ButtonWithTrigger
+                  id={task.id}
+                  iconType="remove"
+                  tooltipText="Delete the task"
+                  activateFunction={this.deleteTask}
+                  buttonStyle="danger"
+                />
               </span>
             </Col>
           </Row>
@@ -156,27 +100,19 @@ class TaskHeader extends React.Component {
     deleteTask(task.id);
   };
 
-  finishedCurrentTask = () => {
+  incompleteCurrentTask = () => {
     const { task, editTask } = this.props;
     let temptask = { ...task };
-    const date = new Date();
-    temptask.finished =
-      this.addZero(date.getDate()) +
-      date.getDate() +
-      " " +
-      monthNamesShort[date.getMonth()] +
-      " " +
-      date.getFullYear() +
-      " " +
-      this.addZero(date.getHours()) +
-      date.getHours() +
-      ":" +
-      this.addZero(date.getMinutes()) +
-      date.getMinutes();
+    temptask.finished = "";
     editTask(temptask);
   };
 
-  addZero = value => (value < 10 ? "0" : "");
+  completeCurrentTask = () => {
+    const { task, editTask } = this.props;
+    let temptask = { ...task };
+    temptask.finished = moment().format("DD MMM YYYY HH:mm");
+    editTask(temptask);
+  };
 }
 
 export default connect(

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Datetime from "react-datetime";
 import {
   Panel,
   Grid,
@@ -11,29 +12,15 @@ import {
   FormGroup
 } from "react-bootstrap";
 
-import Datetime from "react-datetime";
+import FilterSelect from "./SelectForm";
 
-import "../../../node_modules/react-datetime/css/react-datetime.css";
-
-//Empty task for initialization of the state of the component
-const initTask = () => ({
-  id: "",
-  title: "",
-  text: "",
-  importance: "0",
-  date: "",
-  finished: ""
-});
+import "../../node_modules/react-datetime/css/react-datetime.css";
 
 //The component send created task to reducer for addition the task to list
 class FormTaskData extends React.Component {
   static propTypes = {
     task: PropTypes.object,
     reverseFlowFunction: PropTypes.func
-  };
-
-  static defaultProps = {
-    task: initTask()
   };
 
   render() {
@@ -76,18 +63,17 @@ class FormTaskData extends React.Component {
                 </FormGroup>
               </Col>
               <Col xs={6} sm={2}>
-                <FormGroup>
-                  <ControlLabel>Importance</ControlLabel>
-                  <FormControl
-                    componentClass="select"
-                    value={task.importance}
-                    onChange={ev => this.changeFieldOfTask(ev, "importance")}
-                  >
-                    <option value="0">normal</option>
-                    <option value="1">important</option>
-                    <option value="3">very important</option>
-                  </FormControl>
-                </FormGroup>
+                <FilterSelect
+                  title="Importance"
+                  field="importance"
+                  changeFunction={this.changeFieldOfTask}
+                  currentValue={task.importance}
+                  options={[
+                    { value: 0, title: "normal" },
+                    { value: 1, title: "important" },
+                    { value: 3, title: "very important" }
+                  ]}
+                />
               </Col>
             </form>
           </Row>
@@ -100,7 +86,6 @@ class FormTaskData extends React.Component {
     const task = { ...this.props.task };
     task.date = moment.length ? "" : moment.format("DD MMM YYYY HH:mm");
 
-    //Backflow function to change task
     this.props.reverseFlowFunction(task);
   };
 
@@ -109,7 +94,6 @@ class FormTaskData extends React.Component {
     const task = { ...this.props.task };
     task[field] = ev.target.value;
 
-    //Backflow function to change task
     this.props.reverseFlowFunction(task);
   };
 }

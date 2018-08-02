@@ -1,17 +1,30 @@
-import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../constants/constants";
+import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../helpers/constants";
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage
+} from "../helpers/workWithStorage";
+
+const sampleTaskDate =
+  "22 Nov " +
+  (new Date().getFullYear() +
+    (Date.parse("22 Nov 2018 23:05") < new Date() ? 1 : 0)) +
+  " 23:05";
 
 const defaultValue = [
   {
     id: "0",
     title: "Sample task",
-    text: "This is some task, you need to finished it!",
+    text: "Do not forget to congratulate the author on his birthday!",
     importance: "3",
-    date: "22 Nov 2018 23:05",
+    date: sampleTaskDate,
     finished: ""
   }
 ];
 
-export default (tasklist = loadFromLocalStorage("taskslist"), action) => {
+export default (
+  tasklist = loadFromLocalStorage(defaultValue, "taskslist"),
+  action
+) => {
   const { type, payload } = action;
   let templist = [];
 
@@ -24,10 +37,12 @@ export default (tasklist = loadFromLocalStorage("taskslist"), action) => {
       templist = [...tasklist, temptask];
       saveToLocalStorage(templist, "taskslist");
       break;
+
     case DEL_TASK:
       templist = tasklist.filter(task => task.id !== payload.id);
       saveToLocalStorage(templist, "taskslist");
       break;
+
     case EDIT_TASK:
       templist = tasklist.map(task => {
         if (task.id === payload.task.id) {
@@ -37,17 +52,10 @@ export default (tasklist = loadFromLocalStorage("taskslist"), action) => {
       });
       saveToLocalStorage(templist, "taskslist");
       break;
+
     default:
       templist = [...tasklist];
   }
+
   return templist;
 };
-
-function saveToLocalStorage(data, name) {
-  return localStorage.setItem(name, JSON.stringify(data));
-}
-
-function loadFromLocalStorage(name) {
-  if (!localStorage[name]) saveToLocalStorage(defaultValue, name);
-  return JSON.parse(localStorage.getItem(name));
-}
