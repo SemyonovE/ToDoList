@@ -47,3 +47,17 @@ Button {
   cursor: pointer;
   background-color: rgba(128, 128, 128, 0.05);
 }
+
+.panel-header {
+  min-height: 43px;
+}
+
+#uncontrolled-tab-example > ul {
+  position: relative;
+  top: 44px;
+  left: 2px;
+}
+
+#uncontrolled-tab-example > li {
+  border: none;
+}

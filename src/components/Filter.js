@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Panel, Row, Grid, Col } from "react-bootstrap";
 
 import FilterSelect from "./SelectForm";
+import tabDecorator from "../decorators/tabDecorator";
 
 Filter.propTypes = {
   filterKey: PropTypes.number,
@@ -13,7 +14,8 @@ Filter.propTypes = {
 
 function Filter(props) {
   return (
-    <Panel>
+    <Panel bsStyle="info">
+      <Panel.Heading className="panel-header" />
       <Panel.Body>
         <Grid>
           <Row>
@@ -51,4 +53,4 @@ function Filter(props) {
   );
 }
 
-export default Filter;
+export default tabDecorator(Filter);

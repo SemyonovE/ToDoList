@@ -2,7 +2,7 @@ import React from "react";
 import store from "../store";
 import { Provider } from "react-redux";
 
-import { Jumbotron, Grid, Row, Col } from "react-bootstrap";
+import { Jumbotron, Grid, Row, Col, Tabs } from "react-bootstrap";
 
 import Filter from "./Filter";
 import CreateTask from "./CreateTask";
@@ -38,17 +38,26 @@ export default class App extends React.Component {
                   </span>{" "}
                   ToDo List:
                 </h1>
-
-                {/* Future filter for display selected tasks */}
-                <Filter
-                  filterKey={filterKey}
-                  displayMode={displayMode}
-                  changeFilterParameter={this.changeFilterParameter}
-                />
-
-                {/* Form for set main fields of the task and create new task */}
-                <CreateTask />
-
+                <Tabs
+                  // bsStyle="pills"
+                  defaultActiveKey={1}
+                  animation={false}
+                  id="uncontrolled-tab-example"
+                >
+                  {/* Form for set main fields of the task and create new task */}
+                  <CreateTask
+                    eventKey={1}
+                    title="Creating the new task"
+                  />
+                  {/* Future filter for display selected tasks */}
+                  <Filter
+                    eventKey={2}
+                    title="Filters"
+                    filterKey={filterKey}
+                    displayMode={displayMode}
+                    changeFilterParameter={this.changeFilterParameter}
+                  />
+                </Tabs>
                 {/* Displaying everything tasks with its properties */}
                 <TasksList filterKey={filterKey} displayMode={displayMode} />
               </Col>

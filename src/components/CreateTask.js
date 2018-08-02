@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 
 import FormTaskData from "./FormTaskData";
+import tabDecorator from "../decorators/tabDecorator";
 
 import hashCode from "../helpers/hashCode";
 
@@ -96,7 +97,7 @@ class CreateTask extends React.Component {
   };
 }
 
-export default connect(
+export default tabDecorator(connect(
   null,
   { addTask }
-)(CreateTask);
+)(CreateTask));
