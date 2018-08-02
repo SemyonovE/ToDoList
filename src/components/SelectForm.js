@@ -1,8 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
-function FilterSelect(props) {
+SelectForm.propTypes = {
+  title: PropTypes.string, // Text of the title of the select
+  field: PropTypes.string, // Which parameter needs select
+  changeFunction: PropTypes.func, // Function for changing parameter
+  currentValue: PropTypes.number, // Value of the current selected option
+  options: PropTypes.array // Array of the options for the select
+};
+
+function SelectForm(props) {
   const body = props.options.map(option => (
     <option key={option.value} value={option.value}>
       {option.title}
@@ -23,4 +32,4 @@ function FilterSelect(props) {
   );
 }
 
-export default FilterSelect;
+export default SelectForm;

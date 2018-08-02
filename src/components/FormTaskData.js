@@ -13,20 +13,20 @@ import {
   FormGroup
 } from "react-bootstrap";
 
-import FilterSelect from "./SelectForm";
+import SelectForm from "./SelectForm";
 
 import "../../node_modules/react-datetime/css/react-datetime.css";
 
-//The component send created task to reducer for addition the task to list
+// The component send created task to reducer for addition the task to list
 class FormTaskData extends React.Component {
   static propTypes = {
-    task: PropTypes.object,
-    reverseFlowFunction: PropTypes.func,
-    titleTitle: PropTypes.string,
-    titleText: PropTypes.string,
-    titleDate: PropTypes.string,
-    titleImportance: PropTypes.string,
-    importances: PropTypes.array
+    task: PropTypes.object, // Object of the task
+    reverseFlowFunction: PropTypes.func, // Function for reverse data flow for some changes in the parent's node
+    titleTitle: PropTypes.string, // Text for the field of title
+    titleText: PropTypes.string, // Text for the field of text
+    titleDate: PropTypes.string, // Text for the field of date
+    titleImportance: PropTypes.string, // Text for the field of importance
+    importances: PropTypes.array // Array of the options of select of importance
   };
 
   render() {
@@ -76,11 +76,11 @@ class FormTaskData extends React.Component {
                 </FormGroup>
               </Col>
               <Col xs={6} sm={2}>
-                <FilterSelect
+                <SelectForm
                   title={titleImportance}
                   field="importance"
                   changeFunction={this.changeFieldOfTask}
-                  currentValue={task.importance}
+                  currentValue={+task.importance}
                   options={[
                     { value: 0, title: importances[1] },
                     { value: 1, title: importances[2] },
@@ -97,14 +97,17 @@ class FormTaskData extends React.Component {
 
   setDate = moment => {
     const task = { ...this.props.task };
+
+    // Adding valid date to the task
     task.date = moment.length ? "" : moment.format("DD MMM YYYY HH:mm");
 
     this.props.reverseFlowFunction(task);
   };
 
   changeFieldOfTask = (ev, field) => {
-    //Change field 'field' of the current task
+    // Change field 'field' of the current task
     const task = { ...this.props.task };
+
     task[field] = ev.target.value;
 
     this.props.reverseFlowFunction(task);

@@ -4,20 +4,23 @@ import { connect } from "react-redux";
 
 import Task from "./Task";
 
+import XOR from "../helpers/XOR";
+
 TasksList.propTypes = {
-  tasks: PropTypes.array,
-  displayMode: PropTypes.number,
-  filterKey: PropTypes.number
+  tasks: PropTypes.array, // Object of the task
+  displayMode: PropTypes.number, // Number of the filter parameter
+  filterKey: PropTypes.number // Number of the filter parameter
 };
 
 function TasksList(props) {
   const { tasks, filterKey, displayMode } = props;
 
   const body = tasks
+    // Filtering tasks by importance
     .filter(task => filterKey < 0 || +task.importance === filterKey)
-    .filter(
-      task => displayMode < 0 || Boolean(task.finished) === Boolean(displayMode)
-    )
+    // Filtering tasks by complete
+    .filter(task => displayMode < 0 || !XOR(task.finished, displayMode))
+    // Create component for each task
     .map(task => <Task task={task} key={task.id} />);
 
   return <div className="tasks-list">{body}</div>;

@@ -4,5 +4,6 @@ export function saveToLocalStorage(data, name) {
 
 export function loadFromLocalStorage(defaultValue, name) {
   if (!localStorage[name]) saveToLocalStorage(defaultValue, name);
+  
   return JSON.parse(localStorage.getItem(name));
 }

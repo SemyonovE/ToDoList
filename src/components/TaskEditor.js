@@ -17,10 +17,10 @@ import "../../node_modules/react-datetime/css/react-datetime.css";
 
 class TaskEditor extends React.Component {
   static propTypes = {
-    task: PropTypes.object,
-    toggleEditMode: PropTypes.func,
-    setChangesTooltip: PropTypes.string,
-    cancelChangesTooltip: PropTypes.string
+    task: PropTypes.object, // Object of the task
+    toggleEditMode: PropTypes.func, // Function for toggle of edit mode
+    setChangesTooltip: PropTypes.string, // Text for Tooltip
+    cancelChangesTooltip: PropTypes.string // Text for Tooplip
   };
 
   state = {
@@ -78,7 +78,9 @@ class TaskEditor extends React.Component {
 
   editCurrentTask = () => {
     const { editTask } = this.props;
+
     editTask(this.state.task);
+    
     this.props.toggleEditMode();
   };
 }

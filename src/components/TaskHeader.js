@@ -16,22 +16,18 @@ import moment from "../../node_modules/moment";
 
 import ButtonWithTrigger from "./ButtonWithTrigger";
 
-//The component receive the task and display its
+// The component receive the task and display its
 class TaskHeader extends React.Component {
   static propTypes = {
-    task: PropTypes.object,
-    toggleEditMode: PropTypes.func,
-    deleteTask: PropTypes.func,
-    editTask: PropTypes.func,
-    importanceTooltip: PropTypes.string,
-    editTTaskooltip: PropTypes.string,
-    completeTaskTooltip: PropTypes.string,
-    incompleteTaskTooltip: PropTypes.string,
-    deleteTaskTooltip: PropTypes.string
-  };
-
-  state = {
-    editMode: false
+    task: PropTypes.object, // Object of the task
+    toggleEditMode: PropTypes.func, // Function for toggle of edit mode
+    deleteTask: PropTypes.func, // Finction for delete of the task
+    editTask: PropTypes.func, // Function for edit of the task
+    importanceTooltip: PropTypes.string, // Text of Tooltip
+    editTTaskooltip: PropTypes.string, // Text of Tooltip
+    completeTaskTooltip: PropTypes.string, // Text of Tooltip
+    incompleteTaskTooltip: PropTypes.string, // Text of Tooltip
+    deleteTaskTooltip: PropTypes.string // Text of Tooltip
   };
 
   render() {
@@ -43,6 +39,8 @@ class TaskHeader extends React.Component {
       incompleteTaskTooltip,
       deleteTaskTooltip
     } = this.props;
+
+    // Count of fires
     const importance = "!"
       .repeat(+task.importance)
       .split("")
@@ -109,20 +107,25 @@ class TaskHeader extends React.Component {
 
   deleteTask = () => {
     const { deleteTask, task } = this.props;
+
     deleteTask(task.id);
   };
 
   incompleteCurrentTask = () => {
     const { task, editTask } = this.props;
     let temptask = { ...task };
+
     temptask.finished = "";
+    
     editTask(temptask);
   };
 
   completeCurrentTask = () => {
     const { task, editTask } = this.props;
     let temptask = { ...task };
+
     temptask.finished = moment().format("DD MMM YYYY HH:mm");
+
     editTask(temptask);
   };
 }

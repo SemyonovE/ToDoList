@@ -4,19 +4,19 @@ import PropTypes from "prop-types";
 
 import { Panel, Row, Grid, Col } from "react-bootstrap";
 
-import FilterSelect from "./SelectForm";
+import SelectForm from "./SelectForm";
 import ButtonWithTrigger from "./ButtonWithTrigger";
 import tabDecorator from "../decorators/tabDecorator";
 
 Filter.propTypes = {
-  filterKey: PropTypes.number,
-  displayMode: PropTypes.number,
-  changeFilterParameter: PropTypes.func,
-  importances: PropTypes.array,
-  displayMods: PropTypes.array,
-  filterTitles: PropTypes.array,
-  clearFilterTooltip: PropTypes.string,
-  clearFilters: PropTypes.func
+  filterKey: PropTypes.number, // Number for filtering by importance
+  displayMode: PropTypes.number, // Number for filtering by complete
+  changeFilterParameter: PropTypes.func, // Function for change one of the parameter of the filter
+  importances: PropTypes.array, // Array of the options of select of importance
+  displayMods: PropTypes.array, // Array of the options of select of complete
+  filterTitles: PropTypes.array, // Array of the titles of selects of the filter
+  clearFilterTooltip: PropTypes.string, // Text for Tooltip
+  clearFilters: PropTypes.func // Function for cleaning parameters of the filter
 };
 
 function Filter(props) {
@@ -39,7 +39,7 @@ function Filter(props) {
         <Grid>
           <Row>
             <Col xs={12} sm={6}>
-              <FilterSelect
+              <SelectForm
                 title={filterTitles[0]}
                 field="filterKey"
                 changeFunction={props.changeFilterParameter}
@@ -53,7 +53,7 @@ function Filter(props) {
               />
             </Col>
             <Col xs={12} sm={6}>
-              <FilterSelect
+              <SelectForm
                 title={filterTitles[1]}
                 field="displayMode"
                 changeFunction={props.changeFilterParameter}
@@ -73,6 +73,7 @@ function Filter(props) {
 }
 
 export default tabDecorator(
+  // Decorator for make this form for tab
   connect(state => {
     return {
       importances: state.language.importances,

@@ -7,14 +7,15 @@ import TaskHeader from "./TaskHeader";
 import TaskBody from "./TaskBody";
 import TaskEditor from "./TaskEditor";
 
-//The component receive the task and display its
+// The component receive the task and display its
 class Task extends React.Component {
   static propTypes = {
-    task: PropTypes.object,
-    deleteTask: PropTypes.func,
-    editTask: PropTypes.func
+    task: PropTypes.object, // Object of the task
+    deleteTask: PropTypes.func, // Function for deleting of the task
+    editTask: PropTypes.func // Function for editing of the task
   };
 
+  // Default mode for editing is 'not editing'
   state = {
     editMode: false
   };
@@ -22,7 +23,7 @@ class Task extends React.Component {
   render() {
     const { task } = this.props;
 
-    //Determining status of the current task for change its' style
+    // Determining status of the current task for change its' style
     const status = task.finished
       ? "success"
       : Date.parse(task.date) > new Date() || !task.date

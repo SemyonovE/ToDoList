@@ -4,6 +4,7 @@ import {
   loadFromLocalStorage
 } from "../helpers/workWithStorage";
 
+// Dictionary
 const LANG = {
   en: {
     language: "en",
@@ -73,8 +74,10 @@ export default (
   action
 ) => {
   const { type, payload } = action;
+
   if (type === TOGGLE_LANG) {
     saveToLocalStorage(payload.language, "language");
+    
     return LANG[payload.language];
   }
 

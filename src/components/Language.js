@@ -7,8 +7,8 @@ import ButtonWithTrigger from "./ButtonWithTrigger";
 
 class Language extends React.Component {
   static propTypes = {
-    language: PropTypes.string,
-    toggleLanguageTooltip: PropTypes.string
+    language: PropTypes.string, // Current language
+    toggleLanguageTooltip: PropTypes.string // Text for Tooltip
   };
 
   render() {
@@ -24,8 +24,10 @@ class Language extends React.Component {
       </div>
     );
   }
+
   toggleLanguage = () => {
     const { toggleLanguage, language } = this.props;
+
     toggleLanguage(language === "en" ? "ru" : "en");
   };
 }

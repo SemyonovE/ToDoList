@@ -13,7 +13,7 @@ import hashCode from "../helpers/hashCode";
 
 import "../../node_modules/react-datetime/css/react-datetime.css";
 
-//Empty task for initialization of the state of the component
+// Empty task for initialization of the state of the component
 const initTask = () => ({
   id: "",
   title: "",
@@ -23,13 +23,13 @@ const initTask = () => ({
   finished: ""
 });
 
-//The component send created task to reducer for addition the task to list
+// The component send created task to reducer for addition the task to list
 class CreateTask extends React.Component {
   static propTypes = {
-    addTask: PropTypes.func,
-    createTaskTooltip: PropTypes.string,
-    emptyTitle: PropTypes.string,
-    emptyText: PropTypes.string
+    addTask: PropTypes.func, // Function for creating a new task
+    createTaskTooltip: PropTypes.string, // Text for Tooltip
+    emptyTitle: PropTypes.string, // Text of the message for user when he did forget to write the title
+    emptyText: PropTypes.string // Text of the message for user when he did forget to write the text
   };
 
   state = {
@@ -74,19 +74,20 @@ class CreateTask extends React.Component {
       return;
     }
 
+    // Generating the unique id for the new task
     task.id = hashCode(task.title + task.text + task.date);
 
-    //Change store by add the task
+    // Change store by add the task
     addTask(task);
 
-    //Clear the task and fields of creating form
+    // Clear the task and fields of creating form
     this.setState({
       task: initTask()
     });
   };
 }
 
-export default tabDecorator(
+export default tabDecorator( // Decorator for make this form for tab
   connect(
     state => {
       return {
