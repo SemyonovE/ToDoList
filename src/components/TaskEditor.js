@@ -18,7 +18,9 @@ import "../../node_modules/react-datetime/css/react-datetime.css";
 class TaskEditor extends React.Component {
   static propTypes = {
     task: PropTypes.object,
-    toggleEditMode: PropTypes.func
+    toggleEditMode: PropTypes.func,
+    setChangesTooltip: PropTypes.string,
+    cancelChangesTooltip: PropTypes.string
   };
 
   state = {
@@ -34,7 +36,11 @@ class TaskEditor extends React.Component {
           <span className="right">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip id={task.id + "ok"}>Set changes</Tooltip>}
+              overlay={
+                <Tooltip id={task.id + "ok"}>
+                  {this.props.setChangesTooltip}
+                </Tooltip>
+              }
             >
               <Button
                 bsStyle="success"
@@ -47,7 +53,9 @@ class TaskEditor extends React.Component {
             <OverlayTrigger
               placement="bottom"
               overlay={
-                <Tooltip id={task.id + "cancel"}>Cansel changes</Tooltip>
+                <Tooltip id={task.id + "cancel"}>
+                  {this.props.cancelChangesTooltip}
+                </Tooltip>
               }
             >
               <Button
@@ -76,6 +84,11 @@ class TaskEditor extends React.Component {
 }
 
 export default connect(
-  null,
+  state => {
+    return {
+      setChangesTooltip: state.language.setChangesTooltip,
+      cancelChangesTooltip: state.language.cancelChangesTooltip
+    };
+  },
   { editTask }
 )(TaskEditor);

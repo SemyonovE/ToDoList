@@ -31,7 +31,10 @@ const initTask = () => ({
 //The component send created task to reducer for addition the task to list
 class CreateTask extends React.Component {
   static propTypes = {
-    addTask: PropTypes.func
+    addTask: PropTypes.func,
+    createTaskTooltip: PropTypes.string,
+    emptyTitle: PropTypes.string,
+    emptyText: PropTypes.string
   };
 
   state = {
@@ -47,7 +50,11 @@ class CreateTask extends React.Component {
           <span className="right">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip id={task.id + "add"}>Add the new task</Tooltip>}
+              overlay={
+                <Tooltip id={task.id + "add"}>
+                  {this.props.createTaskTooltip}
+                </Tooltip>
+              }
             >
               <Button
                 bsStyle="primary"
@@ -73,15 +80,11 @@ class CreateTask extends React.Component {
 
     //Validation of fields of the task
     if (task.title === "") {
-      alert("The title of your new task is empty!");
+      alert(this.props.emptyTitle + "!");
       return;
     }
     if (task.text === "") {
-      alert("The text of your new task is empty!");
-      return;
-    }
-    if (task.importance === "") {
-      alert("You don't select importance of current task!");
+      alert(this.props.emptyText + "!");
       return;
     }
 
@@ -97,7 +100,15 @@ class CreateTask extends React.Component {
   };
 }
 
-export default tabDecorator(connect(
-  null,
-  { addTask }
-)(CreateTask));
+export default tabDecorator(
+  connect(
+    state => {
+      return {
+        createTaskTooltip: state.language.createTaskTooltip,
+        emptyTitle: state.language.emptyTitle,
+        emptyText: state.language.emptyText
+      };
+    },
+    { addTask }
+  )(CreateTask)
+);

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { Panel, Row, Grid, Col } from "react-bootstrap";
@@ -9,10 +10,15 @@ import tabDecorator from "../decorators/tabDecorator";
 Filter.propTypes = {
   filterKey: PropTypes.number,
   displayMode: PropTypes.number,
-  changeFilterParameter: PropTypes.func
+  changeFilterParameter: PropTypes.func,
+  importances: PropTypes.array,
+  displayMods: PropTypes.array,
+  filterTitles: PropTypes.array
 };
 
 function Filter(props) {
+  const { importances, displayMods, filterTitles } = props;
+
   return (
     <Panel bsStyle="info">
       <Panel.Heading className="panel-header" />
@@ -21,28 +27,28 @@ function Filter(props) {
           <Row>
             <Col xs={12} sm={6}>
               <FilterSelect
-                title="Filtering tasks by importance"
+                title={filterTitles[0]}
                 field="filterKey"
                 changeFunction={props.changeFilterParameter}
                 currentValue={props.filterKey}
                 options={[
-                  { value: -1, title: "everything" },
-                  { value: 0, title: "normal" },
-                  { value: 1, title: "important" },
-                  { value: 3, title: "very important" }
+                  { value: -1, title: importances[0] },
+                  { value: 0, title: importances[1] },
+                  { value: 1, title: importances[2] },
+                  { value: 3, title: importances[3] }
                 ]}
               />
             </Col>
             <Col xs={12} sm={6}>
               <FilterSelect
-                title="Filtering tasks by completeness"
+                title={filterTitles[1]}
                 field="displayMode"
                 changeFunction={props.changeFilterParameter}
                 currentValue={props.showFinished}
                 options={[
-                  { value: -1, title: "everything" },
-                  { value: 0, title: "currents" },
-                  { value: 1, title: "completed" }
+                  { value: -1, title: displayMods[0] },
+                  { value: 0, title: displayMods[1] },
+                  { value: 1, title: displayMods[2] }
                 ]}
               />
             </Col>
@@ -53,4 +59,12 @@ function Filter(props) {
   );
 }
 
-export default tabDecorator(Filter);
+export default tabDecorator(
+  connect(state => {
+    return {
+      importances: state.language.importances,
+      displayMods: state.language.displayMods,
+      filterTitles: state.language.filterTitles
+    };
+  })(Filter)
+);

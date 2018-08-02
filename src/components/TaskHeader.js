@@ -22,7 +22,12 @@ class TaskHeader extends React.Component {
     task: PropTypes.object,
     toggleEditMode: PropTypes.func,
     deleteTask: PropTypes.func,
-    editTask: PropTypes.func
+    editTask: PropTypes.func,
+    importanceTooltip: PropTypes.string,
+    editTTaskooltip: PropTypes.string,
+    completeTaskTooltip: PropTypes.string,
+    incompleteTaskTooltip: PropTypes.string,
+    deleteTaskTooltip: PropTypes.string
   };
 
   state = {
@@ -30,7 +35,14 @@ class TaskHeader extends React.Component {
   };
 
   render() {
-    const { task } = this.props;
+    const {
+      task,
+      importanceTooltip,
+      editTTaskooltip,
+      completeTaskTooltip,
+      incompleteTaskTooltip,
+      deleteTaskTooltip
+    } = this.props;
     const importance = "!"
       .repeat(+task.importance)
       .split("")
@@ -45,7 +57,7 @@ class TaskHeader extends React.Component {
                 placement="bottom"
                 overlay={
                   <Tooltip id={task.id + "importance"}>
-                    Importance of the task
+                    {importanceTooltip}
                   </Tooltip>
                 }
               >
@@ -59,14 +71,14 @@ class TaskHeader extends React.Component {
                     <ButtonWithTrigger
                       id={task.id}
                       iconType="edit"
-                      tooltipText="Edit the task"
+                      tooltipText={editTTaskooltip}
                       activateFunction={this.props.toggleEditMode}
                       buttonStyle="primary"
                     />
                     <ButtonWithTrigger
                       id={task.id}
                       iconType="check"
-                      tooltipText="Toggle the task as complete"
+                      tooltipText={completeTaskTooltip}
                       activateFunction={this.completeCurrentTask}
                       buttonStyle="success"
                     />
@@ -75,7 +87,7 @@ class TaskHeader extends React.Component {
                   <ButtonWithTrigger
                     id={task.id}
                     iconType="unchecked"
-                    tooltipText="Return the task as incomplete"
+                    tooltipText={incompleteTaskTooltip}
                     activateFunction={this.incompleteCurrentTask}
                     buttonStyle="success"
                   />
@@ -83,7 +95,7 @@ class TaskHeader extends React.Component {
                 <ButtonWithTrigger
                   id={task.id}
                   iconType="remove"
-                  tooltipText="Delete the task"
+                  tooltipText={deleteTaskTooltip}
                   activateFunction={this.deleteTask}
                   buttonStyle="danger"
                 />
@@ -116,6 +128,14 @@ class TaskHeader extends React.Component {
 }
 
 export default connect(
-  null,
+  state => {
+    return {
+      importanceTooltip: state.language.importanceTooltip,
+      editTTaskooltip: state.language.editTTaskooltip,
+      completeTaskTooltip: state.language.completeTaskTooltip,
+      incompleteTaskTooltip: state.language.incompleteTaskTooltip,
+      deleteTaskTooltip: state.language.deleteTaskTooltip
+    };
+  },
   { deleteTask, editTask }
 )(TaskHeader);

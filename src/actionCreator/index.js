@@ -1,4 +1,9 @@
-import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../helpers/constants";
+import {
+  ADD_TASK,
+  DEL_TASK,
+  EDIT_TASK,
+  TOGGLE_LANG
+} from "../helpers/constants";
 
 export function addTask(task) {
   return {
@@ -18,5 +23,12 @@ export function editTask(task) {
   return {
     type: EDIT_TASK,
     payload: { task }
+  };
+}
+
+export function toggleLanguage(language) {
+  return {
+    type: TOGGLE_LANG,
+    payload: { language }
   };
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Datetime from "react-datetime";
@@ -20,11 +21,23 @@ import "../../node_modules/react-datetime/css/react-datetime.css";
 class FormTaskData extends React.Component {
   static propTypes = {
     task: PropTypes.object,
-    reverseFlowFunction: PropTypes.func
+    reverseFlowFunction: PropTypes.func,
+    titleTitle: PropTypes.string,
+    titleText: PropTypes.string,
+    titleDate: PropTypes.string,
+    titleImportance: PropTypes.string,
+    importances: PropTypes.array
   };
 
   render() {
-    const { task } = this.props;
+    const {
+      task,
+      titleTitle,
+      titleText,
+      titleDate,
+      titleImportance,
+      importances
+    } = this.props;
 
     return (
       <Panel.Body>
@@ -33,7 +46,7 @@ class FormTaskData extends React.Component {
             <form>
               <Col xs={12} sm={2}>
                 <FormGroup>
-                  <ControlLabel>Title</ControlLabel>
+                  <ControlLabel>{titleTitle}</ControlLabel>
                   <FormControl
                     type="input"
                     value={task.title}
@@ -43,7 +56,7 @@ class FormTaskData extends React.Component {
               </Col>
               <Col xs={12} sm={6}>
                 <FormGroup>
-                  <ControlLabel>Text</ControlLabel>
+                  <ControlLabel>{titleText}</ControlLabel>
                   <FormControl
                     type="input"
                     value={task.text}
@@ -53,7 +66,7 @@ class FormTaskData extends React.Component {
               </Col>
               <Col xs={6} sm={2}>
                 <FormGroup>
-                  <ControlLabel>Date</ControlLabel>
+                  <ControlLabel>{titleDate}</ControlLabel>
                   <Datetime
                     value={Date.parse(this.props.task.date)}
                     dateFormat="DD MMM YYYY"
@@ -64,14 +77,14 @@ class FormTaskData extends React.Component {
               </Col>
               <Col xs={6} sm={2}>
                 <FilterSelect
-                  title="Importance"
+                  title={titleImportance}
                   field="importance"
                   changeFunction={this.changeFieldOfTask}
                   currentValue={task.importance}
                   options={[
-                    { value: 0, title: "normal" },
-                    { value: 1, title: "important" },
-                    { value: 3, title: "very important" }
+                    { value: 0, title: importances[1] },
+                    { value: 1, title: importances[2] },
+                    { value: 3, title: importances[3] }
                   ]}
                 />
               </Col>
@@ -98,4 +111,12 @@ class FormTaskData extends React.Component {
   };
 }
 
-export default FormTaskData;
+export default connect(state => {
+  return {
+    titleTitle: state.language.titleTitle,
+    titleText: state.language.titleText,
+    titleDate: state.language.titleDate,
+    titleImportance: state.language.titleImportance,
+    importances: state.language.importances
+  };
+})(FormTaskData);
