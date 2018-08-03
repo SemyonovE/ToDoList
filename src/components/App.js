@@ -105,7 +105,7 @@ class App extends React.Component {
     let Author = loadFromLocalStorage("", "listAuthor");
 
     // Receiving new author's name from the user
-    const answer = prompt(this.props.propmptText, Author);
+    const answer = prompt(this.props.propmptText + "?", Author);
 
     if (answer) {
       // Save the author's name and updating of state
