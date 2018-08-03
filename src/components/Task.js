@@ -7,12 +7,20 @@ import TaskHeader from "./TaskHeader";
 import TaskBody from "./TaskBody";
 import TaskEditor from "./TaskEditor";
 
+import { taskType } from "../types";
+import noSetFunction from "../helpers/notSetFunction";
+
 // The component receive the task and display its
 class Task extends React.Component {
   static propTypes = {
-    task: PropTypes.object, // Object of the task
+    task: taskType.isRequired, // Object of the task
     deleteTask: PropTypes.func, // Function for deleting of the task
     editTask: PropTypes.func // Function for editing of the task
+  };
+
+  static defaultProps = {
+    deleteTask: noSetFunction,
+    editTask: noSetFunction
   };
 
   // Default mode for editing is 'not editing'

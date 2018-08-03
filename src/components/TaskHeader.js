@@ -16,18 +16,27 @@ import moment from "../../node_modules/moment";
 
 import ButtonWithTrigger from "./ButtonWithTrigger";
 
+import { taskType } from "../types";
+import noSetFunction from "../helpers/notSetFunction";
+
 // The component receive the task and display its
 class TaskHeader extends React.Component {
   static propTypes = {
-    task: PropTypes.object, // Object of the task
+    task: taskType.isRequired, // Object of the task
     toggleEditMode: PropTypes.func, // Function for toggle of edit mode
     deleteTask: PropTypes.func, // Finction for delete of the task
     editTask: PropTypes.func, // Function for edit of the task
-    importanceTooltip: PropTypes.string, // Text of Tooltip
-    editTTaskooltip: PropTypes.string, // Text of Tooltip
-    completeTaskTooltip: PropTypes.string, // Text of Tooltip
-    incompleteTaskTooltip: PropTypes.string, // Text of Tooltip
-    deleteTaskTooltip: PropTypes.string // Text of Tooltip
+    importanceTooltip: PropTypes.string.isRequired, // Text of Tooltip
+    editTTaskooltip: PropTypes.string.isRequired, // Text of Tooltip
+    completeTaskTooltip: PropTypes.string.isRequired, // Text of Tooltip
+    incompleteTaskTooltip: PropTypes.string.isRequired, // Text of Tooltip
+    deleteTaskTooltip: PropTypes.string.isRequired // Text of Tooltip
+  };
+
+  static defaultProps = {
+    toggleEditMode: noSetFunction,
+    deleteTask: noSetFunction,
+    editTask: noSetFunction
   };
 
   render() {
@@ -116,7 +125,7 @@ class TaskHeader extends React.Component {
     let temptask = { ...task };
 
     temptask.finished = "";
-    
+
     editTask(temptask);
   };
 

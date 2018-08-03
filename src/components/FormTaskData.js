@@ -15,18 +15,27 @@ import {
 
 import SelectForm from "./SelectForm";
 
+import { taskType } from "../types";
+
 import "../../node_modules/react-datetime/css/react-datetime.css";
 
 // The component send created task to reducer for addition the task to list
 class FormTaskData extends React.Component {
   static propTypes = {
-    task: PropTypes.object, // Object of the task
-    reverseFlowFunction: PropTypes.func, // Function for reverse data flow for some changes in the parent's node
+    task: taskType.isRequired, // Object of the task
+    reverseFlowFunction: PropTypes.func.isRequired, // Function for reverse data flow for some changes in the parent's node
     titleTitle: PropTypes.string, // Text for the field of title
     titleText: PropTypes.string, // Text for the field of text
     titleDate: PropTypes.string, // Text for the field of date
     titleImportance: PropTypes.string, // Text for the field of importance
-    importances: PropTypes.array // Array of the options of select of importance
+    importances: PropTypes.array.isRequired // Array of the options of select of importance
+  };
+
+  static defaultProps = {
+    titleTitle: "Title",
+    titleText: "Text",
+    titleDate: "Date",
+    titleImportance: "Importance"
   };
 
   render() {

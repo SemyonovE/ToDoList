@@ -8,15 +8,22 @@ import SelectForm from "./SelectForm";
 import ButtonWithTrigger from "./ButtonWithTrigger";
 import tabDecorator from "../decorators/tabDecorator";
 
+import noSetFunction from "../helpers/notSetFunction";
+
 Filter.propTypes = {
-  filterKey: PropTypes.number, // Number for filtering by importance
-  displayMode: PropTypes.number, // Number for filtering by complete
-  changeFilterParameter: PropTypes.func, // Function for change one of the parameter of the filter
-  importances: PropTypes.array, // Array of the options of select of importance
-  displayMods: PropTypes.array, // Array of the options of select of complete
+  filterKey: PropTypes.number.isRequired, // Number for filtering by importance
+  displayMode: PropTypes.number.isRequired, // Number for filtering by complete
+  changeFilterParameter: PropTypes.func.isRequired, // Function for change one of the parameter of the filter
+  importances: PropTypes.array.isRequired, // Array of the options of select of importance
+  displayMods: PropTypes.array.isRequired, // Array of the options of select of complete
   filterTitles: PropTypes.array, // Array of the titles of selects of the filter
-  clearFilterTooltip: PropTypes.string, // Text for Tooltip
+  clearFilterTooltip: PropTypes.string.isRequired, // Text for Tooltip
   clearFilters: PropTypes.func // Function for cleaning parameters of the filter
+};
+
+Filter.defaultProps = {
+  filterTitles: "Title",
+  clearFilters: noSetFunction
 };
 
 function Filter(props) {

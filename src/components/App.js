@@ -21,10 +21,10 @@ const initialFilter = {
 
 class App extends React.Component {
   static propTypes = {
-    appHeader: PropTypes.string, // Text of the header
-    authorDefault: PropTypes.string, // 'My' to indicate of the author of the list
-    propmptText: PropTypes.string, // Text for prompt, when user will want to change its name
-    navbarTitles: PropTypes.array // Array of the titles of the navigation tabs
+    appHeader: PropTypes.string.isRequired, // Text of the header
+    authorDefault: PropTypes.string.isRequired, // 'My' to indicate of the author of the list
+    propmptText: PropTypes.string.isRequired, // Text for prompt, when user will want to change its name
+    navbarTitles: PropTypes.arrayOf(PropTypes.string).isRequired // Array of the titles of the navigation tabs
   };
 
   // Initialize filter parameters:
@@ -89,13 +89,11 @@ class App extends React.Component {
   }
 
   clearFilters = () => {
-
     // Initial of the filter's parameters
     this.setState(initialFilter);
   };
 
   changeFilterParameter = (ev, filter) => {
-
     // Change filter parameter that is needed
     this.setState({
       [filter]: +ev.target.value
@@ -103,7 +101,6 @@ class App extends React.Component {
   };
 
   chandeListAuthor = () => {
-
     // Attempt load of the author's name
     let Author = loadFromLocalStorage("", "listAuthor");
 
@@ -111,10 +108,9 @@ class App extends React.Component {
     const answer = prompt(this.props.propmptText, Author);
 
     if (answer) {
-
       // Save the author's name and updating of state
       saveToLocalStorage(answer, "listAuthor");
-      
+
       this.setState({
         listAuthor: answer
       });

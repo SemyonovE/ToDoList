@@ -36,7 +36,7 @@ const LANG = {
     completeTaskTooltip: "Toggle the task as complete",
     incompleteTaskTooltip: "Return the task as incomplete",
     deleteTaskTooltip: "Delete the task",
-    toggleLanguageTooltip: "Toogle language"
+    toggleLanguageTooltip: "Toggle language"
   },
   ru: {
     language: "ru",

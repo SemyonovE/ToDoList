@@ -17,8 +17,8 @@ const defaultValue = [
     id: "0",
     title: "Sample task",
     text: "Do not forget to congratulate the author on his birthday!",
-    importance: "3",
     date: sampleTaskDate,
+    importance: "3",
     finished: ""
   }
 ];

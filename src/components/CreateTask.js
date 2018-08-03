@@ -18,18 +18,18 @@ const initTask = () => ({
   id: "",
   title: "",
   text: "",
-  importance: "0",
   date: "",
+  importance: "0",
   finished: ""
 });
 
 // The component send created task to reducer for addition the task to list
 class CreateTask extends React.Component {
   static propTypes = {
-    addTask: PropTypes.func, // Function for creating a new task
-    createTaskTooltip: PropTypes.string, // Text for Tooltip
-    emptyTitle: PropTypes.string, // Text of the message for user when he did forget to write the title
-    emptyText: PropTypes.string // Text of the message for user when he did forget to write the text
+    addTask: PropTypes.func.isRequired, // Function for creating a new task
+    createTaskTooltip: PropTypes.string.isRequired, // Text for Tooltip
+    emptyTitle: PropTypes.string.isRequired, // Text of the message for user when he did forget to write the title
+    emptyText: PropTypes.string.isRequired // Text of the message for user when he did forget to write the text
   };
 
   state = {
@@ -65,11 +65,11 @@ class CreateTask extends React.Component {
     const task = { ...this.state.task };
 
     //Validation of fields of the task
-    if (task.title === "") {
+    if (!task.title.trim().length) {
       alert(this.props.emptyTitle + "!");
       return;
     }
-    if (task.text === "") {
+    if (!task.text.trim().length) {
       alert(this.props.emptyText + "!");
       return;
     }
@@ -87,7 +87,8 @@ class CreateTask extends React.Component {
   };
 }
 
-export default tabDecorator( // Decorator for make this form for tab
+export default tabDecorator(
+  // Decorator for make this form for tab
   connect(
     state => {
       return {

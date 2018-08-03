@@ -13,14 +13,21 @@ import {
 
 import FormTaskData from "./FormTaskData";
 
+import { taskType } from "../types";
+import noSetFunction from "../helpers/notSetFunction";
+
 import "../../node_modules/react-datetime/css/react-datetime.css";
 
 class TaskEditor extends React.Component {
   static propTypes = {
-    task: PropTypes.object, // Object of the task
+    task: taskType.isRequired, // Object of the task
     toggleEditMode: PropTypes.func, // Function for toggle of edit mode
-    setChangesTooltip: PropTypes.string, // Text for Tooltip
-    cancelChangesTooltip: PropTypes.string // Text for Tooplip
+    setChangesTooltip: PropTypes.string.isRequired, // Text for Tooltip
+    cancelChangesTooltip: PropTypes.string.isRequired // Text for Tooplip
+  };
+
+  static defaultProps = {
+    toggleEditMode: noSetFunction
   };
 
   state = {
@@ -80,7 +87,7 @@ class TaskEditor extends React.Component {
     const { editTask } = this.props;
 
     editTask(this.state.task);
-    
+
     this.props.toggleEditMode();
   };
 }

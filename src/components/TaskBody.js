@@ -4,11 +4,19 @@ import PropTypes from "prop-types";
 
 import { Grid, Row, Col, Panel } from "react-bootstrap";
 
+import { taskType } from "../types";
+
 TaskBody.propTypes = {
-  task: PropTypes.object, // Object of the task
+  task: taskType.isRequired, // Object of the task
   from: PropTypes.string, // Text for date
   to: PropTypes.string, // Text for date of complete
   withoutDate: PropTypes.string // Text when date wasn't set
+};
+
+TaskBody.defaultProps = {
+  from: "from",
+  to: "to",
+  withoutDate: "date don't set"
 };
 
 // The component receive the task and display its

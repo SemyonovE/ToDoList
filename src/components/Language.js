@@ -7,15 +7,14 @@ import ButtonWithTrigger from "./ButtonWithTrigger";
 
 class Language extends React.Component {
   static propTypes = {
-    language: PropTypes.string, // Current language
-    toggleLanguageTooltip: PropTypes.string // Text for Tooltip
+    language: PropTypes.string.isRequired, // Current language
+    toggleLanguageTooltip: PropTypes.string.isRequired // Text for Tooltip
   };
 
   render() {
     return (
       <div className="language">
         <ButtonWithTrigger
-          id={"lang"}
           iconType="book"
           tooltipText={this.props.toggleLanguageTooltip}
           activateFunction={this.toggleLanguage}

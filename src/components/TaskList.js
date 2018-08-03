@@ -5,11 +5,12 @@ import { connect } from "react-redux";
 import Task from "./Task";
 
 import XOR from "../helpers/XOR";
+import { taskType } from "../types";
 
 TasksList.propTypes = {
-  tasks: PropTypes.array, // Object of the task
-  displayMode: PropTypes.number, // Number of the filter parameter
-  filterKey: PropTypes.number // Number of the filter parameter
+  tasks: PropTypes.arrayOf(taskType.isRequired).isRequired, // Object of the task
+  displayMode: PropTypes.number.isRequired, // Number of the filter parameter
+  filterKey: PropTypes.number.isRequired // Number of the filter parameter
 };
 
 function TasksList(props) {
