@@ -45,7 +45,7 @@ class CreateTask extends React.Component {
           <span className="right">
             <ButtonWithTrigger
               id={task.id}
-              iconType="plus"
+              iconType="plus-sign"
               tooltipText={this.props.createTaskTooltip}
               activateFunction={this.addTaskToList}
               buttonStyle="primary"
