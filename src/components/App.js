@@ -27,7 +27,7 @@ const initialSorter = {
 class App extends React.Component {
   static propTypes = {
     appHeader: PropTypes.string.isRequired, // Text of the header
-    authorDefault: PropTypes.string.isRequired, // 'My' to indicate of the author of the list
+    defaultDefine: PropTypes.string.isRequired, // 'My' to indicate of the define of the header
     propmptText: PropTypes.string.isRequired, // Text for prompt, when user will want to change its name
   };
 
@@ -47,13 +47,13 @@ class App extends React.Component {
   //     2 : date
   //     3 : first important
   //     4 : first unimportant
-  state = { ...initialFilter, ...initialSorter };
+  state = { ...initialFilter, ...initialSorter, defineHeader: "" };
 
   render() {
-    const { filterKey, displayMode, sorterMode } = this.state;
+    const { filterKey, displayMode, sorterMode, defineHeader } = this.state;
 
-    // Creating storage with name of author of the list, on the first start
-    const author = loadFromLocalStorage("", "listAuthor");
+    // Creating storage with define of the header, on the first start
+    const tempDefine = defineHeader ? defineHeader : loadFromLocalStorage("", "defineList");
 
     return (
       <Jumbotron className="without-margins all-screen">
@@ -65,10 +65,10 @@ class App extends React.Component {
                 {" "}
                 {/* Header with author's name or 'mine' and application name */}
                 <span
-                  onClick={this.chandeListAuthor}
+                  onClick={this.chandeDefineHeader}
                   className="select-when-hover"
                 >
-                  {author ? author : this.props.authorDefault}
+                  {tempDefine ? tempDefine : this.props.defaultDefine}
                 </span>
                 {" " + this.props.appHeader + ":"}
               </h1>
@@ -126,19 +126,19 @@ class App extends React.Component {
     });
   };
 
-  chandeListAuthor = () => {
-    // Attempt load of the author's name
-    let Author = loadFromLocalStorage("", "listAuthor");
+  chandeDefineHeader = () => {
+    // Attempt load of the define of the header
+    let define = loadFromLocalStorage("", "defineList");
 
-    // Receiving new author's name from the user
-    const answer = prompt(this.props.propmptText + "?", Author);
+    // Receiving new define of the header from the user
+    const answer = prompt(this.props.propmptText + "?", define);
 
     if (answer) {
-      // Save the author's name and updating of state
-      saveToLocalStorage(answer, "listAuthor");
+      // Save the define of the header and updating of state
+      saveToLocalStorage(answer, "defineList");
 
       this.setState({
-        listAuthor: answer
+        defineHeader: answer
       });
     }
   };
@@ -147,7 +147,7 @@ class App extends React.Component {
 export default connect(state => {
   return {
     appHeader: state.language.appHeader,
-    authorDefault: state.language.authorDefault,
+    defaultDefine: state.language.defaultDefine,
     propmptText: state.language.propmptText
   };
 })(App);

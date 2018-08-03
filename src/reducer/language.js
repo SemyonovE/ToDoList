@@ -8,7 +8,7 @@ import {
 const LANG = {
   en: {
     language: "en",
-    authorDefault: "My",
+    defaultDefine: "My",
     propmptText: "How do you see this list (for example 'nice' or 'Mike's)",
     appHeader: "ToDo List",
     createTaskTooltip: "Add the new task",
@@ -42,7 +42,7 @@ const LANG = {
   },
   ru: {
     language: "ru",
-    authorDefault: "Мой",
+    defaultDefine: "Мой",
     propmptText: "Каким Вы видите этот список (например 'хороший' или 'Васин')",
     appHeader: "список дел",
     createTaskTooltip: "Добавить новую задачу",
