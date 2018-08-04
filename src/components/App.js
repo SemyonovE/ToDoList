@@ -1,6 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, { instanceOf } from "prop-types";
 import { connect } from "react-redux";
+import { loadTasklist } from "../actionCreator";
+import { CookiesProvider, withCookies, Cookies } from "react-cookie";
 
 import { Jumbotron, Grid, Row, Col, Tabs, Glyphicon } from "react-bootstrap";
 
@@ -8,16 +10,20 @@ import Filter from "./Filter";
 import CreateTask from "./CreateTask";
 import TasksList from "./TaskList";
 import Language from "./Language";
+import Sorter from "./Sorter";
+import Login from "./Login";
+import LoginModal from "./LoginModal";
+import EmptyTab from "./EmptyTab";
 
 import {
-  saveToLocalStorage,
-  loadFromLocalStorage
+  loadFromLocalStorage,
+  saveToLocalStorage
 } from "../helpers/workWithStorage";
-import Sorter from "./Sorter";
+import { loadFromServer } from "../helpers/workWithServer";
 
 const initialFilter = {
   filterKey: -1,
-  displayMode: -1
+  displayMode: 0
 };
 
 const initialSorter = {
@@ -29,8 +35,8 @@ class App extends React.Component {
     appHeader: PropTypes.string.isRequired, // Text of the header
     defaultDefine: PropTypes.string.isRequired, // 'My' to indicate of the define of the header
     propmptText: PropTypes.string.isRequired, // Text for prompt, when user will want to change its name
+    cookies: instanceOf(Cookies).isRequired // Cookies
   };
-
   // Initialize filter parameters:
   //  filterKey for filtering by importance:
   //    -1 : everything
@@ -47,67 +53,120 @@ class App extends React.Component {
   //     2 : date
   //     3 : first important
   //     4 : first unimportant
-  state = { ...initialFilter, ...initialSorter, defineHeader: "" };
+  state = {
+    ...initialFilter,
+    ...initialSorter,
+    defineHeader: "",
+    loginStatus: false,
+    userName: ""
+  };
 
   render() {
-    const { filterKey, displayMode, sorterMode, defineHeader } = this.state;
+    const {
+      filterKey,
+      displayMode,
+      sorterMode,
+      defineHeader,
+      loginStatus,
+      userName
+    } = this.state;
 
     // Creating storage with define of the header, on the first start
-    const tempDefine = defineHeader ? defineHeader : loadFromLocalStorage("", "defineList");
+    const tempDefine = defineHeader
+      ? defineHeader
+      : loadFromLocalStorage("", "defineList");
 
     return (
       <Jumbotron className="without-margins all-screen">
-        <Language />
-        <Grid>
-          <Row>
-            <Col xs={12}>
-              <h1>
-                {" "}
-                {/* Header with author's name or 'mine' and application name */}
-                <span
-                  onClick={this.chandeDefineHeader}
-                  className="select-when-hover"
-                >
-                  {tempDefine ? tempDefine : this.props.defaultDefine}
-                </span>
-                {" " + this.props.appHeader + ":"}
-              </h1>
-              <Tabs
-                defaultActiveKey={1}
-                animation={false}
-                id="uncontrolled-tab-example"
-              >
-                {/* Form for set main fields of the task and create new task */}
-                <CreateTask eventKey={1} title={<Glyphicon glyph="plus" />} />
-                {/* Future filter for display selected tasks */}
-                <Filter
-                  eventKey={2}
-                  title={<Glyphicon glyph="filter" />}
-                  filterKey={filterKey}
-                  displayMode={displayMode}
-                  changeFilterParameter={this.changeParameter}
-                  clearFilters={this.clearFilters}
-                />
-                <Sorter
-                  eventKey={3}
-                  title={<Glyphicon glyph="sort" />}
-                  sorterMode={sorterMode}
-                  changeSorterParameter={this.changeParameter}
-                  clearSorter={this.clearSorter}
-                />
-              </Tabs>
-              {/* Displaying everything tasks with its properties */}
-              <TasksList
-                filterKey={filterKey}
-                displayMode={displayMode}
-                sorterMode={sorterMode}
-              />
-            </Col>
-          </Row>
-        </Grid>
+        {loginStatus ? (
+          <div>
+            <Language />
+            <Login toggleLogin={this.toggleLogin} userName={userName} />
+            <Grid>
+              <Row>
+                <Col xs={12}>
+                  <h1>
+                    {" "}
+                    {/* Header with author's name or 'mine' and application name */}
+                    <span
+                      onClick={this.chandeDefineHeader}
+                      className="select-when-hover"
+                    >
+                      {tempDefine && tempDefine !== ""
+                        ? tempDefine
+                        : this.props.defaultDefine}
+                    </span>
+                    {" " + this.props.appHeader + ":"}
+                  </h1>
+                  <Tabs
+                    defaultActiveKey={loadFromLocalStorage(
+                      1,
+                      "tabIndexDefault"
+                    )}
+                    animation={false}
+                    onSelect={this.handleSelectTab}
+                    id="controlled-tab-example"
+                  >
+                    <EmptyTab
+                      eventKey={0}
+                      title={<Glyphicon glyph="minus" />}
+                    />
+                    {/* Form for set main fields of the task and create new task */}
+                    <CreateTask
+                      eventKey={1}
+                      title={<Glyphicon glyph="plus" />}
+                    />
+                    {/* Future filter for display selected tasks */}
+                    <Filter
+                      eventKey={2}
+                      title={<Glyphicon glyph="filter" />}
+                      filterKey={filterKey}
+                      displayMode={displayMode}
+                      changeFilterParameter={this.changeParameter}
+                      clearFilters={this.clearFilters}
+                    />
+                    <Sorter
+                      eventKey={3}
+                      title={<Glyphicon glyph="sort" />}
+                      sorterMode={sorterMode}
+                      changeSorterParameter={this.changeParameter}
+                      clearSorter={this.clearSorter}
+                    />
+                  </Tabs>
+                  {/* Displaying everything tasks with its properties */}
+                  <TasksList
+                    filterKey={filterKey}
+                    displayMode={displayMode}
+                    sorterMode={sorterMode}
+                    userName={userName}
+                  />
+                </Col>
+              </Row>
+            </Grid>
+          </div>
+        ) : (
+          <CookiesProvider>
+            <LoginModal handleCome={this.handleCome} />
+          </CookiesProvider>
+        )}
       </Jumbotron>
     );
   }
+
+  handleSelectTab = key => {
+    saveToLocalStorage(+key, "tabIndexDefault");
+  };
+
+  toggleLogin = () => {
+    if (this.state.loginStatus) {
+      this.props.cookies.set("userdata", "false");
+      this.clearFilters();
+      this.clearSorter();
+    }
+    this.setState({
+      loginStatus: !this.state.loginStatus
+    });
+  };
 
   clearFilters = () => {
     // Initial of the filter's parameters
@@ -117,6 +176,13 @@ class App extends React.Component {
   clearSorter = () => {
     // Initial of the filter's parameters
     this.setState(initialSorter);
+  };
+
+  setUserName = value => {
+    this.setState({
+      userName: value
+    });
+    saveToLocalStorage(value, "userName");
   };
 
   changeParameter = (ev, filter) => {
@@ -140,14 +206,45 @@ class App extends React.Component {
       this.setState({
         defineHeader: answer
       });
+    } else if (answer === "") {
+      saveToLocalStorage("", "defineList");
+
+      this.setState({
+        defineHeader: ""
+      });
     }
+  };
+
+  handleCome = (data, func = () => {}) => {
+    // Query on the server
+    loadFromServer(
+      data,
+
+      // Function what to do when request is success
+      answer => {
+        if (answer) {
+          // Set data to the store
+          this.props.loadTasklist(JSON.parse(answer.tasks));
+
+          // Set name of the user
+          this.setUserName(data.email);
+
+          // Toggle modal screen mode
+          this.toggleLogin();
+        }
+        func();
+      }
+    );
   };
 }
 
-export default connect(state => {
-  return {
-    appHeader: state.language.appHeader,
-    defaultDefine: state.language.defaultDefine,
-    propmptText: state.language.propmptText
-  };
-})(App);
+export default connect(
+  state => {
+    return {
+      appHeader: state.language.appHeader,
+      defaultDefine: state.language.defaultDefine,
+      propmptText: state.language.propmptText
+    };
+  },
+  { loadTasklist }
+)(withCookies(App));

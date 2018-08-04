@@ -2,7 +2,8 @@ import {
   ADD_TASK,
   DEL_TASK,
   EDIT_TASK,
-  TOGGLE_LANG
+  TOGGLE_LANG,
+  LOAD_TASKLIST
 } from "../helpers/constants";
 
 export function addTask(task) {
@@ -30,5 +31,12 @@ export function toggleLanguage(language) {
   return {
     type: TOGGLE_LANG,
     payload: { language }
+  };
+}
+
+export function loadTasklist(tasklist) {
+  return {
+    type: LOAD_TASKLIST,
+    payload: { tasklist }
   };
 }

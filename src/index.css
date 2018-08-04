@@ -48,11 +48,11 @@ Button {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uncontrolled-tab-example {
+#controlled-tab-example {
   position: relative;
 }
 
-#uncontrolled-tab-example > ul {
+#controlled-tab-example > ul {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -62,4 +62,14 @@ Button {
   position: fixed;
   top: 10px;
   right: 10px;
+}
+
+.login {
+  position: fixed;
+  top: 10px;
+  right: 45px;
+}
+
+.height-43-px {
+  height: 43px;
 }

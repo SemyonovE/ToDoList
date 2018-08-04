@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 
 import Task from "./Task";
 
+import { saveToServer } from "../helpers/workWithServer";
+
 import XOR from "../helpers/XOR";
 import { taskType } from "../types";
 
@@ -11,11 +13,17 @@ TasksList.propTypes = {
   tasks: PropTypes.arrayOf(taskType.isRequired).isRequired, // Object of the task
   displayMode: PropTypes.number.isRequired, // Number of the filter parameter
   filterKey: PropTypes.number.isRequired, // Number of the filter parameter
-  sorterMode: PropTypes.number.isRequired // Number of the sort parameter
+  sorterMode: PropTypes.number.isRequired, // Number of the sort parameter
+  userName: PropTypes.string.isRequired // Name of the user
 };
 
 function TasksList(props) {
-  const { tasks, filterKey, displayMode, sorterMode } = props;
+  const { tasks, filterKey, displayMode, sorterMode, userName } = props;
+
+  saveToServer({
+    email: userName,
+    tasks: tasks
+  });
 
   const body = tasks
     // Filtering tasks by importance

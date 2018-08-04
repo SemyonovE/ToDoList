@@ -1,36 +1,23 @@
-import { ADD_TASK, DEL_TASK, EDIT_TASK } from "../helpers/constants";
 import {
-  saveToLocalStorage,
-  loadFromLocalStorage
-} from "../helpers/workWithStorage";
+  ADD_TASK,
+  DEL_TASK,
+  EDIT_TASK,
+  LOAD_TASKLIST
+} from "../helpers/constants";
 
-// Date for sample task
-const sampleTaskDate =
-  "22 Nov " +
-  (new Date().getFullYear() +
-    (Date.parse("22 Nov 2018 23:05") < new Date() ? 1 : 0)) +
-  " 23:05";
+import { loadFromLocalStorage } from "../helpers/workWithStorage";
+import { saveToServer } from "../helpers/workWithServer";
 
-// Default value for sample task during first start of the App
-const defaultValue = [
-  {
-    id: "0",
-    title: "Sample task",
-    text: "Do not forget to congratulate the author on his birthday!",
-    date: sampleTaskDate,
-    importance: "3",
-    finished: ""
-  }
-];
-
-export default (
-  tasklist = loadFromLocalStorage(defaultValue, "taskslist"),
-  action
-) => {
+export default (tasklist = [{}], action) => {
   const { type, payload } = action;
   let templist = [];
 
   switch (type) {
+    case LOAD_TASKLIST:
+      templist = [...payload.tasklist];
+
+      break;
+
     case ADD_TASK:
       let temptask = { ...payload.task };
 
@@ -41,14 +28,20 @@ export default (
 
       templist = [...tasklist, temptask];
 
-      saveToLocalStorage(templist, "taskslist");
+      saveToServer({
+        tasks: templist,
+        email: loadFromLocalStorage("", "userName")
+      });
 
       break;
 
     case DEL_TASK:
       templist = tasklist.filter(task => task.id !== payload.id);
 
-      saveToLocalStorage(templist, "taskslist");
+      saveToServer({
+        tasks: templist,
+        email: loadFromLocalStorage("", "userName")
+      });
 
       break;
 
@@ -60,8 +53,11 @@ export default (
         return task;
       });
 
-      saveToLocalStorage(templist, "taskslist");
-      
+      saveToServer({
+        tasks: templist,
+        email: loadFromLocalStorage("", "userName")
+      });
+
       break;
 
     default:
