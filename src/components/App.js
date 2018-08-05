@@ -78,7 +78,7 @@ class App extends React.Component {
       ? defineHeader
       : loadFromLocalStorage("", "defineList");
 
-    const {taskliststyle} = this.state
+    const { taskliststyle } = this.state;
 
     return (
       <Jumbotron className="without-margins all-screen">
@@ -86,7 +86,10 @@ class App extends React.Component {
           <div>
             <Language />
             <Login toggleLogin={this.toggleLogin} userName={userName} />
-            <TaskListStyle taskliststyle={+taskliststyle} toggleStyleListStyle={this.toggleStyleListStyle} />
+            <TaskListStyle
+              taskliststyle={+taskliststyle}
+              toggleStyleListStyle={this.toggleStyleListStyle}
+            />
             <Grid>
               <Row>
                 <Col xs={12}>
@@ -160,12 +163,12 @@ class App extends React.Component {
   }
 
   toggleStyleListStyle = () => {
-    const mode = loadFromLocalStorage(0, "taskliststyle") === 0 ? 1 : 0
-    saveToLocalStorage(mode, "taskliststyle")
+    const mode = loadFromLocalStorage(0, "taskliststyle") === 0 ? 1 : 0;
+    saveToLocalStorage(mode, "taskliststyle");
     this.setState({
       taskliststyle: mode
-    })
-  }
+    });
+  };
 
   handleSelectTab = key => {
     saveToLocalStorage(+key, "tabIndexDefault");
@@ -236,6 +239,7 @@ class App extends React.Component {
 
       // Function what to do when request is success
       answer => {
+        func();
         if (answer) {
           // Set data to the store
           this.props.loadTasklist(JSON.parse(answer.tasks));
@@ -246,7 +250,6 @@ class App extends React.Component {
           // Toggle modal screen mode
           this.toggleLogin();
         }
-        func();
       }
     );
   };
