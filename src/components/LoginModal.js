@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes, { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 
@@ -16,7 +17,8 @@ import { loadFromServer } from "../helpers/workWithServer";
 class LoginModal extends React.Component {
   static propTypes = {
     handleCome: PropTypes.func, // Function for initial state of the store by data from server
-    cookies: instanceOf(Cookies).isRequired // Cookies
+    cookies: instanceOf(Cookies).isRequired, // Cookies
+    loginModalTitles: PropTypes.objectOf(PropTypes.string).isRequired // Dictionary
   };
 
   static defaultProps = {
@@ -41,45 +43,49 @@ class LoginModal extends React.Component {
   }
 
   render() {
+    const { loginModalTitles } = this.props;
+
     return (
       <div>
         <Modal.Dialog>
           <Modal.Header>
-            <Modal.Title>Login or register</Modal.Title>
+            <Modal.Title>{loginModalTitles.title}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <FormGroup>
-              <ControlLabel>Login</ControlLabel>
+              <ControlLabel>{loginModalTitles.login}</ControlLabel>
               <FormControl
                 type="email"
                 value={this.state.login}
-                placeholder="Enter email"
+                placeholder={loginModalTitles.loginTitle}
                 onChange={ev => this.handleChange(ev, "login")}
               />
             </FormGroup>
             <FormGroup>
-              <ControlLabel>Password</ControlLabel>
+              <ControlLabel>{loginModalTitles.password}</ControlLabel>
               <FormControl
                 type="password"
                 value={this.state.password}
-                placeholder="Enter password"
+                placeholder={loginModalTitles.passwordTitle}
                 onChange={ev => this.handleChange(ev, "password")}
               />
             </FormGroup>
             <Checkbox onChange={ev => this.handleRemember(ev)}>
-              Remember me
+              {loginModalTitles.remember}
             </Checkbox>{" "}
           </Modal.Body>
 
           <Modal.Footer>
-            <Button onClick={this.hangleForgetPassword}>Forget password</Button>
+            <Button onClick={this.hangleForgetPassword}>
+              {loginModalTitles.forget}
+            </Button>
             <Button
               bsStyle="primary"
               {...(this.state.disabledCome ? { disabled: true } : null)}
               onClick={this.handleCome}
             >
-              Come in
+              {loginModalTitles.come}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
@@ -134,9 +140,10 @@ class LoginModal extends React.Component {
   };
 
   hangleForgetPassword = () => {
-    const email = prompt("Set your email:", "");
-    const password = prompt("Set new password", "");
+    const email = prompt(this.props.loginModalTitles.forgetEmail, "");
+    const password = prompt(this.props.loginModalTitles.forgetEmail, "");
     if (email && password) {
+      alert(this.props.loginModalTitles.forgetMessage);
       loadFromServer({
         email: email,
         forget: password
@@ -145,4 +152,10 @@ class LoginModal extends React.Component {
   };
 }
 
-export default withCookies(LoginModal);
+export default withCookies(
+  connect(state => {
+    return {
+      loginModalTitles: state.language.loginModalTitles
+    };
+  })(LoginModal)
+);
