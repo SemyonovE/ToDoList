@@ -46,6 +46,7 @@ const LANG = {
     deleteTaskTooltip: "Delete the task",
     toggleLanguageTooltip: "Toggle language",
     exitButtonTooltip: "Exit",
+    daysLeftTooltip: "Days left",
     toggleTaskListStyleToggle: "Change ange list style task",
     loginModalTitles: {
       title: "Login or register",
@@ -98,6 +99,7 @@ const LANG = {
     deleteTaskTooltip: "Удалить задачу",
     toggleLanguageTooltip: "Переключить язык",
     exitButtonTooltip: "Выйти",
+    daysLeftTooltip: "Дней осталось",
     toggleTaskListStyleToggle: "Сменить стиль списка задач",
     loginModalTitles: {
       title: "Войти или зарегистрироваться",

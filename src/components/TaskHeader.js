@@ -30,7 +30,8 @@ class TaskHeader extends React.Component {
     editTTaskooltip: PropTypes.string.isRequired, // Text of Tooltip
     completeTaskTooltip: PropTypes.string.isRequired, // Text of Tooltip
     incompleteTaskTooltip: PropTypes.string.isRequired, // Text of Tooltip
-    deleteTaskTooltip: PropTypes.string.isRequired // Text of Tooltip
+    deleteTaskTooltip: PropTypes.string.isRequired, // Text of Tooltip
+    daysLeftTooltip: PropTypes.string.isRequired // Text of Tooltip
   };
 
   static defaultProps = {
@@ -46,7 +47,8 @@ class TaskHeader extends React.Component {
       editTTaskooltip,
       completeTaskTooltip,
       incompleteTaskTooltip,
-      deleteTaskTooltip
+      deleteTaskTooltip,
+      daysLeftTooltip
     } = this.props;
 
     // Count of fires
@@ -55,11 +57,16 @@ class TaskHeader extends React.Component {
       .split("")
       .map((_, index) => <Glyphicon key={index} glyph="fire" />);
 
+    const date = new Date(Date.parse(task.date || new Date()));
+    const today = new Date();
+    const daysLeft =
+      date >= today ? Math.ceil((date - today) / (1000 * 60 * 60 * 24)) : null;
+
     return (
       <Panel.Heading>
         <Grid className="clear">
           <Row>
-            <Col xs={6} className="without-paddings">
+            <Col xs={4} className="without-paddings">
               <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -69,6 +76,22 @@ class TaskHeader extends React.Component {
                 }
               >
                 <span className="task-importance left">{importance}</span>
+              </OverlayTrigger>
+            </Col>
+            <Col xs={2} className="without-paddings">
+              <OverlayTrigger
+                placement="bottom"
+                overlay={
+                  <Tooltip id={task.id + "daysLeft"}>{daysLeftTooltip}</Tooltip>
+                }
+              >
+                <span className="left days-left">
+                  {daysLeft && !task.finished
+                    ? daysLeft === 1
+                      ? "<1"
+                      : daysLeft - 1
+                    : null}
+                </span>
               </OverlayTrigger>
             </Col>
             <Col xs={6} className="without-paddings">
@@ -146,7 +169,8 @@ export default connect(
       editTTaskooltip: state.language.editTTaskooltip,
       completeTaskTooltip: state.language.completeTaskTooltip,
       incompleteTaskTooltip: state.language.incompleteTaskTooltip,
-      deleteTaskTooltip: state.language.deleteTaskTooltip
+      deleteTaskTooltip: state.language.deleteTaskTooltip,
+      daysLeftTooltip: state.language.daysLeftTooltip
     };
   },
   { deleteTask, editTask }

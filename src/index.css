@@ -104,3 +104,7 @@ Button {
 .rdtPicker {
   z-index: 10 !important;
 }
+
+.days-left {
+  font-weight: bold;
+}
