@@ -23,7 +23,8 @@ class TaskEditor extends React.Component {
     task: taskType.isRequired, // Object of the task
     toggleEditMode: PropTypes.func, // Function for toggle of edit mode
     setChangesTooltip: PropTypes.string.isRequired, // Text for Tooltip
-    cancelChangesTooltip: PropTypes.string.isRequired // Text for Tooplip
+    cancelChangesTooltip: PropTypes.string.isRequired, // Text for Tooplip
+    taskliststyle: PropTypes.number.isRequired // Parameter of the task list mode
   };
 
   static defaultProps = {
@@ -36,6 +37,7 @@ class TaskEditor extends React.Component {
 
   render() {
     const { task } = this.state;
+    const { taskliststyle } = this.props;
 
     return (
       <Panel>
@@ -78,6 +80,7 @@ class TaskEditor extends React.Component {
         <FormTaskData
           task={task}
           reverseFlowFunction={task => this.setState({ task: task })}
+          taskliststyle={taskliststyle}
         />
       </Panel>
     );

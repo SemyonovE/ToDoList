@@ -15,7 +15,8 @@ class Task extends React.Component {
   static propTypes = {
     task: taskType.isRequired, // Object of the task
     deleteTask: PropTypes.func, // Function for deleting of the task
-    editTask: PropTypes.func // Function for editing of the task
+    editTask: PropTypes.func, // Function for editing of the task
+    taskliststyle: PropTypes.number.isRequired // Parameter of the task list mode
   };
 
   static defaultProps = {
@@ -29,7 +30,7 @@ class Task extends React.Component {
   };
 
   render() {
-    const { task } = this.props;
+    const { task, taskliststyle } = this.props;
 
     // Determining status of the current task for change its' style
     const status = task.finished
@@ -39,16 +40,20 @@ class Task extends React.Component {
         : "danger";
 
     return (
-      <div>
+      <span {...(taskliststyle ? { className: "taskItem" } : null)}>
         {this.state.editMode ? (
-          <TaskEditor task={task} toggleEditMode={this.toggleEditMode} />
+          <TaskEditor
+            task={task}
+            toggleEditMode={this.toggleEditMode}
+            taskliststyle={taskliststyle}
+          />
         ) : (
           <Panel {...(status ? { bsStyle: status } : {})}>
             <TaskHeader task={task} toggleEditMode={this.toggleEditMode} />
-            <TaskBody task={task} />
+            <TaskBody task={task} taskliststyle={taskliststyle} />
           </Panel>
         )}
-      </div>
+      </span>
     );
   }
 

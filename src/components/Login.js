@@ -12,7 +12,6 @@ class Login extends React.Component {
   render() {
     return (
       <div className="login">
-        <span>{this.props.userName} </span>
         <DropdownButton
           pullRight
           bsStyle="primary"
@@ -20,7 +19,10 @@ class Login extends React.Component {
           title={<Glyphicon glyph="user" />}
           id="user"
         >
-          {/* <MenuItem divider /> */}
+          <MenuItem eventKey="user-name" disabled>
+            {this.props.userName}
+          </MenuItem>
+          <MenuItem divider />
           <MenuItem eventKey="exit" onClick={this.props.toggleLogin}>
             Exit
           </MenuItem>

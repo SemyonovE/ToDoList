@@ -10,7 +10,8 @@ TaskBody.propTypes = {
   task: taskType.isRequired, // Object of the task
   from: PropTypes.string, // Text for date
   to: PropTypes.string, // Text for date of complete
-  withoutDate: PropTypes.string // Text when date wasn't set
+  withoutDate: PropTypes.string, // Text when date wasn't set
+  taskliststyle: PropTypes.number.isRequired // Parameter of the task list mode
 };
 
 TaskBody.defaultProps = {
@@ -21,24 +22,24 @@ TaskBody.defaultProps = {
 
 // The component receive the task and display its
 function TaskBody(props) {
-  const { task, from, to, withoutDate } = props;
+  const { task, from, to, withoutDate, taskliststyle } = props;
 
   return (
     <Panel.Body>
       <Grid>
-        <Row>
-          <Col xs={12} sm={2}>
+        <Row {...(taskliststyle ? { className: "center-and-bold" } : null)}>
+          <Col xs={12} sm={taskliststyle ? 12 : 2}>
             <span className="task-title">{task.title}</span>
           </Col>
-          <Col xs={12} sm={6}>
+          <Col xs={12} sm={taskliststyle ? 12 : 6}>
             <span className="task-text">{task.text}</span>
           </Col>
-          <Col xs={6} sm={2}>
+          <Col xs={12} sm={taskliststyle ? 12 : 2}>
             <span className="task-date">
               {from + ": " + (task.date ? task.date : withoutDate)}
             </span>
           </Col>
-          <Col xs={6} sm={2}>
+          <Col xs={12} sm={taskliststyle ? 12 : 2}>
             <span className="task-finished">
               {task.finished ? to + ": " + task.finished : ""}
             </span>

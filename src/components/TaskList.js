@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { Col } from "react-bootstrap";
+
 import Task from "./Task";
 
 import { saveToServer } from "../helpers/workWithServer";
@@ -14,7 +16,8 @@ TasksList.propTypes = {
   displayMode: PropTypes.number.isRequired, // Number of the filter parameter
   filterKey: PropTypes.number.isRequired, // Number of the filter parameter
   sorterMode: PropTypes.number.isRequired, // Number of the sort parameter
-  userName: PropTypes.string.isRequired // Name of the user
+  userName: PropTypes.string.isRequired, // Name of the user
+  taskliststyle: PropTypes.number.isRequired // Parameter of the task list mode
 };
 
 function TasksList(props) {
@@ -24,6 +27,8 @@ function TasksList(props) {
     email: userName,
     tasks: tasks
   });
+
+  const { taskliststyle } = props;
 
   const body = tasks
     // Filtering tasks by importance
@@ -52,7 +57,11 @@ function TasksList(props) {
       }
     })
     // Create component for each task
-    .map(task => <Task task={task} key={task.id} />);
+    .map(task => (
+      <Col xs={12} {...(taskliststyle ? { sm: 6, md: 3 } : null)} key={task.id}>
+        <Task task={task} taskliststyle={taskliststyle} />
+      </Col>
+    ));
 
   return <div className="tasks-list">{body}</div>;
 }

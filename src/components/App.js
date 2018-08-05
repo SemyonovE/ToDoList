@@ -14,6 +14,7 @@ import Sorter from "./Sorter";
 import Login from "./Login";
 import LoginModal from "./LoginModal";
 import EmptyTab from "./EmptyTab";
+import TaskListStyle from "./TaskListStyle";
 
 import {
   loadFromLocalStorage,
@@ -57,6 +58,7 @@ class App extends React.Component {
     ...initialFilter,
     ...initialSorter,
     defineHeader: "",
+    taskliststyle: loadFromLocalStorage(0, "taskliststyle"),
     loginStatus: false,
     userName: ""
   };
@@ -76,12 +78,15 @@ class App extends React.Component {
       ? defineHeader
       : loadFromLocalStorage("", "defineList");
 
+    const {taskliststyle} = this.state
+
     return (
       <Jumbotron className="without-margins all-screen">
         {loginStatus ? (
           <div>
             <Language />
             <Login toggleLogin={this.toggleLogin} userName={userName} />
+            <TaskListStyle taskliststyle={+taskliststyle} toggleStyleListStyle={this.toggleStyleListStyle} />
             <Grid>
               <Row>
                 <Col xs={12}>
@@ -133,14 +138,15 @@ class App extends React.Component {
                       clearSorter={this.clearSorter}
                     />
                   </Tabs>
-                  {/* Displaying everything tasks with its properties */}
-                  <TasksList
-                    filterKey={filterKey}
-                    displayMode={displayMode}
-                    sorterMode={sorterMode}
-                    userName={userName}
-                  />
                 </Col>
+                {/* Displaying everything tasks with its properties */}
+                <TasksList
+                  filterKey={filterKey}
+                  displayMode={displayMode}
+                  sorterMode={sorterMode}
+                  userName={userName}
+                  taskliststyle={+taskliststyle}
+                />
               </Row>
             </Grid>
           </div>
@@ -151,6 +157,14 @@ class App extends React.Component {
         )}
       </Jumbotron>
     );
+  }
+
+  toggleStyleListStyle = () => {
+    const mode = loadFromLocalStorage(0, "taskliststyle") === 0 ? 1 : 0
+    saveToLocalStorage(mode, "taskliststyle")
+    this.setState({
+      taskliststyle: mode
+    })
   }
 
   handleSelectTab = key => {

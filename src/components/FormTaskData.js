@@ -28,14 +28,16 @@ class FormTaskData extends React.Component {
     titleText: PropTypes.string, // Text for the field of text
     titleDate: PropTypes.string, // Text for the field of date
     titleImportance: PropTypes.string, // Text for the field of importance
-    importances: PropTypes.array.isRequired // Array of the options of select of importance
+    importances: PropTypes.array.isRequired, // Array of the options of select of importance
+    taskliststyle: PropTypes.number // Parameter of the task list mode
   };
 
   static defaultProps = {
     titleTitle: "Title",
     titleText: "Text",
     titleDate: "Date",
-    titleImportance: "Importance"
+    titleImportance: "Importance",
+    taskliststyle: 0
   };
 
   render() {
@@ -45,7 +47,8 @@ class FormTaskData extends React.Component {
       titleText,
       titleDate,
       titleImportance,
-      importances
+      importances,
+      taskliststyle
     } = this.props;
 
     return (
@@ -53,7 +56,7 @@ class FormTaskData extends React.Component {
         <Grid>
           <Row>
             <form>
-              <Col xs={12} sm={2}>
+              <Col xs={12} sm={taskliststyle ? 12 : 2}>
                 <FormGroup>
                   <ControlLabel>{titleTitle}</ControlLabel>
                   <FormControl
@@ -63,7 +66,7 @@ class FormTaskData extends React.Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={12} sm={6}>
+              <Col xs={12} sm={taskliststyle ? 12 : 6}>
                 <FormGroup>
                   <ControlLabel>{titleText}</ControlLabel>
                   <FormControl
@@ -73,7 +76,7 @@ class FormTaskData extends React.Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6} sm={2}>
+              <Col xs={6} sm={taskliststyle ? 12 : 2}>
                 <FormGroup>
                   <ControlLabel>{titleDate}</ControlLabel>
                   <Datetime
@@ -84,7 +87,7 @@ class FormTaskData extends React.Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6} sm={2}>
+              <Col xs={6} sm={taskliststyle ? 12 : 2}>
                 <SelectForm
                   title={titleImportance}
                   field="importance"
