@@ -22,7 +22,7 @@ const LANG = {
       "Filtering tasks by completeness"
     ],
     importances: ["everything", "normal", "important", "very important"],
-    displayMods: ["enerything", "currents", "completed"],
+    displayMods: ["everything", "currents", "completed"],
     sorters: [
       "default",
       "title",
@@ -70,8 +70,8 @@ const LANG = {
     createTaskTooltip: "Добавить новую задачу",
     clearFilterTooltip: "Очистить фильтры",
     clearSorterTooltip: "Сбросить сортировку",
-    emptyTitle: "Укажите название Вашей новой статьи",
-    emptyText: "Укажите описание Вашей новой статьи",
+    emptyTitle: "Укажите название Вашей новой задачи",
+    emptyText: "Укажите описание Вашей новой задачи",
     sorterTitle: "Сортировка задач по",
     filterTitles: ["Фильтр задач по важности", "Фильтр задач по завершенности"],
     importances: ["все", "обычные", "важные", "очень важные"],
