@@ -76,7 +76,7 @@ class FormTaskData extends React.Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6} sm={taskliststyle ? 12 : 2}>
+              <Col xs={12} sm={taskliststyle ? 6 : 2}>
                 <FormGroup>
                   <ControlLabel>{titleDate}</ControlLabel>
                   <Datetime
@@ -87,7 +87,7 @@ class FormTaskData extends React.Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6} sm={taskliststyle ? 12 : 2}>
+              <Col xs={12} sm={taskliststyle ? 6 : 2}>
                 <SelectForm
                   title={titleImportance}
                   field="importance"

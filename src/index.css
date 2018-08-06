@@ -88,6 +88,10 @@ Button {
   overflow: scroll;
 }
 
+.taskItem .modal-body .panel-body {
+  height: auto;
+}
+
 .taskItem .panel-body div:not(:last-child) {
   padding-bottom: 5px;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Panel } from "react-bootstrap";
+import { Panel, Modal } from "react-bootstrap";
 
 import TaskHeader from "./TaskHeader";
 import TaskBody from "./TaskBody";
@@ -39,14 +39,24 @@ class Task extends React.Component {
         ? ""
         : "danger";
 
+    const taskEditor = (
+      <TaskEditor
+        task={task}
+        toggleEditMode={this.toggleEditMode}
+        taskliststyle={taskliststyle}
+      />
+    );
+
     return (
       <span {...(taskliststyle ? { className: "taskItem" } : null)}>
         {this.state.editMode ? (
-          <TaskEditor
-            task={task}
-            toggleEditMode={this.toggleEditMode}
-            taskliststyle={taskliststyle}
-          />
+          taskliststyle ? (
+            <Modal.Dialog>
+              <Modal.Body>{taskEditor}</Modal.Body>
+            </Modal.Dialog>
+          ) : (
+            taskEditor
+          )
         ) : (
           <Panel {...(status ? { bsStyle: status } : {})}>
             <TaskHeader task={task} toggleEditMode={this.toggleEditMode} />

@@ -55,8 +55,9 @@ class App extends React.Component {
   //     3 : first important
   //     4 : first unimportant
   state = {
-    ...initialFilter,
-    ...initialSorter,
+    filterKey: loadFromLocalStorage(-1, "filterKey"),
+    displayMode: loadFromLocalStorage(0, "displayMode"),
+    sorterMode: loadFromLocalStorage(-1, "sorterMode"),
     defineHeader: "",
     taskliststyle: loadFromLocalStorage(0, "taskliststyle"),
     loginStatus: false,
@@ -187,11 +188,14 @@ class App extends React.Component {
 
   clearFilters = () => {
     // Initial of the filter's parameters
+    saveToLocalStorage(initialFilter.filterKey, "filterKey");
+    saveToLocalStorage(initialFilter.displayMode, "displayMode");
     this.setState(initialFilter);
   };
 
   clearSorter = () => {
     // Initial of the filter's parameters
+    saveToLocalStorage(initialSorter.sorterMode, "sorterMode");
     this.setState(initialSorter);
   };
 
@@ -204,6 +208,7 @@ class App extends React.Component {
 
   changeParameter = (ev, filter) => {
     // Change parameter that is needed
+    saveToLocalStorage(+ev.target.value, String(filter));
     this.setState({
       [filter]: +ev.target.value
     });
