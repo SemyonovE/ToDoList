@@ -29,7 +29,7 @@ class CreateTask extends React.Component {
     addTask: PropTypes.func.isRequired, // Function for creating a new task
     createTaskTooltip: PropTypes.string.isRequired, // Text for Tooltip
     emptyTitle: PropTypes.string.isRequired, // Text of the message for user when he did forget to write the title
-    emptyText: PropTypes.string.isRequired // Text of the message for user when he did forget to write the text
+    // emptyText: PropTypes.string.isRequired // Text of the message for user when he did forget to write the text
   };
 
   state = {
@@ -69,10 +69,6 @@ class CreateTask extends React.Component {
       alert(this.props.emptyTitle + "!");
       return;
     }
-    if (!task.text.trim().length) {
-      alert(this.props.emptyText + "!");
-      return;
-    }
 
     // Generating the unique id for the new task
     task.id = hashCode(task.title + task.text + task.date);
@@ -94,7 +90,7 @@ export default tabDecorator(
       return {
         createTaskTooltip: state.language.createTaskTooltip,
         emptyTitle: state.language.emptyTitle,
-        emptyText: state.language.emptyText
+        // emptyText: state.language.emptyText
       };
     },
     { addTask }

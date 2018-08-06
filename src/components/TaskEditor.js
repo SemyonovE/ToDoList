@@ -22,6 +22,7 @@ class TaskEditor extends React.Component {
   static propTypes = {
     task: taskType.isRequired, // Object of the task
     toggleEditMode: PropTypes.func, // Function for toggle of edit mode
+    emptyTitle: PropTypes.string.isRequired, // Text of the message for user when he did forget to write the title
     setChangesTooltip: PropTypes.string.isRequired, // Text for Tooltip
     cancelChangesTooltip: PropTypes.string.isRequired, // Text for Tooplip
     taskliststyle: PropTypes.number.isRequired // Parameter of the task list mode
@@ -89,6 +90,12 @@ class TaskEditor extends React.Component {
   editCurrentTask = () => {
     const { editTask } = this.props;
 
+    //Validation of fields of the task
+    if (!this.state.task.title.trim().length) {
+      alert(this.props.emptyTitle + "!");
+      return;
+    }
+
     editTask(this.state.task);
 
     this.props.toggleEditMode();
@@ -99,6 +106,7 @@ export default connect(
   state => {
     return {
       setChangesTooltip: state.language.setChangesTooltip,
+      emptyTitle: state.language.emptyTitle,
       cancelChangesTooltip: state.language.cancelChangesTooltip
     };
   },
