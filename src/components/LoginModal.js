@@ -38,7 +38,7 @@ class LoginModal extends React.Component {
       login: "",
       password: "",
       remember: false,
-      disabledCome: false
+      enabledCome: false
     };
   }
 
@@ -82,7 +82,7 @@ class LoginModal extends React.Component {
             </Button>
             <Button
               bsStyle="primary"
-              {...(this.state.disabledCome ? { disabled: true } : null)}
+              {...(this.state.enabledCome ? { disabled: true } : null)}
               onClick={this.handleCome}
             >
               {loginModalTitles.come}
@@ -118,15 +118,15 @@ class LoginModal extends React.Component {
     }
 
     this.setState({
-      disabledCome: true
+      enabledCome: true
     });
 
     if (this.state.remember) {
       this.setCookies(data);
     }
-    this.props.handleCome(data, () =>
+    this.handleCome2(data, () =>
       this.setState({
-        disabledCome: false
+        enabledCome: false
       })
     );
   };

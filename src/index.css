@@ -90,6 +90,7 @@ Button {
 
 .taskItem .modal-body .panel-body {
   height: auto;
+  overflow: visible;
 }
 
 .taskItem .panel-body div:not(:last-child) {

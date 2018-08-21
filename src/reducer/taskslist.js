@@ -10,13 +10,10 @@ import { saveToServer } from "../helpers/workWithServer";
 
 export default (tasklist = [{}], action) => {
   const { type, payload } = action;
-  let templist = [];
 
   switch (type) {
     case LOAD_TASKLIST:
-      templist = [...payload.tasklist];
-
-      break;
+      return [...payload.tasklist];
 
     case ADD_TASK:
       let temptask = { ...payload.task };
@@ -25,44 +22,33 @@ export default (tasklist = [{}], action) => {
       while (tasklist.filter(task => task.id === temptask.id).length !== 0) {
         temptask.id = temptask.id + "0";
       }
-
-      templist = [...tasklist, temptask];
-
-      saveToServer({
-        tasks: templist,
-        email: loadFromLocalStorage("", "userName")
-      });
-
-      break;
+      return saveData([...tasklist, temptask]);
 
     case DEL_TASK:
-      templist = tasklist.filter(task => task.id !== payload.id);
-
-      saveToServer({
-        tasks: templist,
-        email: loadFromLocalStorage("", "userName")
-      });
-
-      break;
+      return saveData(tasklist.filter(task => task.id !== payload.id));
 
     case EDIT_TASK:
-      templist = tasklist.map(task => {
-        if (task.id === payload.task.id) {
-          return payload.task;
-        }
-        return task;
-      });
-
-      saveToServer({
-        tasks: templist,
-        email: loadFromLocalStorage("", "userName")
-      });
-
-      break;
+      return saveData(
+        tasklist.map(task => {
+          if (task.id === payload.task.id) {
+            return payload.task;
+          }
+          return task;
+        })
+      );
 
     default:
-      templist = [...tasklist];
+      return tasklist;
   }
-
-  return templist;
 };
+
+function saveData(list) {
+  saveToServer(
+    {
+      tasks: list,
+      email: loadFromLocalStorage("", "userName")
+    },
+    "tasks"
+  );
+  return list;
+}

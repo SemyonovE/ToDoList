@@ -4,9 +4,9 @@ const headers = {
   "Content-type": "application/json; charset=UTF-8"
 };
 
-export function saveToServer(data) {
+export function saveToServer(data, field) {
   loadFromServer({
-    save: JSON.stringify(data.tasks),
+    [field]: JSON.stringify(data[field]),
     email: data.email
   });
 }

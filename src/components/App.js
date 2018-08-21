@@ -1,7 +1,14 @@
 import React from "react";
 import PropTypes, { instanceOf } from "prop-types";
 import { connect } from "react-redux";
-import { loadTasklist } from "../actionCreator";
+import {
+  loadTasklist,
+  loadSetting,
+  changeTasklistStyle,
+  changeFilter,
+  changeSorter,
+  changeDisplayMode
+} from "../actionCreator";
 import { CookiesProvider, withCookies, Cookies } from "react-cookie";
 
 import { Jumbotron, Grid, Row, Col, Tabs, Glyphicon } from "react-bootstrap";
@@ -9,18 +16,19 @@ import { Jumbotron, Grid, Row, Col, Tabs, Glyphicon } from "react-bootstrap";
 import Filter from "./Filter";
 import CreateTask from "./CreateTask";
 import TasksList from "./TaskList";
-import Language from "./Language";
 import Sorter from "./Sorter";
-import Login from "./Login";
 import LoginModal from "./LoginModal";
 import EmptyTab from "./EmptyTab";
-import TaskListStyle from "./TaskListStyle";
 
 import {
   loadFromLocalStorage,
   saveToLocalStorage
 } from "../helpers/workWithStorage";
 import { loadFromServer } from "../helpers/workWithServer";
+import ControlButtons from "./ControlButtons";
+// import NavigationTab from "./NavigationTab";
+
+// import { settingDefault } from "../helpers/initialParameters";
 
 const initialFilter = {
   filterKey: -1,
@@ -55,6 +63,7 @@ class App extends React.Component {
   //     3 : first important
   //     4 : first unimportant
   state = {
+    // loginStatus: false
     filterKey: loadFromLocalStorage(-1, "filterKey"),
     displayMode: loadFromLocalStorage(0, "displayMode"),
     sorterMode: loadFromLocalStorage(-1, "sorterMode"),
@@ -73,6 +82,9 @@ class App extends React.Component {
       loginStatus,
       userName
     } = this.state;
+    // const { loginStatus } = this.state;
+
+    // const { filterKey, displayMode, sorterMode, defineHeader } = this.props;
 
     // Creating storage with define of the header, on the first start
     const tempDefine = defineHeader
@@ -85,11 +97,9 @@ class App extends React.Component {
       <Jumbotron className="without-margins all-screen">
         {loginStatus ? (
           <div>
-            <Language />
-            <Login toggleLogin={this.toggleLogin} userName={userName} />
-            <TaskListStyle
-              taskliststyle={+taskliststyle}
+            <ControlButtons
               toggleStyleListStyle={this.toggleStyleListStyle}
+              toggleLogin={this.toggleLogin}
             />
             <Grid>
               <Row>
@@ -107,6 +117,14 @@ class App extends React.Component {
                     </span>
                     {" " + this.props.appHeader + ":"}
                   </h1>
+                  {/* <NavigationTab
+                    changeParameter={this.changeParameter}
+                    clearFilters={this.clearFilters}
+                    clearSorter={this.clearSorter}
+                    filterKey={filterKey}
+                    displayMode={displayMode}
+                    sorterMode={sorterMode}
+                  /> */}
                   <Tabs
                     defaultActiveKey={loadFromLocalStorage(
                       1,
@@ -164,6 +182,8 @@ class App extends React.Component {
   }
 
   toggleStyleListStyle = () => {
+    // const mode = this.props.setting.taskliststyle === 0 ? 1 : 0;
+    // this.props.changeTasklistStyle(mode);
     const mode = loadFromLocalStorage(0, "taskliststyle") === 0 ? 1 : 0;
     saveToLocalStorage(mode, "taskliststyle");
     this.setState({
@@ -178,6 +198,7 @@ class App extends React.Component {
   toggleLogin = () => {
     if (this.state.loginStatus) {
       this.props.cookies.set("userdata", "false");
+      // this.props.this.clearSorter();
       this.clearFilters();
       this.clearSorter();
     }
@@ -188,6 +209,8 @@ class App extends React.Component {
 
   clearFilters = () => {
     // Initial of the filter's parameters
+    // this.props.changeFilter(settingDefault.filterKey);
+    // this.props.changeDisplayMode(settingDefault.displayMode);
     saveToLocalStorage(initialFilter.filterKey, "filterKey");
     saveToLocalStorage(initialFilter.displayMode, "displayMode");
     this.setState(initialFilter);
@@ -195,6 +218,8 @@ class App extends React.Component {
 
   clearSorter = () => {
     // Initial of the filter's parameters
+    // this.props.changeSorter(settingDefault.sorterMode);
+    // };
     saveToLocalStorage(initialSorter.sorterMode, "sorterMode");
     this.setState(initialSorter);
   };
@@ -249,7 +274,14 @@ class App extends React.Component {
           // Set data to the store
           this.props.loadTasklist(JSON.parse(answer.tasks));
 
+          // if(answer.setting) {
+          //   this.props.loadSetting(JSON.parse(answer.setting));
+          // } else {
+          //   this.props.loadSetting(settingDefault);
+          // }
+
           // Set name of the user
+          // saveToLocalStorage(data.email, "userName");
           this.setUserName(data.email);
 
           // Toggle modal screen mode
@@ -265,8 +297,18 @@ export default connect(
     return {
       appHeader: state.language.appHeader,
       defaultDefine: state.language.defaultDefine,
-      propmptText: state.language.propmptText
+      propmptText: state.language.propmptText,
+      filterKey: state.filterKey,
+      sorterMode: state.sorterMode,
+      displayMode: state.displayMode
     };
   },
-  { loadTasklist }
+  {
+    loadTasklist,
+    loadSetting,
+    changeTasklistStyle,
+    changeFilter,
+    changeSorter,
+    changeDisplayMode
+  }
 )(withCookies(App));

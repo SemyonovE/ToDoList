@@ -23,10 +23,13 @@ TasksList.propTypes = {
 function TasksList(props) {
   const { tasks, filterKey, displayMode, sorterMode, userName } = props;
 
-  saveToServer({
-    email: userName,
-    tasks: tasks
-  });
+  saveToServer(
+    {
+      email: userName,
+      tasks: tasks
+    },
+    "tasks"
+  );
 
   const { taskliststyle } = props;
 
@@ -45,9 +48,13 @@ function TasksList(props) {
             return 1;
           else return -1;
         case 2:
-          return Math.sign(
-            Date.parse(firstTask.date) - Date.parse(secondTask.date)
-          );
+          return firstTask.date && secondTask.date
+            ? Math.sign(
+                Date.parse(firstTask.date) - Date.parse(secondTask.date)
+              )
+            : firstTask.date
+              ? -1
+              : 1;
         case 3:
           return Math.sign(secondTask.importance - firstTask.importance);
         case 4:
