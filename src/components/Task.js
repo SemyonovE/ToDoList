@@ -11,7 +11,6 @@ import TaskBody from "./TaskBody";
 import TaskEditor from "./TaskEditor";
 
 import { taskType } from "../types";
-import { fullFormat } from "../helpers/datetimeFormat";
 
 // The component receive the task and display its
 class Task extends React.Component {
@@ -24,7 +23,7 @@ class Task extends React.Component {
     // Determining status of the current task for change its' style
     const status = task.finished
       ? "success"
-      : moment(task.date, fullFormat) > moment() || !task.date
+      : moment(task.date) > moment() || !task.date
         ? ""
         : "danger";
 

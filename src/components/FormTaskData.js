@@ -58,7 +58,7 @@ const FormTaskData = ({
                         date:
                           typeof moment === "object"
                             ? moment.isValid()
-                              ? String(moment.toISOString())
+                              ? moment.toISOString()
                               : ""
                             : ""
                       })
