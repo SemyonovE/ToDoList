@@ -62,6 +62,7 @@ class LoginModal extends React.Component {
                   value={password}
                   placeholder={loginModalTitles.passwordTitle}
                   onChange={ev => this.setState({ password: ev.target.value })}
+                  onKeyDown={ev => ev.key === "Enter" && this.checkAndComing()}
                 />
               </FormGroup>
               <Checkbox
