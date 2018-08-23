@@ -1,29 +1,28 @@
+import { loadFromLocalStorage } from "./workWithStorage";
+
 const url = "https://todolist.7ионов.рф/todoserver.php";
 const headers = {
   Accept: "application/json",
   "Content-type": "application/json; charset=UTF-8"
 };
 
-export function saveToServer(data, field) {
-  loadFromServer({
-    [field]: JSON.stringify(data[field]),
-    email: data.email
-  });
-}
-
-export function loadFromServer(data, callFunction = () => {}) {
-  fetch(url, {
+export const requestToServer = (data, callFunction = () => {}) => {
+  const options = {
     headers: headers,
     method: "POST",
     body: JSON.stringify(data)
-  })
-    .then(response => {
-      if (response.ok) {
-        response.json().then(json => {
-          callFunction(checkStatus(json));
-        }).catch(err => {
-          console.log("Server is not available!", err);
-        });
+  };
+  fetch(url, options)
+    .then(res => {
+      if (res.ok) {
+        res
+          .json()
+          .then(res => {
+            callFunction(checkStatus(res));
+          })
+          .catch(err => {
+            console.log("Server is not available!", err);
+          });
       } else {
         console.log("Download from server failed.");
         callFunction(
@@ -37,7 +36,15 @@ export function loadFromServer(data, callFunction = () => {}) {
     .catch(err => {
       console.log("Server is not available!", err);
     });
-}
+};
+
+export const saveData = (list, field) => {
+  requestToServer({
+    [field]: JSON.stringify(list),
+    email: loadFromLocalStorage("", "userName")
+  });
+  return list;
+};
 
 function checkStatus(response) {
   switch (response.status) {

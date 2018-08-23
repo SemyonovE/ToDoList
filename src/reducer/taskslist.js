@@ -4,9 +4,7 @@ import {
   EDIT_TASK,
   LOAD_TASKLIST
 } from "../helpers/constants";
-
-import { loadFromLocalStorage } from "../helpers/workWithStorage";
-import { saveToServer } from "../helpers/workWithServer";
+import { saveData } from "../helpers/workWithServer";
 
 export default (tasklist = [{}], action) => {
   const { type, payload } = action;
@@ -22,13 +20,13 @@ export default (tasklist = [{}], action) => {
       while (tasklist.filter(task => task.id === temptask.id).length !== 0) {
         temptask.id = temptask.id + "0";
       }
-      return saveData([...tasklist, temptask]);
+      return save([...tasklist, temptask]);
 
     case DEL_TASK:
-      return saveData(tasklist.filter(task => task.id !== payload.id));
+      return save(tasklist.filter(task => task.id !== payload.id));
 
     case EDIT_TASK:
-      return saveData(
+      return save(
         tasklist.map(task => {
           if (task.id === payload.task.id) {
             return payload.task;
@@ -42,13 +40,4 @@ export default (tasklist = [{}], action) => {
   }
 };
 
-function saveData(list) {
-  saveToServer(
-    {
-      tasks: list,
-      email: loadFromLocalStorage("", "userName")
-    },
-    "tasks"
-  );
-  return list;
-}
+const save = list => saveData(list, "tasks");

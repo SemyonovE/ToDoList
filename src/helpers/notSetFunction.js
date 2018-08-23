@@ -1,1 +1,0 @@
-export default () => {console.warn("The function didn't set")}

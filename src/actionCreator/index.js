@@ -2,89 +2,71 @@ import {
   ADD_TASK,
   DEL_TASK,
   EDIT_TASK,
-  TOGGLE_LANG,
   LOAD_TASKLIST,
   LOAD_SETTING,
   CHANGE_FILTER,
   CHANGE_SORTER,
-  CHANGE_DISPLAYMODE,
+  CHANGE_DEFINE_HEADER,
+  CHANGE_DISPLAY_MODE,
   CHANGE_TASKLIST_STYLE,
   CHANGE_TAB_INDEX_DEFAULT
 } from "../helpers/constants";
 
-export function addTask(task) {
-  return {
-    type: ADD_TASK,
-    payload: { task }
-  };
-}
+// For tasklist
 
-export function deleteTask(id) {
-  return {
-    type: DEL_TASK,
-    payload: { id }
-  };
-}
+export const addTask = task => ({
+  type: ADD_TASK,
+  payload: { task }
+});
 
-export function editTask(task) {
-  return {
-    type: EDIT_TASK,
-    payload: { task }
-  };
-}
+export const deleteTask = id => ({
+  type: DEL_TASK,
+  payload: { id }
+});
 
-export function toggleLanguage(language) {
-  return {
-    type: TOGGLE_LANG,
-    payload: { language }
-  };
-}
+export const editTask = task => ({
+  type: EDIT_TASK,
+  payload: { task }
+});
 
-export function loadTasklist(tasklist) {
-  return {
-    type: LOAD_TASKLIST,
-    payload: { tasklist }
-  };
-}
+export const loadTasklist = tasklist => ({
+  type: LOAD_TASKLIST,
+  payload: { tasklist }
+});
 
-export function changeFilter(filterKey) {
-  return {
-    type: CHANGE_FILTER,
-    payload: { filterKey }
-  };
-}
+// For settings
 
-export function changeSorter(sorterMode) {
-  return {
-    type: CHANGE_SORTER,
-    payload: { sorterMode }
-  };
-}
+export const loadSetting = setting => ({
+  type: LOAD_SETTING,
+  payload: { setting }
+});
 
-export function changeDisplayMode(displayMode) {
-  return {
-    type: CHANGE_DISPLAYMODE,
-    payload: { displayMode }
-  };
-}
+export const changeFilter = filterKey => ({
+  type: CHANGE_FILTER,
+  payload: { filterKey }
+});
 
-export function changeTasklistStyle(tasklistStyle) {
-  return {
-    type: CHANGE_TASKLIST_STYLE,
-    payload: { tasklistStyle }
-  };
-}
+export const changeSorter = sorterMode => ({
+  type: CHANGE_SORTER,
+  payload: { sorterMode }
+});
 
-export function changeTabIndexDefault(tabIndexDefault) {
-  return {
-    type: CHANGE_TAB_INDEX_DEFAULT,
-    payload: { tabIndexDefault }
-  };
-}
+export const changeDefineHeader = header => ({
+  type: CHANGE_DEFINE_HEADER,
+  payload: { header }
+});
 
-export function loadSetting(setting) {
-  return {
-    type: LOAD_SETTING,
-    payload: { setting }
-  };
-}
+export const changeDisplayMode = displayMode => ({
+  type: CHANGE_DISPLAY_MODE,
+  payload: { displayMode }
+});
+
+export const changeTasklistStyle = tasklistStyle => ({
+  type: CHANGE_TASKLIST_STYLE,
+  payload: { tasklistStyle }
+});
+
+export const changeTabIndexDefault = tabIndexDefault => ({
+  type: CHANGE_TAB_INDEX_DEFAULT,
+  payload: { tabIndexDefault }
+});

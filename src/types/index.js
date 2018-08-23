@@ -1,12 +1,12 @@
-import { PropTypes, shape, string } from "prop-types";
+import { number, shape, string, oneOf } from "prop-types";
 
 export const optionType = shape({
-  value: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired
+  value: number.isRequired,
+  title: string.isRequired
 });
 
 export const taskType = shape({
-  id: string.isRequired,
+  id: oneOf[(string.isRequired, undefined)],
   title: string.isRequired,
   text: string.isRequired,
   date: string,

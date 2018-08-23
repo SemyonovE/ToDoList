@@ -1,5 +1,5 @@
 // Dictionary
-export const LANG = {
+export default {
   en: {
     language: "en",
     defaultDefine: "My",
@@ -24,10 +24,12 @@ export const LANG = {
       "first important",
       "first unimportant"
     ],
-    titleTitle: "Title",
-    titleText: "Text",
-    titleDate: "Date",
-    titleImportance: "Importance",
+    titles: {
+      title: "Title",
+      text: "Text",
+      date: "Date",
+      importance: "Importance"
+    },
     from: "for",
     to: "done",
     withoutDate: "date don't set",
@@ -49,10 +51,10 @@ export const LANG = {
       password: "Password",
       passwordText: "Enter password",
       remember: "Remember me",
-      forget: "Forget password",
-      forgetEmail: "Set your email:",
-      forgetPassword: "Set new password:",
-      forgetMessage: "See the instructions on the email",
+      forgot: "Forgot password",
+      forgotEmail: "Set your email:",
+      forgotPassword: "Set new password:",
+      forgotMessage: "See the instructions on the email",
       come: "Come in"
     }
   },
@@ -77,10 +79,12 @@ export const LANG = {
       "сначала важные",
       "сначала неважные"
     ],
-    titleTitle: "Название",
-    titleText: "Описание",
-    titleDate: "Дата",
-    titleImportance: "Важность",
+    titles: {
+      title: "Название",
+      text: "Описание",
+      date: "Дата",
+      importance: "Важность"
+    },
     from: "на",
     to: "готово",
     withoutDate: "дата не задана",
@@ -102,10 +106,10 @@ export const LANG = {
       password: "Пароль",
       passwordText: "Введите пароль",
       remember: "Запомнить меня",
-      forget: "Забыл пароль",
-      forgetEmail: "Укажите Ваш email:",
-      forgetPassword: "Задайте новый пароль:",
-      forgetMessage: "Смотрите инструкции на указанном email",
+      forgot: "Забыл пароль",
+      forgotEmail: "Укажите Ваш email:",
+      forgotPassword: "Задайте новый пароль:",
+      forgotMessage: "Смотрите инструкции на указанном email",
       come: "Войти"
     }
   }

@@ -1,3 +1,1 @@
-export default function XOR(a, b) {
-  return (a || b) && !(a && b);
-}
+export default (a, b) => (a || b) && !(a && b);

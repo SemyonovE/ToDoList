@@ -1,56 +1,41 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { number } from "prop-types";
+import { connect } from "react-redux";
 
 import { Panel, Modal } from "react-bootstrap";
+
+import moment from "moment";
 
 import TaskHeader from "./TaskHeader";
 import TaskBody from "./TaskBody";
 import TaskEditor from "./TaskEditor";
 
 import { taskType } from "../types";
-import noSetFunction from "../helpers/notSetFunction";
+import { fullFormat } from "../helpers/datetimeFormat";
 
 // The component receive the task and display its
 class Task extends React.Component {
-  static propTypes = {
-    task: taskType.isRequired, // Object of the task
-    deleteTask: PropTypes.func, // Function for deleting of the task
-    editTask: PropTypes.func, // Function for editing of the task
-    taskliststyle: PropTypes.number.isRequired // Parameter of the task list mode
-  };
-
-  static defaultProps = {
-    deleteTask: noSetFunction,
-    editTask: noSetFunction
-  };
-
   // Default mode for editing is 'not editing'
   state = {
     editMode: false
   };
 
-  render() {
-    const { task, taskliststyle } = this.props;
-
+  render = ({ task, tasklistStyle } = this.props) => {
     // Determining status of the current task for change its' style
     const status = task.finished
       ? "success"
-      : Date.parse(task.date) > new Date() || !task.date
+      : moment(task.date, fullFormat) > moment() || !task.date
         ? ""
         : "danger";
 
     const taskEditor = (
-      <TaskEditor
-        task={task}
-        toggleEditMode={this.toggleEditMode}
-        taskliststyle={taskliststyle}
-      />
+      <TaskEditor task={task} toggleEditMode={this.toggleEditMode} />
     );
 
     return (
-      <span {...(taskliststyle ? { className: "taskItem" } : null)}>
+      <span {...(tasklistStyle ? { className: "taskItem" } : null)}>
         {this.state.editMode ? (
-          taskliststyle ? (
+          tasklistStyle ? (
             <Modal.Dialog>
               <Modal.Body>{taskEditor}</Modal.Body>
             </Modal.Dialog>
@@ -60,18 +45,25 @@ class Task extends React.Component {
         ) : (
           <Panel {...(status ? { bsStyle: status } : {})}>
             <TaskHeader task={task} toggleEditMode={this.toggleEditMode} />
-            <TaskBody task={task} taskliststyle={taskliststyle} />
+            <TaskBody task={task} />
           </Panel>
         )}
       </span>
     );
-  }
+  };
 
   toggleEditMode = () => {
-    this.setState({
-      editMode: !this.state.editMode
-    });
+    this.setState(pS => ({
+      editMode: !pS.editMode
+    }));
   };
 }
 
-export default Task;
+Task.propTypes = {
+  task: taskType.isRequired, // Object of the task
+  tasklistStyle: number.isRequired // Parameter of the task list mode
+};
+
+export default connect(({ setting: { tasklistStyle } }) => ({ tasklistStyle }))(
+  Task
+);

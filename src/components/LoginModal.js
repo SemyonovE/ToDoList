@@ -1,6 +1,7 @@
 import React from "react";
+import { func, instanceOf } from "prop-types";
 import { connect } from "react-redux";
-import PropTypes, { instanceOf } from "prop-types";
+import { loadTasklist, loadSetting } from "../actionCreator";
 import { withCookies, Cookies } from "react-cookie";
 
 import {
@@ -11,151 +12,163 @@ import {
   Checkbox,
   ControlLabel
 } from "react-bootstrap";
+import moment from "moment";
 
-import { loadFromServer } from "../helpers/workWithServer";
+import { requestToServer } from "../helpers/workWithServer";
+import { saveToLocalStorage } from "../helpers/workWithStorage";
+import { settingDefault } from "../helpers/initialParameters";
+import { Consumer } from "../context";
 
 class LoginModal extends React.Component {
-  static propTypes = {
-    handleCome: PropTypes.func, // Function for initial state of the store by data from server
-    cookies: instanceOf(Cookies).isRequired, // Cookies
-    loginModalTitles: PropTypes.objectOf(PropTypes.string).isRequired // Dictionary
-  };
-
-  static defaultProps = {
-    handleCome: () => {}
-  };
-
-  constructor(props) {
-    super(props);
-
+  componentDidMount() {
     const userdata = this.props.cookies.get("userdata");
     if (typeof userdata === "object") {
       this.setCookies(userdata);
-      this.props.handleCome(userdata);
+      this.handleCome(userdata);
     }
-
-    this.state = {
-      login: "",
-      password: "",
-      remember: false,
-      enabledCome: false
-    };
   }
 
-  render() {
-    const { loginModalTitles } = this.props;
-
-    return (
-      <div>
-        <Modal.Dialog>
-          <Modal.Header>
-            <Modal.Title>{loginModalTitles.title}</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <FormGroup>
-              <ControlLabel>{loginModalTitles.login}</ControlLabel>
-              <FormControl
-                type="email"
-                value={this.state.login}
-                placeholder={loginModalTitles.loginTitle}
-                onChange={ev => this.handleChange(ev, "login")}
-              />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>{loginModalTitles.password}</ControlLabel>
-              <FormControl
-                type="password"
-                value={this.state.password}
-                placeholder={loginModalTitles.passwordTitle}
-                onChange={ev => this.handleChange(ev, "password")}
-              />
-            </FormGroup>
-            <Checkbox onChange={ev => this.handleRemember(ev)}>
-              {loginModalTitles.remember}
-            </Checkbox>{" "}
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button onClick={this.hangleForgetPassword}>
-              {loginModalTitles.forget}
-            </Button>
-            <Button
-              bsStyle="primary"
-              {...(this.state.enabledCome ? { disabled: true } : null)}
-              onClick={this.handleCome}
-            >
-              {loginModalTitles.come}
-            </Button>
-          </Modal.Footer>
-        </Modal.Dialog>
-      </div>
-    );
-  }
-
-  handleRemember = ev => {
-    this.setState({
-      remember: ev.target.checked
-    });
+  state = {
+    login: "",
+    password: "",
+    remember: false,
+    enabledCome: true
   };
 
-  handleChange = (ev, field) => {
-    this.setState({
-      [field]: ev.target.value
-    });
-  };
+  render = ({ login, password } = this.state) => (
+    <Consumer>
+      {({ LANG: { loginModalTitles } }) => (
+        <div>
+          <Modal.Dialog>
+            <Modal.Header>
+              <Modal.Title>{loginModalTitles.title}</Modal.Title>
+            </Modal.Header>
 
-  handleCome = () => {
-    const data = {
-      email: this.state.login,
-      password: this.state.password
-    };
+            <Modal.Body>
+              <FormGroup>
+                <ControlLabel>{loginModalTitles.login}</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="email"
+                  value={login}
+                  placeholder={loginModalTitles.loginTitle}
+                  onChange={ev => this.setState({ login: ev.target.value })}
+                />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>{loginModalTitles.password}</ControlLabel>
+                <FormControl
+                  type="password"
+                  value={password}
+                  placeholder={loginModalTitles.passwordTitle}
+                  onChange={ev => this.setState({ password: ev.target.value })}
+                />
+              </FormGroup>
+              <Checkbox
+                onChange={ev => this.setState({ remember: ev.target.checked })}
+              >
+                {loginModalTitles.remember}
+              </Checkbox>
+            </Modal.Body>
 
+            <Modal.Footer>
+              <Button onClick={() => this.forgotPassword(loginModalTitles)}>
+                {loginModalTitles.forgot}
+              </Button>
+              <Button
+                bsStyle="primary"
+                {...!this.state.enabledCome && { disabled: true }}
+                onClick={() => this.checkAndComing()}
+              >
+                {loginModalTitles.come}
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </div>
+      )}
+    </Consumer>
+  );
+
+  checkAndComing = ({ login, password, remember } = this.state) => {
     const reg = /^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/;
-    if (!reg.test(String(data.email).toLowerCase())) {
+    if (!reg.test(login.toLowerCase())) {
       alert("Incorrect email!");
       return;
     }
 
+    const data = {
+      email: login,
+      password: password
+    };
+
     this.setState({
-      enabledCome: true
+      enabledCome: false
     });
 
-    if (this.state.remember) {
-      this.setCookies(data);
-    }
-    this.handleCome2(data, () =>
+    remember && this.setCookies(data);
+
+    this.handleCome(data, () =>
       this.setState({
-        enabledCome: false
+        enabledCome: true
       })
     );
   };
 
-  setCookies = userdata => {
-    const now = new Date();
-    now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000);
-    this.props.cookies.set("userdata", JSON.stringify(userdata), {
-      maxAge: now
+  setCookies = (userdata, { cookies } = this.props) => {
+    cookies.set("userdata", JSON.stringify(userdata), {
+      expires: moment()
+        .add(3, "month")
+        .toDate()
     });
   };
 
-  hangleForgetPassword = () => {
-    const email = prompt(this.props.loginModalTitles.forgetEmail, "");
-    const password = prompt(this.props.loginModalTitles.forgetEmail, "");
+  forgotPassword = loginModalTitles => {
+    const email = prompt(loginModalTitles.forgotEmail, "");
+    const password = prompt(loginModalTitles.forgotPassword, "");
     if (email && password) {
-      alert(this.props.loginModalTitles.forgetMessage);
-      loadFromServer({
+      alert(loginModalTitles.forgotMessage);
+      requestToServer({
         email: email,
         forget: password
       });
     }
   };
+
+  handleCome = (data, func) => {
+    // Query on the server
+    requestToServer(data, res => {
+      // Function what to do when request is success
+      func && func();
+      if (res) {
+        // Set data to the store
+        this.props.loadTasklist(JSON.parse(res.tasks));
+        if (res.setting) {
+          this.props.loadSetting(JSON.parse(res.setting));
+        } else {
+          this.props.loadSetting(settingDefault);
+        }
+
+        // Set name of the user
+        saveToLocalStorage(data.email, "userName");
+
+        // Toggle modal screen mode
+        this.props.toggleLogin();
+      }
+    });
+  };
 }
 
-export default withCookies(
-  connect(state => {
-    return {
-      loginModalTitles: state.language.loginModalTitles
-    };
-  })(LoginModal)
-);
+LoginModal.propTypes = {
+  toggleLogin: func.isRequired, // Function for loging
+  loadTasklist: func.isRequired, // Function for loading of the tasks
+  loadSetting: func.isRequired, // Function for loading of the setting
+  cookies: instanceOf(Cookies).isRequired // Cookies
+};
+
+export default connect(
+  null,
+  {
+    loadTasklist,
+    loadSetting
+  }
+)(withCookies(LoginModal));

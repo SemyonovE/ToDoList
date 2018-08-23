@@ -48,11 +48,11 @@ Button {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#controlled-tab-example {
+#main-tabs {
   position: relative;
 }
 
-#controlled-tab-example > ul {
+#main-tabs > ul {
   position: absolute;
   top: 2px;
   left: 2px;

@@ -1,34 +1,32 @@
 import React from "react";
+import { func, number } from "prop-types";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { changeTasklistStyle } from "../actionCreator";
 
 import ButtonWithTrigger from "./ButtonWithTrigger";
 
-class TaskListStyle extends React.Component {
-  static propTypes = {
-    taskliststyle: PropTypes.number.isRequired, // Paramenet of the task list mode
-    toggleStyleListStyle: PropTypes.func, // Function for the toggle task list mode
-    toggleTaskListStyleToggle: PropTypes.string.isRequired // Tooltip
-  };
+import { Consumer } from "../context";
 
-  render() {
-    const { taskliststyle, toggleTaskListStyleToggle } = this.props;
-
-    return (
-      <div className="task-list-style">
+const TaskListStyle = ({ tasklistStyle, changeTasklistStyle: change }) => (
+  <div className="task-list-style">
+    <Consumer>
+      {({ LANG: { toggleTaskListStyleToggle } }) => (
         <ButtonWithTrigger
-          iconType={taskliststyle ? "align-justify" : "th"}
+          iconType={tasklistStyle ? "align-justify" : "th"}
           tooltipText={toggleTaskListStyleToggle}
-          activateFunction={this.props.toggleStyleListStyle}
-          buttonStyle="primary"
+          activateFunction={() => change(tasklistStyle === 0 ? 1 : 0)}
         />
-      </div>
-    );
-  }
-}
+      )}
+    </Consumer>
+  </div>
+);
 
-export default connect(state => {
-  return {
-    toggleTaskListStyleToggle: state.language.toggleTaskListStyleToggle
-  };
-})(TaskListStyle);
+TaskListStyle.propTypes = {
+  changeTasklistStyle: func.isRequired, // Function for the toggle task list mode
+  tasklistStyle: number.isRequired // The parameter of the tasklist style
+};
+
+export default connect(
+  ({ setting: { tasklistStyle } }) => ({ tasklistStyle }),
+  { changeTasklistStyle }
+)(TaskListStyle);

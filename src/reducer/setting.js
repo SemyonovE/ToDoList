@@ -1,13 +1,13 @@
 import {
   CHANGE_FILTER,
   CHANGE_SORTER,
-  CHANGE_DISPLAYMODE,
+  CHANGE_DISPLAY_MODE,
   CHANGE_TASKLIST_STYLE,
   CHANGE_TAB_INDEX_DEFAULT,
-  LOAD_SETTING
+  LOAD_SETTING,
+  CHANGE_DEFINE_HEADER
 } from "../helpers/constants";
-import { saveToServer } from "../helpers/workWithServer";
-
+import { saveData } from "../helpers/workWithServer";
 import { settingDefault } from "../helpers/initialParameters";
 
 export default (setting = settingDefault, action) => {
@@ -15,39 +15,29 @@ export default (setting = settingDefault, action) => {
 
   switch (type) {
     case LOAD_SETTING:
-      return { ...payload.setting };
+      return { ...setting, ...payload.setting };
 
     case CHANGE_FILTER:
-      return saveToServer(
-        { ...setting, filterKey: payload.filterKey },
-        "setting"
-      );
+      return save({ ...setting, filterKey: payload.filterKey });
 
     case CHANGE_SORTER:
-      return saveToServer(
-        { ...setting, sorterMode: payload.sorterMode },
-        "setting"
-      );
+      return save({ ...setting, sorterMode: payload.sorterMode });
 
-    case CHANGE_DISPLAYMODE:
-      return saveToServer(
-        { ...setting, displayMode: payload.displayMode },
-        "setting"
-      );
+    case CHANGE_DISPLAY_MODE:
+      return save({ ...setting, displayMode: payload.displayMode });
 
     case CHANGE_TASKLIST_STYLE:
-      return saveToServer(
-        { ...setting, tasklistStyle: payload.tasklistStyle },
-        "setting"
-      );
+      return save({ ...setting, tasklistStyle: payload.tasklistStyle });
 
     case CHANGE_TAB_INDEX_DEFAULT:
-      return saveToServer(
-        { ...setting, tabIndexDefault: payload.tabIndexDefault },
-        "setting"
-      );
+      return save({ ...setting, tabIndexDefault: payload.tabIndexDefault });
+
+    case CHANGE_DEFINE_HEADER:
+      return save({ ...setting, defineHeader: payload.defineHeader });
 
     default:
       return setting;
   }
 };
+
+const save = list => saveData(list, "setting");
