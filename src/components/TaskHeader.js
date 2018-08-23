@@ -16,7 +16,6 @@ import moment from "moment";
 
 import ButtonWithTrigger from "./ButtonWithTrigger";
 
-import { fullFormat } from "../helpers/datetimeFormat";
 import { taskType } from "../types";
 import { Consumer } from "../context";
 
@@ -29,7 +28,7 @@ class TaskHeader extends React.Component {
       .split("")
       .map((_, index) => <Glyphicon key={index} glyph="fire" />);
 
-    const date = moment(task.date, fullFormat) || moment();
+    const date = moment(task.date) || moment();
     const daysLeft =
       date >= moment() ? Math.ceil((date - moment()) / 864e5) : null;
 
