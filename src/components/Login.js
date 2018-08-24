@@ -9,9 +9,17 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage
 } from "../helpers/workWithStorage";
+import styled from "styled-components";
+
+const LoginStyled = styled.div`
+  z-index: 1000;
+  position: fixed;
+  top: 10px;
+  right: 80px;
+`;
 
 const Login = ({ toggleLogin, cookies }) => (
-  <div className="login">
+  <LoginStyled>
     <DropdownButton
       pullRight
       bsStyle="primary"
@@ -36,7 +44,7 @@ const Login = ({ toggleLogin, cookies }) => (
         </Consumer>
       </MenuItem>
     </DropdownButton>
-  </div>
+  </LoginStyled>
 );
 
 Login.propTypes = {

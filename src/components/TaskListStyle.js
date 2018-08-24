@@ -2,13 +2,20 @@ import React from "react";
 import { func, number } from "prop-types";
 import { connect } from "react-redux";
 import { changeTasklistStyle } from "../actionCreator";
-
-import ButtonWithTrigger from "./ButtonWithTrigger";
+import styled from "styled-components";
 
 import { Consumer } from "../context";
+import ButtonWithTrigger from "./ButtonWithTrigger";
+
+const TaskLstStyleStyled = styled.div`
+  z-index: 1000;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+`;
 
 const TaskListStyle = ({ tasklistStyle, changeTasklistStyle: change }) => (
-  <div className="task-list-style">
+  <TaskLstStyleStyled>
     <Consumer>
       {({ LANG: { toggleTaskListStyleToggle } }) => (
         <ButtonWithTrigger
@@ -18,7 +25,7 @@ const TaskListStyle = ({ tasklistStyle, changeTasklistStyle: change }) => (
         />
       )}
     </Consumer>
-  </div>
+  </TaskLstStyleStyled>
 );
 
 TaskListStyle.propTypes = {

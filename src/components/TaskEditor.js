@@ -8,9 +8,14 @@ import { Panel } from "react-bootstrap";
 import FormTaskData from "./FormTaskData";
 import ButtonWithTrigger from "./ButtonWithTrigger";
 
-import { taskType } from "../types";
-
 import { Consumer } from "../context";
+import { taskType } from "../types";
+import { SpanRight, ClearStyle } from "../styles";
+import styled from "styled-components";
+
+const ClearBoth = styled(Panel.Heading)`
+  ${ClearStyle};
+`;
 
 class TaskEditor extends React.Component {
   state = {
@@ -19,12 +24,12 @@ class TaskEditor extends React.Component {
 
   render = (task = this.state) => (
     <Panel>
-      <Panel.Heading className="clear">
+      <ClearBoth>
         <Consumer>
           {({
             LANG: { setChangesTooltip, cancelChangesTooltip, emptyTitle }
           }) => (
-            <span className="right">
+            <SpanRight>
               <ButtonWithTrigger
                 iconType="ok-circle"
                 tooltipText={setChangesTooltip}
@@ -37,10 +42,10 @@ class TaskEditor extends React.Component {
                 activateFunction={this.props.toggleEditMode}
                 buttonStyle="danger"
               />
-            </span>
+            </SpanRight>
           )}
         </Consumer>
-      </Panel.Heading>
+      </ClearBoth>
       <FormTaskData
         task={task}
         withTasklistStyle

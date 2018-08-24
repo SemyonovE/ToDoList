@@ -11,20 +11,26 @@ import tabDecorator from "../decorators/tabDecorator";
 
 import { Consumer } from "../context";
 import { settingDefault } from "../helpers/initialParameters";
+import { SpanRight, ClearStyle } from "../styles";
+import styled from "styled-components";
+
+const ClearBoth = styled(Panel.Heading)`
+  ${ClearStyle};
+`;
 
 const Sorter = ({ changeSorter, sorterMode }) => (
   <Consumer>
     {({ LANG: { clearSorterTooltip, sorterTitle, sorters } }) => (
       <Panel bsStyle="info">
-        <Panel.Heading className="clear">
-          <span className="right">
+        <ClearBoth>
+          <SpanRight>
             <ButtonWithTrigger
               iconType="repeat"
               tooltipText={clearSorterTooltip}
               activateFunction={() => changeSorter(settingDefault.sorterMode)}
             />
-          </span>
-        </Panel.Heading>
+          </SpanRight>
+        </ClearBoth>
         <Panel.Body>
           <Grid>
             <Row>

@@ -1,6 +1,7 @@
 import React from "react";
 import { number } from "prop-types";
 import { connect } from "react-redux";
+import styled, { css } from "styled-components";
 
 import { Panel, Modal } from "react-bootstrap";
 
@@ -11,6 +12,25 @@ import TaskBody from "./TaskBody";
 import TaskEditor from "./TaskEditor";
 
 import { taskType } from "../types";
+
+const TaskStyle = css`
+  .panel-body {
+    height: 200px;
+    overflow: scroll;
+  }
+  .modal-body .panel-body {
+    height: auto;
+    overflow: visible;
+  }
+
+  .panel-body div:not(:last-child) {
+    padding-bottom: 5px;
+  }
+`;
+
+const SpanStyled = styled.span`
+  ${({ tasklistStyle }) => (tasklistStyle ? TaskStyle : null)};
+`;
 
 // The component receive the task and display its
 class Task extends React.Component {
@@ -32,7 +52,7 @@ class Task extends React.Component {
     );
 
     return (
-      <span {...(tasklistStyle ? { className: "taskItem" } : null)}>
+      <SpanStyled {...{ tasklistStyle }}>
         {this.state.editMode ? (
           tasklistStyle ? (
             <Modal.Dialog>
@@ -47,7 +67,7 @@ class Task extends React.Component {
             <TaskBody task={task} />
           </Panel>
         )}
-      </span>
+      </SpanStyled>
     );
   };
 

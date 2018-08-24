@@ -1,7 +1,13 @@
 import React from "react";
 import { string, func } from "prop-types";
 
-import { OverlayTrigger, Tooltip, Button, Glyphicon } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Glyphicon, Button } from "react-bootstrap";
+
+import styled from "styled-components";
+
+const MButton = styled(Button)`
+  margin: 0 3px;
+`;
 
 const ButtonWithTrigger = ({
   iconType,
@@ -13,9 +19,9 @@ const ButtonWithTrigger = ({
     placement="bottom"
     overlay={<Tooltip id={iconType}>{tooltipText}</Tooltip>}
   >
-    <Button bsStyle={buttonStyle} bsSize="xsmall" onClick={activateFunction}>
+    <MButton bsStyle={buttonStyle} bsSize="xsmall" onClick={activateFunction}>
       <Glyphicon glyph={iconType} />
-    </Button>
+    </MButton>
   </OverlayTrigger>
 );
 

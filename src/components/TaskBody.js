@@ -1,6 +1,7 @@
 import React from "react";
 import { number } from "prop-types";
 import { connect } from "react-redux";
+import styled, { css } from "styled-components";
 
 import { Grid, Row, Col, Panel } from "react-bootstrap";
 
@@ -11,36 +12,51 @@ import moment from "moment";
 
 import { fullFormat } from "../helpers/datetimeFormat";
 
+const Style4Task = css`
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+`;
+
+const ModSpan4Task = styled.span``;
+
+const RowStyled = styled(Row)`
+  ${ModSpan4Task} {
+    ${({ styled }) => (styled ? Style4Task : null)};
+  }
+`;
+
 // The component receive the task and display its
 const TaskBody = ({ tasklistStyle, task }) => (
   <Panel.Body>
     <Grid>
       <Consumer>
         {({ LANG: { from, to, withoutDate } }) => (
-          <Row {...(tasklistStyle ? { className: "center-and-bold" } : null)}>
+          <RowStyled styled={tasklistStyle}>
             <Col xs={12} sm={tasklistStyle ? 12 : 2}>
-              <span className="task-title">{task.title}</span>
+              <ModSpan4Task>{task.title}</ModSpan4Task>
             </Col>
             <Col xs={12} sm={tasklistStyle ? 12 : 6}>
-              <span className="task-text">{task.text}</span>
+              <span>{task.text}</span>
             </Col>
             <Col xs={12} sm={tasklistStyle ? 12 : 2}>
-              <span className="task-date">
+              <ModSpan4Task>
                 {from +
                   ": " +
                   (task.date
                     ? moment(task.date).format(fullFormat)
                     : withoutDate)}
-              </span>
+              </ModSpan4Task>
             </Col>
             <Col xs={12} sm={tasklistStyle ? 12 : 2}>
-              <span className="task-finished">
+              <ModSpan4Task>
                 {task.finished
                   ? to + ": " + moment(task.finished).format(fullFormat)
                   : ""}
-              </span>
+              </ModSpan4Task>
             </Col>
-          </Row>
+          </RowStyled>
         )}
       </Consumer>
     </Grid>

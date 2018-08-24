@@ -9,8 +9,14 @@ import SelectForm from "./SelectForm";
 import ButtonWithTrigger from "./ButtonWithTrigger";
 import tabDecorator from "../decorators/tabDecorator";
 import { Consumer } from "../context";
+import styled from "styled-components";
 
 import { settingDefault } from "../helpers/initialParameters";
+import { SpanRight, ClearStyle } from "../styles";
+
+const ClearBoth = styled(Panel.Heading)`
+  ${ClearStyle};
+`;
 
 const Filter = ({
   changeFilter,
@@ -23,8 +29,8 @@ const Filter = ({
       LANG: { importances, displayMods, filterTitles, clearFilterTooltip }
     }) => (
       <Panel bsStyle="info">
-        <Panel.Heading className="clear">
-          <span className="right">
+        <ClearBoth>
+          <SpanRight>
             <ButtonWithTrigger
               iconType="repeat"
               tooltipText={clearFilterTooltip}
@@ -33,8 +39,8 @@ const Filter = ({
                 changeDisplayMode(settingDefault.displayMode);
               }}
             />
-          </span>
-        </Panel.Heading>
+          </SpanRight>
+        </ClearBoth>
         <Panel.Body>
           <Grid>
             <Row>

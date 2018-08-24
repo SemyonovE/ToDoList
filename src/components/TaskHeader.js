@@ -2,6 +2,7 @@ import React from "react";
 import { func } from "prop-types";
 import { connect } from "react-redux";
 import { deleteTask, editTask } from "../actionCreator";
+import styled from "styled-components";
 
 import {
   Glyphicon,
@@ -18,6 +19,24 @@ import ButtonWithTrigger from "./ButtonWithTrigger";
 
 import { taskType } from "../types";
 import { Consumer } from "../context";
+import { SpanRight, ClearStyle } from "../styles";
+
+const DaysLeft = styled.span`
+  font-weight: bold;
+`;
+
+const ImportanceSpan = styled.span`
+  font-weight: bold;
+  color: red;
+`;
+
+const ClearBoth = styled(Grid)`
+  ${ClearStyle};
+`;
+
+const ColWithoutPaddings = styled(Col)`
+  padding: 0;
+`;
 
 // The component receive the task and display its
 class TaskHeader extends React.Component {
@@ -34,7 +53,7 @@ class TaskHeader extends React.Component {
 
     return (
       <Panel.Heading>
-        <Grid className="clear">
+        <ClearBoth>
           <Consumer>
             {({
               LANG: {
@@ -47,7 +66,7 @@ class TaskHeader extends React.Component {
               }
             }) => (
               <Row>
-                <Col xs={4} className="without-paddings">
+                <ColWithoutPaddings xs={4}>
                   <OverlayTrigger
                     placement="bottom"
                     overlay={
@@ -56,10 +75,10 @@ class TaskHeader extends React.Component {
                       </Tooltip>
                     }
                   >
-                    <span className="task-importance left">{importance}</span>
+                    <ImportanceSpan>{importance}</ImportanceSpan>
                   </OverlayTrigger>
-                </Col>
-                <Col xs={2} className="without-paddings">
+                </ColWithoutPaddings>
+                <ColWithoutPaddings xs={2}>
                   <OverlayTrigger
                     placement="bottom"
                     overlay={
@@ -68,17 +87,17 @@ class TaskHeader extends React.Component {
                       </Tooltip>
                     }
                   >
-                    <span className="left days-left">
+                    <DaysLeft>
                       {daysLeft && !task.finished
                         ? daysLeft === 1
                           ? "<1"
                           : daysLeft - 1
                         : null}
-                    </span>
+                    </DaysLeft>
                   </OverlayTrigger>
-                </Col>
-                <Col xs={6} className="without-paddings">
-                  <span className="right">
+                </ColWithoutPaddings>
+                <ColWithoutPaddings xs={6}>
+                  <SpanRight>
                     {!task.finished ? (
                       <span>
                         <ButtonWithTrigger
@@ -114,12 +133,12 @@ class TaskHeader extends React.Component {
                       activateFunction={() => deleteTask(task.id)}
                       buttonStyle="danger"
                     />
-                  </span>
-                </Col>
+                  </SpanRight>
+                </ColWithoutPaddings>
               </Row>
             )}
           </Consumer>
-        </Grid>
+        </ClearBoth>
       </Panel.Heading>
     );
   };

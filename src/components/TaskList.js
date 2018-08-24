@@ -17,7 +17,7 @@ const TasksList = ({
   sorterMode,
   tasklistStyle: style
 }) => (
-  <div className="tasks-list">
+  <React.Fragment>
     {/* Filtering tasks by importance | Filtering tasks by complete | Sort | Create component for each task */}
     {taskslist
       .filter(task => filterKey < 0 || +task.importance === filterKey)
@@ -28,7 +28,7 @@ const TasksList = ({
           <Task task={task} />
         </Col>
       ))}
-  </div>
+  </React.Fragment>
 );
 
 TasksList.propTypes = {

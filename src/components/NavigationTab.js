@@ -2,6 +2,7 @@ import React from "react";
 import { number, func } from "prop-types";
 import { connect } from "react-redux";
 import { changeTabIndexDefault } from "../actionCreator";
+import styled from "styled-components";
 
 import { Tabs, Glyphicon } from "react-bootstrap";
 
@@ -10,8 +11,17 @@ import CreateTask from "./CreateTask";
 import Sorter from "./Sorter";
 import EmptyTab from "./EmptyTab";
 
+const TabsStyled = styled(Tabs)`
+  position: relative;
+  > ul {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
+`;
+
 const NavigationTab = ({ tabIndexDefault, changeTabIndexDefault }) => (
-  <Tabs
+  <TabsStyled
     defaultActiveKey={tabIndexDefault}
     animation={false}
     onSelect={i => changeTabIndexDefault(i)}
@@ -23,7 +33,7 @@ const NavigationTab = ({ tabIndexDefault, changeTabIndexDefault }) => (
     {/* Future filter for display selected tasks */}
     <Filter eventKey={2} title={<Glyphicon glyph="filter" />} />
     <Sorter eventKey={3} title={<Glyphicon glyph="sort" />} />
-  </Tabs>
+  </TabsStyled>
 );
 
 NavigationTab.propTypes = {

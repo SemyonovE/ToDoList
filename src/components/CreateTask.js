@@ -12,6 +12,12 @@ import tabDecorator from "../decorators/tabDecorator";
 
 import hashCode from "../helpers/hashCode";
 import { initTask } from "../helpers/initialParameters";
+import { SpanRight, ClearStyle } from "../styles";
+import styled from "styled-components";
+
+const ClearBoth = styled(Panel.Heading)`
+  ${ClearStyle};
+`;
 
 // The component send created task to reducer for addition the task to list
 class CreateTask extends React.Component {
@@ -19,8 +25,8 @@ class CreateTask extends React.Component {
 
   render = () => (
     <Panel bsStyle="info">
-      <Panel.Heading className="clear">
-        <span className="right">
+      <ClearBoth>
+        <SpanRight>
           <Consumer>
             {({ LANG: { createTaskTooltip, emptyTitle } }) => (
               <ButtonWithTrigger
@@ -30,8 +36,8 @@ class CreateTask extends React.Component {
               />
             )}
           </Consumer>
-        </span>
-      </Panel.Heading>
+        </SpanRight>
+      </ClearBoth>
       <FormTaskData
         task={this.state}
         reverseFlowFunction={obj => this.setState(obj)}
