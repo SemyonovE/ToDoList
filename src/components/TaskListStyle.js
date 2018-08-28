@@ -2,30 +2,22 @@ import React from "react";
 import { func, number } from "prop-types";
 import { connect } from "react-redux";
 import { changeTasklistStyle } from "../actionCreator";
-import styled from "styled-components";
+
+import { MenuItem } from "react-bootstrap";
 
 import { Consumer } from "../context";
-import ButtonWithTrigger from "./ButtonWithTrigger";
-
-const TaskLstStyleStyled = styled.div`
-  z-index: 1000;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-`;
 
 const TaskListStyle = ({ tasklistStyle, changeTasklistStyle: change }) => (
-  <TaskLstStyleStyled>
-    <Consumer>
-      {({ LANG: { toggleTaskListStyleToggle } }) => (
-        <ButtonWithTrigger
-          iconType={tasklistStyle ? "align-justify" : "th"}
-          tooltipText={toggleTaskListStyleToggle}
-          activateFunction={() => change(tasklistStyle === 0 ? 1 : 0)}
-        />
-      )}
-    </Consumer>
-  </TaskLstStyleStyled>
+  <Consumer>
+    {({ LANG: { toggleTaskListStyleToggle } }) => (
+      <MenuItem
+        eventKey="tasklist-style"
+        onClick={() => change(tasklistStyle === 0 ? 1 : 0)}
+      >
+        {toggleTaskListStyleToggle}
+      </MenuItem>
+    )}
+  </Consumer>
 );
 
 TaskListStyle.propTypes = {

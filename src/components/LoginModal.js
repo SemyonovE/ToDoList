@@ -1,7 +1,7 @@
 import React from "react";
 import { func, instanceOf } from "prop-types";
 import { connect } from "react-redux";
-import { loadFromServer } from "../actionCreator";
+import { loadingFromServer } from "../actionCreator";
 import { withCookies, Cookies } from "react-cookie";
 
 import {
@@ -15,8 +15,6 @@ import {
 import moment from "moment";
 
 import { requestToServer } from "../helpers/workWithServer";
-import { saveToLocalStorage } from "../helpers/workWithStorage";
-import { settingDefault } from "../helpers/initialParameters";
 import { Consumer } from "../context";
 
 class LoginModal extends React.Component {
@@ -24,18 +22,17 @@ class LoginModal extends React.Component {
     const userdata = cookies.get("userdata");
     if (typeof userdata === "object") {
       this.setCookies(userdata);
-      this.handleCome(userdata);
+      this.props.loadingFromServer(userdata);
     }
   }
 
   state = {
     login: "",
     password: "",
-    remember: false,
-    enabledCome: true
+    remember: false
   };
 
-  render = ({ login, password } = this.state) => (
+  render = ({ login, password } = this.state, { user } = this.props) => (
     <Consumer>
       {({ LANG: { loginModalTitles } }) => (
         <div>
@@ -76,13 +73,15 @@ class LoginModal extends React.Component {
               <Button onClick={() => this.forgotPassword(loginModalTitles)}>
                 {loginModalTitles.forgot}
               </Button>
-              <Button
-                bsStyle="primary"
-                {...!this.state.enabledCome && { disabled: true }}
-                onClick={() => this.checkAndComing()}
-              >
-                {loginModalTitles.come}
-              </Button>
+              {user && user.loading ? (
+                <Button bsStyle="primary" {...{ disabled: true }}>
+                  {loginModalTitles.loading}
+                </Button>
+              ) : (
+                <Button bsStyle="primary" onClick={() => this.checkAndComing()}>
+                  {loginModalTitles.come}
+                </Button>
+              )}
             </Modal.Footer>
           </Modal.Dialog>
         </div>
@@ -102,17 +101,9 @@ class LoginModal extends React.Component {
       password: password
     };
 
-    this.setState({
-      enabledCome: false
-    });
-
     remember && this.setCookies(data);
 
-    this.handleCome(data, () =>
-      this.setState({
-        enabledCome: true
-      })
-    );
+    this.props.loadingFromServer(data);
   };
 
   setCookies = (userdata, { cookies } = this.props) => {
@@ -134,32 +125,14 @@ class LoginModal extends React.Component {
       });
     }
   };
-
-  handleCome = (data, func) => {
-    // Query on the server
-    requestToServer(data, res => {
-      // Function what to do when request is success
-      func && func();
-      if (res) {
-        // Set data to the store
-        this.props.loadFromServer({
-          tasklist: JSON.parse(res.tasks),
-          setting: (res.setting && JSON.parse(res.setting)) || settingDefault
-        });
-
-        // Set name of the user
-        saveToLocalStorage(data.email, "userName");
-      }
-    });
-  };
 }
 
 LoginModal.propTypes = {
-  loadFromServer: func.isRequired, // Function for loading of the tasks and the setting
+  loadingFromServer: func.isRequired, // Function for loading of the tasks and the setting
   cookies: instanceOf(Cookies).isRequired // Cookies
 };
 
 export default connect(
-  null,
-  { loadFromServer }
+  ({ user }) => ({ user }),
+  { loadingFromServer }
 )(withCookies(LoginModal));

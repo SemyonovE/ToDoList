@@ -6,17 +6,18 @@ const headers = {
   "Content-type": "application/json; charset=UTF-8"
 };
 
-export const requestToServer = (data, callFunction = () => {}) => {
+export const requestToServer = data => {
   const options = {
     headers: headers,
     method: "POST",
     body: JSON.stringify(data)
   };
-  fetch(url, options)
+  return fetch(url, options)
     .then(res => res.json())
-    .then(res => callFunction(checkStatus(res)))
+    .then(res => checkStatus(res))
     .catch(err => {
       console.log("Server is not available!", err);
+      return null;
     });
 };
 

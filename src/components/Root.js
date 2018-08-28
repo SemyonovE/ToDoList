@@ -7,7 +7,7 @@ import { Provider as CtxProvider } from "../context";
 import moment from "moment";
 import "moment/locale/ru";
 
-import App from "./App";
+import MainWrapperApp from "./MainWrapperApp";
 
 import {
   loadFromLocalStorage,
@@ -16,6 +16,8 @@ import {
 import LANG from "../helpers/dictionary";
 
 const momentSetting = { week: { dow: 1 } };
+
+window.store = store;
 
 export default class Root extends React.Component {
   state = ((layout = loadFromLocalStorage("ru", "language")) => ({
@@ -36,7 +38,7 @@ export default class Root extends React.Component {
       <Provider store={store}>
         <CookiesProvider>
           <CtxProvider value={this.state}>
-            <App />
+            <MainWrapperApp />
           </CtxProvider>
         </CookiesProvider>
       </Provider>

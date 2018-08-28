@@ -10,7 +10,8 @@ import {
   CHANGE_DISPLAY_MODE,
   CHANGE_TASKLIST_STYLE,
   CHANGE_TAB_INDEX_DEFAULT,
-  USER_LOG_OUT
+  USER_LOG_OUT,
+  LOAD_TO_STORE
 } from "../helpers/constants";
 
 // For tasklist
@@ -30,10 +31,15 @@ export const editTask = task => ({
   payload: { task }
 });
 
-// -----
+// For Saga
 
-export const loadFromServer = list => ({
+export const loadingFromServer = data => ({
   type: LOAD_FROM_SERVER,
+  data
+});
+
+export const loadingToStore = list => ({
+  type: LOAD_TO_STORE,
   payload: list
 });
 

@@ -12,12 +12,19 @@ import {
   saveToLocalStorage
 } from "../helpers/workWithStorage";
 import styled from "styled-components";
+import Language from "./Language";
+import TaskListStyle from "./TaskListStyle";
+import ColorStyle from "./ColorStyle";
 
 const LoginStyled = styled.div`
-  z-index: 1000;
+  z-index: 999;
   position: fixed;
-  top: 10px;
-  right: 80px;
+  top: 12px;
+  right: 15px;
+
+  ul {
+    min-width: calc(min(100vw - 30px, 300px));
+  }
 
   a {
     text-align: right;
@@ -36,6 +43,10 @@ const Login = ({ userLogOut, cookies }) => (
       <MenuItem eventKey="user-name" disabled>
         {loadFromLocalStorage("", "userName")}
       </MenuItem>
+      <MenuItem divider />
+      <TaskListStyle />
+      <Language />
+      <ColorStyle />
       <MenuItem divider />
       <MenuItem
         eventKey="exit"

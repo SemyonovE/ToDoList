@@ -6,11 +6,10 @@ import { Jumbotron, Grid, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 
 import TasksList from "./TaskList";
-import LoginModal from "./LoginModal";
 
-import ControlButtons from "./ControlButtons";
 import { Consumer } from "../context";
 import NavigationTab from "./NavigationTab";
+import colorIdentifier from "../helpers/colorIdentifier";
 
 const SpanWithHover = styled.span`
   :hover {
@@ -19,54 +18,47 @@ const SpanWithHover = styled.span`
   }
 `;
 
-const Header = styled.h1`
-  text-align: center;
-`;
-
 const AllScreen = styled(Jumbotron)`
   min-height: 100vh;
   margin: 0;
 `;
 
-const App = ({ defineHeader, colorStyle, user: loginStatus } = this.props) => {
+const App = ({ defineHeader, colorStyle } = this.props) => {
   const JumbotronColor = styled(AllScreen)`
     background-color: ${colorStyle};
+  `;
+  const Header = styled.h1`
+    text-align: center;
+    color: ${colorIdentifier(colorStyle) ? "#111" : "#eee"} !important;
   `;
   // Creating storage with define of the header, on the first start
   return (
     <JumbotronColor>
       <Consumer>
-        {({ LANG: { appHeader, defaultDefine, propmptText } }) =>
-          loginStatus ? (
-            <div>
-              <ControlButtons />
-              <Grid>
-                <Row>
-                  <Col xs={12}>
-                    {/* Header with author's name or 'mine' and application name */}
-                    <Header>
-                      <SpanWithHover
-                        onClick={() =>
-                          this.props.changeDefineHeader(
-                            prompt(propmptText + "?", defineHeader) || ""
-                          )
-                        }
-                      >
-                        {defineHeader !== "" ? defineHeader : defaultDefine}
-                      </SpanWithHover>
-                      {" " + appHeader + ":"}
-                    </Header>
-                    <NavigationTab />
-                  </Col>
-                  {/* Displaying everything tasks with its properties */}
-                  <TasksList />
-                </Row>
-              </Grid>
-            </div>
-          ) : (
-            <LoginModal />
-          )
-        }
+        {({ LANG: { appHeader, defaultDefine, propmptText } }) => (
+          <Grid>
+            <Row>
+              <Col xs={12}>
+                {/* Header with author's name or 'mine' and application name */}
+                <Header>
+                  <SpanWithHover
+                    onClick={() =>
+                      this.props.changeDefineHeader(
+                        prompt(propmptText + "?", defineHeader) || ""
+                      )
+                    }
+                  >
+                    {defineHeader !== "" ? defineHeader : defaultDefine}
+                  </SpanWithHover>
+                  {" " + appHeader + ":"}
+                </Header>
+                <NavigationTab />
+              </Col>
+              {/* Displaying everything tasks with its properties */}
+              <TasksList />
+            </Row>
+          </Grid>
+        )}
       </Consumer>
     </JumbotronColor>
   );
@@ -74,14 +66,14 @@ const App = ({ defineHeader, colorStyle, user: loginStatus } = this.props) => {
 
 App.propTypes = {
   defineHeader: string.isRequired, // The definition of the author in the header
-  changeDefineHeader: func.isRequired // Function for change the definition of header
+  changeDefineHeader: func.isRequired, // Function for change the definition of header
+  colorStyle: string.isRequired // Color for Background
 };
 
 export default connect(
-  ({ setting: { defineHeader, colorStyle }, user }) => ({
+  ({ setting: { defineHeader, colorStyle } }) => ({
     defineHeader,
-    colorStyle,
-    user
+    colorStyle
   }),
   {
     changeDefineHeader

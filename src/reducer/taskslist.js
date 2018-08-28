@@ -2,7 +2,7 @@ import {
   ADD_TASK,
   DEL_TASK,
   EDIT_TASK,
-  LOAD_FROM_SERVER,
+  LOAD_TO_STORE,
   USER_LOG_OUT
 } from "../helpers/constants";
 import { saveData } from "../helpers/workWithServer";
@@ -11,7 +11,7 @@ export default (tasklist = [{}], action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case LOAD_FROM_SERVER:
+    case LOAD_TO_STORE:
       return [...payload.tasklist];
 
     case ADD_TASK:
@@ -37,7 +37,7 @@ export default (tasklist = [{}], action) => {
       );
 
     case USER_LOG_OUT:
-      return undefined;
+      return [{}];
 
     default:
       return tasklist;

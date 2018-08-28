@@ -55,9 +55,10 @@ export default {
       forgotEmail: "Set your email:",
       forgotPassword: "Set new password:",
       forgotMessage: "See the instructions on the email",
-      come: "Come in"
+      come: "Come in",
+      loading: "Loading..."
     },
-    colorStyleToggle: "Color of the background"
+    colorStyleToggle: "Color theme"
   },
   ru: {
     language: "ru",
@@ -111,8 +112,9 @@ export default {
       forgotEmail: "Укажите Ваш email:",
       forgotPassword: "Задайте новый пароль:",
       forgotMessage: "Смотрите инструкции на указанном email",
-      come: "Войти"
+      come: "Войти",
+      loading: "Загрузка..."
     },
-    colorStyleToggle: "Цвет фона"
+    colorStyleToggle: "Цветовая тема"
   }
 };
