@@ -28,64 +28,49 @@ const AllScreen = styled(Jumbotron)`
   margin: 0;
 `;
 
-class App extends React.Component {
-  state = {
-    loginStatus: false
-  };
-
-  render = (
-    { defineHeader, colorStyle } = this.props,
-    { toggleLogin } = this
-  ) => {
-    const JumbotronColor = styled(AllScreen)`
-      background-color: ${colorStyle};
-    `;
-    // Creating storage with define of the header, on the first start
-    return (
-      <JumbotronColor>
-        <Consumer>
-          {({ LANG: { appHeader, defaultDefine, propmptText } }) =>
-            this.state.loginStatus ? (
-              <div>
-                <ControlButtons {...{ toggleLogin }} />
-                <Grid>
-                  <Row>
-                    <Col xs={12}>
-                      {/* Header with author's name or 'mine' and application name */}
-                      <Header>
-                        <SpanWithHover
-                          onClick={() =>
-                            this.props.changeDefineHeader(
-                              prompt(propmptText + "?", defineHeader) || ""
-                            )
-                          }
-                        >
-                          {defineHeader !== "" ? defineHeader : defaultDefine}
-                        </SpanWithHover>
-                        {" " + appHeader + ":"}
-                      </Header>
-                      <NavigationTab />
-                    </Col>
-                    {/* Displaying everything tasks with its properties */}
-                    <TasksList />
-                  </Row>
-                </Grid>
-              </div>
-            ) : (
-              <LoginModal {...{ toggleLogin }} />
-            )
-          }
-        </Consumer>
-      </JumbotronColor>
-    );
-  };
-
-  toggleLogin = () => {
-    this.setState(pS => ({
-      loginStatus: !pS.loginStatus
-    }));
-  };
-}
+const App = ({ defineHeader, colorStyle, user: loginStatus } = this.props) => {
+  const JumbotronColor = styled(AllScreen)`
+    background-color: ${colorStyle};
+  `;
+  // Creating storage with define of the header, on the first start
+  return (
+    <JumbotronColor>
+      <Consumer>
+        {({ LANG: { appHeader, defaultDefine, propmptText } }) =>
+          loginStatus ? (
+            <div>
+              <ControlButtons />
+              <Grid>
+                <Row>
+                  <Col xs={12}>
+                    {/* Header with author's name or 'mine' and application name */}
+                    <Header>
+                      <SpanWithHover
+                        onClick={() =>
+                          this.props.changeDefineHeader(
+                            prompt(propmptText + "?", defineHeader) || ""
+                          )
+                        }
+                      >
+                        {defineHeader !== "" ? defineHeader : defaultDefine}
+                      </SpanWithHover>
+                      {" " + appHeader + ":"}
+                    </Header>
+                    <NavigationTab />
+                  </Col>
+                  {/* Displaying everything tasks with its properties */}
+                  <TasksList />
+                </Row>
+              </Grid>
+            </div>
+          ) : (
+            <LoginModal />
+          )
+        }
+      </Consumer>
+    </JumbotronColor>
+  );
+};
 
 App.propTypes = {
   defineHeader: string.isRequired, // The definition of the author in the header
@@ -93,7 +78,11 @@ App.propTypes = {
 };
 
 export default connect(
-  ({ setting: { defineHeader, colorStyle } }) => ({ defineHeader, colorStyle }),
+  ({ setting: { defineHeader, colorStyle }, user }) => ({
+    defineHeader,
+    colorStyle,
+    user
+  }),
   {
     changeDefineHeader
   }

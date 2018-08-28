@@ -13,26 +13,8 @@ export const requestToServer = (data, callFunction = () => {}) => {
     body: JSON.stringify(data)
   };
   fetch(url, options)
-    .then(res => {
-      if (res.ok) {
-        res
-          .json()
-          .then(res => {
-            callFunction(checkStatus(res));
-          })
-          .catch(err => {
-            console.log("Server is not available!", err);
-          });
-      } else {
-        console.log("Download from server failed.");
-        callFunction(
-          checkStatus({
-            status: "error",
-            what: "server"
-          })
-        );
-      }
-    })
+    .then(res => res.json())
+    .then(res => callFunction(checkStatus(res)))
     .catch(err => {
       console.log("Server is not available!", err);
     });
@@ -46,12 +28,12 @@ export const saveData = (list, field) => {
   return list;
 };
 
-function checkStatus(response) {
-  switch (response.status) {
+function checkStatus(res) {
+  switch (res.status) {
     case "ok":
-      return response;
+      return res;
     case "error":
-      alert(response.what);
+      alert(res.what);
       return null;
     default:
       alert("Fatal error");

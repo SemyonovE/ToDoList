@@ -2,15 +2,15 @@ import {
   ADD_TASK,
   DEL_TASK,
   EDIT_TASK,
-  LOAD_TASKLIST,
-  LOAD_SETTING,
+  LOAD_FROM_SERVER,
   CHANGE_FILTER,
   CHANGE_SORTER,
   CHANGE_COLOR_STYLE,
   CHANGE_DEFINE_HEADER,
   CHANGE_DISPLAY_MODE,
   CHANGE_TASKLIST_STYLE,
-  CHANGE_TAB_INDEX_DEFAULT
+  CHANGE_TAB_INDEX_DEFAULT,
+  USER_LOG_OUT
 } from "../helpers/constants";
 
 // For tasklist
@@ -30,17 +30,14 @@ export const editTask = task => ({
   payload: { task }
 });
 
-export const loadTasklist = tasklist => ({
-  type: LOAD_TASKLIST,
-  payload: { tasklist }
+// -----
+
+export const loadFromServer = list => ({
+  type: LOAD_FROM_SERVER,
+  payload: list
 });
 
 // For settings
-
-export const loadSetting = setting => ({
-  type: LOAD_SETTING,
-  payload: { setting }
-});
 
 export const changeFilter = filterKey => ({
   type: CHANGE_FILTER,
@@ -76,3 +73,7 @@ export const changeTabIndexDefault = tabIndexDefault => ({
   type: CHANGE_TAB_INDEX_DEFAULT,
   payload: { tabIndexDefault }
 });
+
+// For user
+
+export const userLogOut = () => ({ type: USER_LOG_OUT });

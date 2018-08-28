@@ -1,7 +1,7 @@
 import React from "react";
 import { func, instanceOf } from "prop-types";
 import { connect } from "react-redux";
-import { loadTasklist, loadSetting } from "../actionCreator";
+import { loadFromServer } from "../actionCreator";
 import { withCookies, Cookies } from "react-cookie";
 
 import {
@@ -20,8 +20,8 @@ import { settingDefault } from "../helpers/initialParameters";
 import { Consumer } from "../context";
 
 class LoginModal extends React.Component {
-  componentDidMount() {
-    const userdata = this.props.cookies.get("userdata");
+  componentDidMount({ cookies } = this.props) {
+    const userdata = cookies.get("userdata");
     if (typeof userdata === "object") {
       this.setCookies(userdata);
       this.handleCome(userdata);
@@ -142,34 +142,24 @@ class LoginModal extends React.Component {
       func && func();
       if (res) {
         // Set data to the store
-        this.props.loadTasklist(JSON.parse(res.tasks));
-        if (res.setting) {
-          this.props.loadSetting(JSON.parse(res.setting));
-        } else {
-          this.props.loadSetting(settingDefault);
-        }
+        this.props.loadFromServer({
+          tasklist: JSON.parse(res.tasks),
+          setting: (res.setting && JSON.parse(res.setting)) || settingDefault
+        });
 
         // Set name of the user
         saveToLocalStorage(data.email, "userName");
-
-        // Toggle modal screen mode
-        this.props.toggleLogin();
       }
     });
   };
 }
 
 LoginModal.propTypes = {
-  toggleLogin: func.isRequired, // Function for loging
-  loadTasklist: func.isRequired, // Function for loading of the tasks
-  loadSetting: func.isRequired, // Function for loading of the setting
+  loadFromServer: func.isRequired, // Function for loading of the tasks and the setting
   cookies: instanceOf(Cookies).isRequired // Cookies
 };
 
 export default connect(
   null,
-  {
-    loadTasklist,
-    loadSetting
-  }
+  { loadFromServer }
 )(withCookies(LoginModal));

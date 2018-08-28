@@ -1,5 +1,7 @@
 import React from "react";
 import { func, instanceOf } from "prop-types";
+import { connect } from "react-redux";
+import { userLogOut } from "../actionCreator";
 import { withCookies, Cookies } from "react-cookie";
 
 import { Glyphicon, DropdownButton, MenuItem } from "react-bootstrap";
@@ -22,7 +24,7 @@ const LoginStyled = styled.div`
   }
 `;
 
-const Login = ({ toggleLogin, cookies }) => (
+const Login = ({ userLogOut, cookies }) => (
   <LoginStyled>
     <DropdownButton
       pullRight
@@ -40,7 +42,7 @@ const Login = ({ toggleLogin, cookies }) => (
         onClick={() => {
           cookies.set("userdata", "false");
           saveToLocalStorage(null, "userName");
-          toggleLogin();
+          userLogOut();
         }}
       >
         <Consumer>
@@ -52,8 +54,11 @@ const Login = ({ toggleLogin, cookies }) => (
 );
 
 Login.propTypes = {
-  toggleLogin: func.isRequired, // Function for logout
+  userLogOut: func.isRequired, // Function for logout
   cookies: instanceOf(Cookies).isRequired // Cookies
 };
 
-export default withCookies(Login);
+export default connect(
+  null,
+  { userLogOut }
+)(withCookies(Login));

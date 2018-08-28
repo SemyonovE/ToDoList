@@ -5,8 +5,9 @@ import {
   CHANGE_TASKLIST_STYLE,
   CHANGE_TAB_INDEX_DEFAULT,
   CHANGE_COLOR_STYLE,
-  LOAD_SETTING,
-  CHANGE_DEFINE_HEADER
+  LOAD_FROM_SERVER,
+  CHANGE_DEFINE_HEADER,
+  USER_LOG_OUT
 } from "../helpers/constants";
 import { saveData } from "../helpers/workWithServer";
 import { settingDefault } from "../helpers/initialParameters";
@@ -15,7 +16,7 @@ export default (setting = settingDefault, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case LOAD_SETTING:
+    case LOAD_FROM_SERVER:
       return { ...setting, ...payload.setting };
 
     case CHANGE_FILTER:
@@ -38,6 +39,9 @@ export default (setting = settingDefault, action) => {
 
     case CHANGE_COLOR_STYLE:
       return save({ ...setting, colorStyle: payload.color });
+
+    case USER_LOG_OUT:
+      return undefined;
 
     default:
       return setting;
