@@ -25,7 +25,8 @@ export const settingDefault = {
   sorterMode: -1,
   tasklistStyle: 0,
   tabIndexDefault: 1,
-  defineHeader: ""
+  defineHeader: "",
+  colorStyle: "#eee"
 };
 
 // Empty task for initialization of the state of the component

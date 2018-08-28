@@ -8,7 +8,7 @@ const Language = styled.div`
   z-index: 1000;
   position: fixed;
   top: 10px;
-  right: 45px;
+  right: 43px;
 `;
 
 export default () => (

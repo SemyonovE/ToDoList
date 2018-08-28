@@ -6,6 +6,7 @@ import {
   LOAD_SETTING,
   CHANGE_FILTER,
   CHANGE_SORTER,
+  CHANGE_COLOR_STYLE,
   CHANGE_DEFINE_HEADER,
   CHANGE_DISPLAY_MODE,
   CHANGE_TASKLIST_STYLE,
@@ -49,6 +50,11 @@ export const changeFilter = filterKey => ({
 export const changeSorter = sorterMode => ({
   type: CHANGE_SORTER,
   payload: { sorterMode }
+});
+
+export const changeColorStyle = color => ({
+  type: CHANGE_COLOR_STYLE,
+  payload: { color }
 });
 
 export const changeDefineHeader = header => ({

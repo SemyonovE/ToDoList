@@ -33,44 +33,52 @@ class App extends React.Component {
     loginStatus: false
   };
 
-  render = ({ defineHeader } = this.props, { toggleLogin } = this) => (
+  render = (
+    { defineHeader, colorStyle } = this.props,
+    { toggleLogin } = this
+  ) => {
+    const JumbotronColor = styled(AllScreen)`
+      background-color: ${colorStyle};
+    `;
     // Creating storage with define of the header, on the first start
-    <AllScreen>
-      <Consumer>
-        {({ LANG: { appHeader, defaultDefine, propmptText } }) =>
-          this.state.loginStatus ? (
-            <div>
-              <ControlButtons {...{ toggleLogin }} />
-              <Grid>
-                <Row>
-                  <Col xs={12}>
-                    {/* Header with author's name or 'mine' and application name */}
-                    <Header>
-                      <SpanWithHover
-                        onClick={() =>
-                          this.props.changeDefineHeader(
-                            prompt(propmptText + "?", defineHeader) || ""
-                          )
-                        }
-                      >
-                        {defineHeader !== "" ? defineHeader : defaultDefine}
-                      </SpanWithHover>
-                      {" " + appHeader + ":"}
-                    </Header>
-                    <NavigationTab />
-                  </Col>
-                  {/* Displaying everything tasks with its properties */}
-                  <TasksList />
-                </Row>
-              </Grid>
-            </div>
-          ) : (
-            <LoginModal {...{ toggleLogin }} />
-          )
-        }
-      </Consumer>
-    </AllScreen>
-  );
+    return (
+      <JumbotronColor>
+        <Consumer>
+          {({ LANG: { appHeader, defaultDefine, propmptText } }) =>
+            this.state.loginStatus ? (
+              <div>
+                <ControlButtons {...{ toggleLogin }} />
+                <Grid>
+                  <Row>
+                    <Col xs={12}>
+                      {/* Header with author's name or 'mine' and application name */}
+                      <Header>
+                        <SpanWithHover
+                          onClick={() =>
+                            this.props.changeDefineHeader(
+                              prompt(propmptText + "?", defineHeader) || ""
+                            )
+                          }
+                        >
+                          {defineHeader !== "" ? defineHeader : defaultDefine}
+                        </SpanWithHover>
+                        {" " + appHeader + ":"}
+                      </Header>
+                      <NavigationTab />
+                    </Col>
+                    {/* Displaying everything tasks with its properties */}
+                    <TasksList />
+                  </Row>
+                </Grid>
+              </div>
+            ) : (
+              <LoginModal {...{ toggleLogin }} />
+            )
+          }
+        </Consumer>
+      </JumbotronColor>
+    );
+  };
 
   toggleLogin = () => {
     this.setState(pS => ({
@@ -85,7 +93,7 @@ App.propTypes = {
 };
 
 export default connect(
-  ({ setting: { defineHeader } }) => ({ defineHeader }),
+  ({ setting: { defineHeader, colorStyle } }) => ({ defineHeader, colorStyle }),
   {
     changeDefineHeader
   }

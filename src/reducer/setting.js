@@ -4,6 +4,7 @@ import {
   CHANGE_DISPLAY_MODE,
   CHANGE_TASKLIST_STYLE,
   CHANGE_TAB_INDEX_DEFAULT,
+  CHANGE_COLOR_STYLE,
   LOAD_SETTING,
   CHANGE_DEFINE_HEADER
 } from "../helpers/constants";
@@ -34,6 +35,9 @@ export default (setting = settingDefault, action) => {
 
     case CHANGE_DEFINE_HEADER:
       return save({ ...setting, defineHeader: payload.defineHeader });
+
+    case CHANGE_COLOR_STYLE:
+      return save({ ...setting, colorStyle: payload.color });
 
     default:
       return setting;

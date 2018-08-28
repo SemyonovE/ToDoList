@@ -16,6 +16,10 @@ const LoginStyled = styled.div`
   position: fixed;
   top: 10px;
   right: 80px;
+
+  a {
+    text-align: right;
+  }
 `;
 
 const Login = ({ toggleLogin, cookies }) => (
