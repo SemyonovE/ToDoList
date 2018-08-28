@@ -1,5 +1,4 @@
 import moment from "moment";
-import { fullFormat } from "../helpers/datetimeFormat";
 
 export default (first, second, sorterMode) => {
   switch (sorterMode) {
@@ -10,9 +9,7 @@ export default (first, second, sorterMode) => {
       else return -1;
     case 2:
       return first.date && second.date
-        ? Math.sign(
-            moment(first.date, fullFormat) - moment(second.date, fullFormat)
-          )
+        ? Math.sign(moment(first.date).utc() - moment(second.date).utc())
         : first.date
           ? -1
           : 1;
