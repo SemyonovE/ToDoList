@@ -17,14 +17,12 @@ import LoadingSpinner from "./LoadingSpinner";
 const momentSetting = { week: { dow: 1 } };
 
 class MainWrapperApp extends React.Component {
-  constructor(props) {
-    super(props);
-
+  componentDidMount = () => {
     const userdata = getCookies();
     if (typeof userdata === "object") {
       this.props.loadingFromServer(userdata, true);
     }
-  }
+  };
 
   state = ((layout = this.props.language) => ({
     lang: layout,
