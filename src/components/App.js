@@ -20,6 +20,7 @@ const SpanWithHover = styled.span`
 const AllScreen = styled(Jumbotron)`
   min-height: 100vh;
   margin: 0;
+  padding: 0;
 `;
 
 const App = ({ defineHeader, colorStyle } = this.props) => {
