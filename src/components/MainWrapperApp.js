@@ -12,6 +12,7 @@ import "moment/locale/ru";
 import { Provider } from "../context";
 import LANG from "../helpers/dictionary";
 import { getCookies } from "../helpers/workWithCookies";
+import LoadingSpinner from "./LoadingSpinner";
 
 const momentSetting = { week: { dow: 1 } };
 
@@ -20,7 +21,9 @@ class MainWrapperApp extends React.Component {
     super(props);
 
     const userdata = getCookies();
-    typeof userdata === "object" && props.loadingFromServer(userdata, true);
+    if (typeof userdata === "object") {
+      this.props.loadingFromServer(userdata, true);
+    }
   }
 
   state = ((layout = this.props.language) => ({
@@ -38,6 +41,8 @@ class MainWrapperApp extends React.Component {
 
   render = ({ lang } = this.state, { login } = this.props) => {
     moment.updateLocale(lang, momentSetting);
+
+    if (!login && getCookies()) return <LoadingSpinner />;
 
     return (
       <Provider value={this.state}>
