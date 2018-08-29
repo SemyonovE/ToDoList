@@ -126,7 +126,9 @@ LoginModal.propTypes = {
   loadingFromServer: func.isRequired // Function for loading of the tasks and the setting
 };
 
-export default connect(
+const WithConnect = connect(
   ({ user: { loading, error } }) => ({ loading, error }),
   { loadingFromServer }
 )(LoginModal);
+
+export { WithConnect as LoginModal };

@@ -25,7 +25,9 @@ TaskListStyle.propTypes = {
   tasklistStyle: number.isRequired // The parameter of the tasklist style
 };
 
-export default connect(
+const WithConnect = connect(
   ({ setting: { tasklistStyle } }) => ({ tasklistStyle }),
   { changeTasklistStyle }
 )(TaskListStyle);
+
+export { WithConnect as TaskListStyle };

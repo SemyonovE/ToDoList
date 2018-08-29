@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { Col } from "react-bootstrap";
 
-import Task from "./Task";
+import { Task } from "./";
 
 import XOR from "../helpers/XOR";
 import { taskType } from "../types";
@@ -39,7 +39,7 @@ TasksList.propTypes = {
   tasklistStyle: number.isRequired // Parameter of the task list mode
 };
 
-export default connect(
+const WithConnect = connect(
   ({
     taskslist,
     setting: { filterKey, sorterMode, displayMode, tasklistStyle }
@@ -51,3 +51,5 @@ export default connect(
     tasklistStyle
   })
 )(TasksList);
+
+export { WithConnect as TasksList };

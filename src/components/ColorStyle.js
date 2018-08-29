@@ -44,7 +44,9 @@ class ColorStyle extends React.Component {
     this.setState(pS => ({ openColorPicker: !pS.openColorPicker }));
 }
 
-export default connect(
+const WithConnect = connect(
   ({ setting: { colorStyle } }) => ({ colorStyle }),
   { changeColorStyle }
 )(ColorStyle);
+
+export { WithConnect as ColorStyle };

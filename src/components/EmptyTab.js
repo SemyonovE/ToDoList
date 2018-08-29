@@ -16,4 +16,6 @@ const EmptyTab = () => (
   </Panel>
 );
 
-export default tabDecorator(EmptyTab); // Decorator for make this form for tab
+const WithTab = tabDecorator(EmptyTab); // Decorator for make this form for tab
+
+export { WithTab as EmptyTab };

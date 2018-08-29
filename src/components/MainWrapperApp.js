@@ -1,10 +1,10 @@
 import React from "react";
-import App from "./App";
+// import App from "./App";
+import { App } from "./";
 import { connect } from "react-redux";
 import { loadingFromServer } from "../actionCreator";
 
-import Login from "./Login";
-import LoginModal from "./LoginModal";
+import { Login, LoadingSpinner, LoginModal } from "./";
 
 import moment from "moment";
 import "moment/locale/ru";
@@ -12,7 +12,6 @@ import "moment/locale/ru";
 import { Provider } from "../context";
 import LANG from "../helpers/dictionary";
 import { getCookies } from "../helpers/workWithCookies";
-import LoadingSpinner from "./LoadingSpinner";
 
 const momentSetting = { week: { dow: 1 } };
 
@@ -57,10 +56,12 @@ class MainWrapperApp extends React.Component {
   };
 }
 
-export default connect(
+const WithConnect = connect(
   ({ user: { login }, setting: { language } }) => ({
     login,
     language
   }),
   { loadingFromServer }
 )(MainWrapperApp);
+
+export { WithConnect as MainWrapperApp };

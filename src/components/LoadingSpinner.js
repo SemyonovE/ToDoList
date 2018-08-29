@@ -32,7 +32,7 @@ const CenterDiv = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-export default class LoadingSpinner extends React.Component {
+class LoadingSpinner extends React.Component {
   state = { count: 120, step: 15 };
 
   componentDidMount = () =>
@@ -61,3 +61,5 @@ export default class LoadingSpinner extends React.Component {
     );
   };
 }
+
+export { LoadingSpinner };

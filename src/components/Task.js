@@ -7,9 +7,7 @@ import { Panel, Modal } from "react-bootstrap";
 
 import moment from "moment";
 
-import TaskHeader from "./TaskHeader";
-import TaskBody from "./TaskBody";
-import TaskEditor from "./TaskEditor";
+import { TaskHeader, TaskBody, TaskEditor } from "./";
 
 import { taskType } from "../types";
 
@@ -83,6 +81,8 @@ Task.propTypes = {
   tasklistStyle: number.isRequired // Parameter of the task list mode
 };
 
-export default connect(({ setting: { tasklistStyle } }) => ({ tasklistStyle }))(
-  Task
-);
+const WithConnect = connect(({ setting: { tasklistStyle } }) => ({
+  tasklistStyle
+}))(Task);
+
+export { WithConnect as Task };

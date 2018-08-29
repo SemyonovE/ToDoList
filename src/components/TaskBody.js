@@ -68,6 +68,8 @@ TaskBody.propTypes = {
   tasklistStyle: number.isRequired // Parameter of the task list mode
 };
 
-export default connect(({ setting: { tasklistStyle } }) => ({ tasklistStyle }))(
-  TaskBody
-);
+const WithConnect = connect(({ setting: { tasklistStyle } }) => ({
+  tasklistStyle
+}))(TaskBody);
+
+export { WithConnect as TaskBody };

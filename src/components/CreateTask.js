@@ -6,8 +6,7 @@ import { Consumer } from "../context";
 
 import { Panel } from "react-bootstrap";
 
-import FormTaskData from "./FormTaskData";
-import ButtonWithTrigger from "./ButtonWithTrigger";
+import { FormTaskData, ButtonWithTrigger } from "./";
 import tabDecorator from "../decorators/tabDecorator";
 
 import hashCode from "../helpers/hashCode";
@@ -67,10 +66,12 @@ CreateTask.propTypes = {
   addTask: func.isRequired // Function for creating a new task
 };
 
-export default tabDecorator(
+const WithTab = tabDecorator(
   // Decorator for make this form for tab
   connect(
     null,
     { addTask }
   )(CreateTask)
 );
+
+export { WithTab as CreateTask };

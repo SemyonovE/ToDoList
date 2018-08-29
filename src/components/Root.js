@@ -2,10 +2,12 @@ import React from "react";
 import store from "../store";
 import { Provider } from "react-redux";
 
-import MainWrapperApp from "./MainWrapperApp";
+import { MainWrapperApp } from "./";
 
-export default () => (
+const Root = () => (
   <Provider store={store}>
     <MainWrapperApp />
   </Provider>
 );
+
+export { Root };

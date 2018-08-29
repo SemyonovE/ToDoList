@@ -5,8 +5,7 @@ import { editTask } from "../actionCreator";
 
 import { Panel } from "react-bootstrap";
 
-import FormTaskData from "./FormTaskData";
-import ButtonWithTrigger from "./ButtonWithTrigger";
+import { FormTaskData, ButtonWithTrigger } from "./";
 
 import { Consumer } from "../context";
 import { taskType } from "../types";
@@ -73,7 +72,9 @@ TaskEditor.propTypes = {
   editTask: func.isRequired // Function for edit the task
 };
 
-export default connect(
+const WithConnect = connect(
   null,
   { editTask }
 )(TaskEditor);
+
+export { WithConnect as TaskEditor };

@@ -7,9 +7,7 @@ import { Glyphicon, DropdownButton, MenuItem } from "react-bootstrap";
 
 import { Consumer } from "../context";
 import styled from "styled-components";
-import Language from "./Language";
-import TaskListStyle from "./TaskListStyle";
-import ColorStyle from "./ColorStyle";
+import { Language, TaskListStyle, ColorStyle } from "./";
 import { removeCookies } from "../helpers/workWithCookies";
 
 const LoginStyled = styled.div`
@@ -63,7 +61,9 @@ Login.propTypes = {
   userLogOut: func.isRequired // Function for logout
 };
 
-export default connect(
+const WithConnect = connect(
   ({ user: { login } }) => ({ login }),
   { userLogOut }
 )(Login);
+
+export { WithConnect as Login };

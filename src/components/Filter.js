@@ -5,8 +5,7 @@ import { changeDisplayMode, changeFilter } from "../actionCreator";
 
 import { Panel, Row, Grid, Col } from "react-bootstrap";
 
-import SelectForm from "./SelectForm";
-import ButtonWithTrigger from "./ButtonWithTrigger";
+import { SelectForm, ButtonWithTrigger } from "./";
 import tabDecorator from "../decorators/tabDecorator";
 import { Consumer } from "../context";
 import styled from "styled-components";
@@ -84,9 +83,11 @@ Filter.propTypes = {
   changeDisplayMode: func.isRequired // Function for change one of the parameter of the filter
 };
 
-export default tabDecorator(
+const WithTab = tabDecorator(
   connect(
     ({ setting: { filterKey, displayMode } }) => ({ filterKey, displayMode }),
     { changeFilter, changeDisplayMode }
   )(Filter)
 );
+
+export { WithTab as Filter };

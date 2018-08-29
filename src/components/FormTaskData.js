@@ -14,11 +14,9 @@ import {
 
 import moment from "moment";
 
-import SelectForm from "./SelectForm";
-
+import { SelectForm, FormGroupWithInput } from "./";
 import { taskType } from "../types";
 import { Consumer } from "../context";
-import FormGroupWithInput from "./FormGroupWithInput";
 import { dateFormat, timeFormat, fullFormat } from "../helpers/datetimeFormat";
 
 // The component send created task to reducer for addition the task to list
@@ -91,6 +89,8 @@ FormTaskData.propTypes = {
   reverseFlowFunction: func.isRequired // Function for reverse data flow for some changes in the parent's node
 };
 
-export default connect(({ setting: { tasklistStyle } }) => ({ tasklistStyle }))(
-  FormTaskData
-);
+const WithConnect = connect(({ setting: { tasklistStyle } }) => ({
+  tasklistStyle
+}))(FormTaskData);
+
+export { WithConnect as FormTaskData };

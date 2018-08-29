@@ -16,7 +16,9 @@ const Language = ({ changeLanguage }) => (
   </Consumer>
 );
 
-export default connect(
+const WithConnect = connect(
   null,
   { changeLanguage }
 )(Language);
+
+export { WithConnect as Language };

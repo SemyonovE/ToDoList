@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import moment from "moment";
 
-import ButtonWithTrigger from "./ButtonWithTrigger";
+import { ButtonWithTrigger } from "./";
 
 import { taskType } from "../types";
 import { Consumer } from "../context";
@@ -151,7 +151,9 @@ TaskHeader.propTypes = {
   editTask: func.isRequired // Function for edit of the task
 };
 
-export default connect(
+const WithConnect = connect(
   null,
   { deleteTask, editTask }
 )(TaskHeader);
+
+export { WithConnect as TaskHeader };

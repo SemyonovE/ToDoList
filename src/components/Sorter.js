@@ -5,8 +5,7 @@ import { changeSorter } from "../actionCreator";
 
 import { Panel, Row, Grid, Col } from "react-bootstrap";
 
-import SelectForm from "./SelectForm";
-import ButtonWithTrigger from "./ButtonWithTrigger";
+import { SelectForm, ButtonWithTrigger } from "./";
 import tabDecorator from "../decorators/tabDecorator";
 
 import { Consumer } from "../context";
@@ -61,9 +60,11 @@ Sorter.propTypes = {
   changeSorter: func.isRequired // Function for change the parameter of the sort
 };
 
-export default tabDecorator(
+const WithTab = tabDecorator(
   connect(
     ({ setting: { sorterMode } }) => ({ sorterMode }),
     { changeSorter }
   )(Sorter)
 );
+
+export { WithTab as Sorter };

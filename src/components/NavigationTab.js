@@ -6,10 +6,7 @@ import styled from "styled-components";
 
 import { Tabs, Glyphicon } from "react-bootstrap";
 
-import Filter from "./Filter";
-import CreateTask from "./CreateTask";
-import Sorter from "./Sorter";
-import EmptyTab from "./EmptyTab";
+import { Filter, CreateTask, Sorter, EmptyTab } from "./";
 
 const TabsStyled = styled(Tabs)`
   position: relative;
@@ -41,9 +38,11 @@ NavigationTab.propTypes = {
   changeTabIndexDefault: func.isRequired // Function for change the parameter of opened tab
 };
 
-export default connect(
+const WithConnect = connect(
   ({ setting: { tabIndexDefault } }) => ({
     tabIndexDefault
   }),
   { changeTabIndexDefault }
 )(NavigationTab);
+
+export { WithConnect as NavigationTab };

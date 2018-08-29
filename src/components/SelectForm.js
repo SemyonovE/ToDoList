@@ -29,4 +29,4 @@ SelectForm.propTypes = {
   options: arrayOf(optionType.isRequired).isRequired // Array of the options for the select
 };
 
-export default SelectForm;
+export { SelectForm };

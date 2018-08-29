@@ -36,4 +36,4 @@ ButtonWithTrigger.defaultProps = {
   buttonStyle: "primary"
 };
 
-export default ButtonWithTrigger;
+export { ButtonWithTrigger };

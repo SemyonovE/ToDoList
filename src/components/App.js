@@ -5,10 +5,9 @@ import { changeDefineHeader } from "../actionCreator";
 import { Jumbotron, Grid, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 
-import TasksList from "./TaskList";
+import { TasksList, NavigationTab } from "./";
 
 import { Consumer } from "../context";
-import NavigationTab from "./NavigationTab";
 import colorIdentifier from "../helpers/colorIdentifier";
 
 const SpanWithHover = styled.span`
@@ -70,7 +69,7 @@ App.propTypes = {
   colorStyle: string.isRequired // Color for Background
 };
 
-export default connect(
+const WithConnect = connect(
   ({ setting: { defineHeader, colorStyle } }) => ({
     defineHeader,
     colorStyle
@@ -79,3 +78,4 @@ export default connect(
     changeDefineHeader
   }
 )(App);
+export { WithConnect as App };
