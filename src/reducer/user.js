@@ -5,9 +5,7 @@ import {
   USER_LOADING
 } from "../helpers/constants";
 
-export default (status = null, action) => {
-  const { type } = action;
-
+export default (status = null, { type }) => {
   switch (type) {
     case USER_LOADING:
       return { loading: true };

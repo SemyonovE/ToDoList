@@ -37,13 +37,13 @@ const FormTaskData = ({
               <FormGroupWithInput
                 sm={tasklistStyle && withTasklistStyle ? 12 : 2}
                 title={titles.title}
-                taskTitle={task.title}
+                value={task.title}
                 reverseFunc={ev => f({ title: ev.target.value })}
               />
               <FormGroupWithInput
                 sm={tasklistStyle && withTasklistStyle ? 12 : 6}
                 title={titles.text}
-                taskTitle={task.text}
+                value={task.text}
                 reverseFunc={ev => f({ text: ev.target.value })}
               />
               <Col xs={12} sm={tasklistStyle && withTasklistStyle ? 6 : 2}>

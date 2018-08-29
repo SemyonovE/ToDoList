@@ -14,7 +14,6 @@ export const requestToServer = data => {
   };
   return fetch(url, options)
     .then(res => res.json())
-    .then(res => checkStatus(res))
     .catch(err => {
       console.log("Server is not available!", err);
       return null;
@@ -28,16 +27,3 @@ export const saveData = (list, field) => {
   });
   return list;
 };
-
-function checkStatus(res) {
-  switch (res.status) {
-    case "ok":
-      return res;
-    case "error":
-      alert(res.what);
-      return null;
-    default:
-      alert("Fatal error");
-      return null;
-  }
-}

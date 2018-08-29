@@ -7,9 +7,7 @@ import {
 } from "../helpers/constants";
 import { saveData } from "../helpers/workWithServer";
 
-export default (tasklist = [{}], action) => {
-  const { type, payload } = action;
-
+export default (tasklist = [{}], { type, payload }) => {
   switch (type) {
     case LOAD_TO_STORE:
       return [...payload.tasklist];

@@ -12,9 +12,7 @@ import {
 import { saveData } from "../helpers/workWithServer";
 import { settingDefault } from "../helpers/initialParameters";
 
-export default (setting = settingDefault, action) => {
-  const { type, payload } = action;
-
+export default (setting = settingDefault, { type, payload }) => {
   switch (type) {
     case LOAD_TO_STORE:
       return { ...setting, ...payload.setting };
