@@ -11,7 +11,7 @@ import {
   CHANGE_TASKLIST_STYLE,
   CHANGE_TAB_INDEX_DEFAULT,
   USER_LOG_OUT,
-  LOAD_TO_STORE
+  CHANGE_LANGUAGE
 } from "../helpers/constants";
 
 // For tasklist
@@ -33,14 +33,10 @@ export const editTask = task => ({
 
 // For Saga
 
-export const loadingFromServer = data => ({
+export const loadingFromServer = (data, remember) => ({
   type: LOAD_FROM_SERVER,
-  data
-});
-
-export const loadingToStore = list => ({
-  type: LOAD_TO_STORE,
-  payload: list
+  data,
+  remember
 });
 
 // For settings
@@ -78,6 +74,10 @@ export const changeTasklistStyle = tasklistStyle => ({
 export const changeTabIndexDefault = tabIndexDefault => ({
   type: CHANGE_TAB_INDEX_DEFAULT,
   payload: { tabIndexDefault }
+});
+
+export const changeLanguage = () => ({
+  type: CHANGE_LANGUAGE
 });
 
 // For user

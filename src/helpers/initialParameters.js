@@ -26,7 +26,14 @@ export const settingDefault = {
   tasklistStyle: 0,
   tabIndexDefault: 1,
   defineHeader: "",
-  colorStyle: "#eee"
+  colorStyle: "#eee",
+  language: "ru"
+};
+
+export const userDefaultStatus = {
+  loading: false,
+  login: false,
+  error: false
 };
 
 // Empty task for initialization of the state of the component

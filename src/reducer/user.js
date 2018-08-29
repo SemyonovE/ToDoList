@@ -4,17 +4,20 @@ import {
   FAILED_LOADING,
   USER_LOADING
 } from "../helpers/constants";
+import { userDefaultStatus } from "../helpers/initialParameters";
+import { saveToLocalStorage } from "../helpers/workWithStorage";
 
-export default (status = null, { type }) => {
+export default (status = userDefaultStatus, { type, payload }) => {
   switch (type) {
     case USER_LOADING:
-      return { loading: true };
+      return { ...status, loading: true };
     case LOAD_TO_STORE:
-      return { login: true };
+      saveToLocalStorage(payload.user, "email");
+      return { ...status, loading: false, login: payload.user };
     case FAILED_LOADING:
-      return null;
+      return { ...status, loading: false, error: payload };
     case USER_LOG_OUT:
-      return null;
+      return userDefaultStatus;
     default:
       return status;
   }

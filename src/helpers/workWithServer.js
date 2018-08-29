@@ -23,7 +23,7 @@ export const requestToServer = data => {
 export const saveData = (list, field) => {
   requestToServer({
     [field]: JSON.stringify(list),
-    email: loadFromLocalStorage("", "userName")
+    email: loadFromLocalStorage("", "email")
   });
   return list;
 };

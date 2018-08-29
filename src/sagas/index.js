@@ -7,31 +7,27 @@ import {
 } from "../helpers/constants";
 import { requestToServer } from "../helpers/workWithServer";
 import { settingDefault } from "../helpers/initialParameters";
-import { saveToLocalStorage } from "../helpers/workWithStorage";
+import { setCookies } from "../helpers/workWithCookies";
 
-function* request({ data }) {
+function* request({ data, remember }) {
   yield put({ type: USER_LOADING });
   const res = yield call(requestToServer, data);
   // Function what to do when request is success
-  if (!res) {
-    console.log("Fatal error!");
-    return;
-  }
+  if (!res) return yield put({ type: FAILED_LOADING, payload: "Fatal error!" });
   switch (res.status) {
     case "ok":
-      // Set name of the user
-      saveToLocalStorage(data.email, "userName");
-
+      remember && setCookies(data);
       // Set data to the store
       return yield put({
         type: LOAD_TO_STORE,
         payload: {
           tasklist: JSON.parse(res.tasks),
-          setting: (res.setting && JSON.parse(res.setting)) || settingDefault
+          setting: (res.setting && JSON.parse(res.setting)) || settingDefault,
+          user: data.email
         }
       });
     case "error":
-      return yield put({ type: FAILED_LOADING });
+      return yield put({ type: FAILED_LOADING, payload: res.what });
     default:
       console.log("Wrong answer!");
   }

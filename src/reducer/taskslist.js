@@ -7,7 +7,9 @@ import {
 } from "../helpers/constants";
 import { saveData } from "../helpers/workWithServer";
 
-export default (tasklist = [{}], { type, payload }) => {
+const emptyTasklist = [{}];
+
+export default (tasklist = emptyTasklist, { type, payload }) => {
   switch (type) {
     case LOAD_TO_STORE:
       return [...payload.tasklist];
@@ -35,7 +37,7 @@ export default (tasklist = [{}], { type, payload }) => {
       );
 
     case USER_LOG_OUT:
-      return [{}];
+      return emptyTasklist;
 
     default:
       return tasklist;

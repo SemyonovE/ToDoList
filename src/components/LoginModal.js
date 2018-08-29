@@ -1,8 +1,7 @@
 import React from "react";
-import { func, instanceOf } from "prop-types";
+import { func } from "prop-types";
 import { connect } from "react-redux";
 import { loadingFromServer } from "../actionCreator";
-import { withCookies, Cookies } from "react-cookie";
 
 import {
   Modal,
@@ -12,27 +11,28 @@ import {
   Checkbox,
   ControlLabel
 } from "react-bootstrap";
-import moment from "moment";
 
+import styled from "styled-components";
 import { requestToServer } from "../helpers/workWithServer";
 import { Consumer } from "../context";
 
-class LoginModal extends React.Component {
-  componentDidMount({ cookies } = this.props) {
-    const userdata = cookies.get("userdata");
-    if (typeof userdata === "object") {
-      this.setCookies(userdata);
-      this.props.loadingFromServer(userdata);
-    }
-  }
+const ErrorMessage = styled.span`
+  color: red;
+  font-weight: bold;
+  float: left;
+`;
 
+class LoginModal extends React.Component {
   state = {
     login: "",
     password: "",
     remember: false
   };
 
-  render = ({ login, password } = this.state, { user } = this.props) => (
+  render = (
+    { login, password } = this.state,
+    { loading, error } = this.props
+  ) => (
     <Consumer>
       {({ LANG: { loginModalTitles } }) => (
         <div>
@@ -70,18 +70,21 @@ class LoginModal extends React.Component {
             </Modal.Body>
 
             <Modal.Footer>
+              {error && (
+                <ErrorMessage>
+                  {loginModalTitles.error}: {error}
+                </ErrorMessage>
+              )}
               <Button onClick={() => this.forgotPassword(loginModalTitles)}>
                 {loginModalTitles.forgot}
               </Button>
-              {user && user.loading ? (
-                <Button bsStyle="primary" {...{ disabled: true }}>
-                  {loginModalTitles.loading}
-                </Button>
-              ) : (
-                <Button bsStyle="primary" onClick={() => this.checkAndComing()}>
-                  {loginModalTitles.come}
-                </Button>
-              )}
+              <Button
+                bsStyle="primary"
+                {...loading && { disabled: true }}
+                onClick={() => this.checkAndComing()}
+              >
+                {loading ? loginModalTitles.loading : loginModalTitles.come}
+              </Button>
             </Modal.Footer>
           </Modal.Dialog>
         </div>
@@ -90,6 +93,8 @@ class LoginModal extends React.Component {
   );
 
   checkAndComing = ({ login, password, remember } = this.state) => {
+    if (!login || !password) return;
+
     const reg = /^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/;
     if (!reg.test(login.toLowerCase())) {
       alert("Incorrect email!");
@@ -101,17 +106,7 @@ class LoginModal extends React.Component {
       password: password
     };
 
-    remember && this.setCookies(data);
-
-    this.props.loadingFromServer(data);
-  };
-
-  setCookies = (userdata, { cookies } = this.props) => {
-    cookies.set("userdata", JSON.stringify(userdata), {
-      expires: moment()
-        .add(3, "month")
-        .toDate()
-    });
+    this.props.loadingFromServer(data, remember);
   };
 
   forgotPassword = loginModalTitles => {
@@ -128,11 +123,10 @@ class LoginModal extends React.Component {
 }
 
 LoginModal.propTypes = {
-  loadingFromServer: func.isRequired, // Function for loading of the tasks and the setting
-  cookies: instanceOf(Cookies).isRequired // Cookies
+  loadingFromServer: func.isRequired // Function for loading of the tasks and the setting
 };
 
 export default connect(
-  ({ user }) => ({ user }),
+  ({ user: { loading, error } }) => ({ loading, error }),
   { loadingFromServer }
-)(withCookies(LoginModal));
+)(LoginModal);

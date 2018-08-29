@@ -1,20 +1,16 @@
 import React from "react";
-import { func, instanceOf } from "prop-types";
+import { func } from "prop-types";
 import { connect } from "react-redux";
 import { userLogOut } from "../actionCreator";
-import { withCookies, Cookies } from "react-cookie";
 
 import { Glyphicon, DropdownButton, MenuItem } from "react-bootstrap";
 
 import { Consumer } from "../context";
-import {
-  loadFromLocalStorage,
-  saveToLocalStorage
-} from "../helpers/workWithStorage";
 import styled from "styled-components";
 import Language from "./Language";
 import TaskListStyle from "./TaskListStyle";
 import ColorStyle from "./ColorStyle";
+import { removeCookies } from "../helpers/workWithCookies";
 
 const LoginStyled = styled.div`
   z-index: 999;
@@ -31,7 +27,7 @@ const LoginStyled = styled.div`
   }
 `;
 
-const Login = ({ userLogOut, cookies }) => (
+const Login = ({ userLogOut, login }) => (
   <LoginStyled>
     <DropdownButton
       pullRight
@@ -41,7 +37,7 @@ const Login = ({ userLogOut, cookies }) => (
       id="user"
     >
       <MenuItem eventKey="user-name" disabled>
-        {loadFromLocalStorage("", "userName")}
+        {login}
       </MenuItem>
       <MenuItem divider />
       <TaskListStyle />
@@ -51,8 +47,7 @@ const Login = ({ userLogOut, cookies }) => (
       <MenuItem
         eventKey="exit"
         onClick={() => {
-          cookies.set("userdata", "false");
-          saveToLocalStorage(null, "userName");
+          removeCookies();
           userLogOut();
         }}
       >
@@ -65,11 +60,10 @@ const Login = ({ userLogOut, cookies }) => (
 );
 
 Login.propTypes = {
-  userLogOut: func.isRequired, // Function for logout
-  cookies: instanceOf(Cookies).isRequired // Cookies
+  userLogOut: func.isRequired // Function for logout
 };
 
 export default connect(
-  null,
+  ({ user: { login } }) => ({ login }),
   { userLogOut }
-)(withCookies(Login));
+)(Login);

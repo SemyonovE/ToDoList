@@ -56,7 +56,8 @@ export default {
       forgotPassword: "Set new password:",
       forgotMessage: "See the instructions on the email",
       come: "Come in",
-      loading: "Loading..."
+      loading: "Loading...",
+      error: "Loading error"
     },
     colorStyleToggle: "Color theme"
   },
@@ -113,7 +114,8 @@ export default {
       forgotPassword: "Задайте новый пароль:",
       forgotMessage: "Смотрите инструкции на указанном email",
       come: "Войти",
-      loading: "Загрузка..."
+      loading: "Загрузка...",
+      error: "Ошибка загрузки"
     },
     colorStyleToggle: "Цветовая тема"
   }

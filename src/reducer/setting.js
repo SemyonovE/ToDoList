@@ -7,7 +7,8 @@ import {
   CHANGE_COLOR_STYLE,
   LOAD_TO_STORE,
   CHANGE_DEFINE_HEADER,
-  USER_LOG_OUT
+  USER_LOG_OUT,
+  CHANGE_LANGUAGE
 } from "../helpers/constants";
 import { saveData } from "../helpers/workWithServer";
 import { settingDefault } from "../helpers/initialParameters";
@@ -37,6 +38,12 @@ export default (setting = settingDefault, { type, payload }) => {
 
     case CHANGE_COLOR_STYLE:
       return save({ ...setting, colorStyle: payload.color });
+
+    case CHANGE_LANGUAGE:
+      return save({
+        ...setting,
+        language: setting.language === "ru" ? "en" : "ru"
+      });
 
     case USER_LOG_OUT:
       return settingDefault;
