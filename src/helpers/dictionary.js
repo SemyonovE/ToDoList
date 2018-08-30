@@ -46,7 +46,7 @@ export default {
     toggleTaskListStyleToggle: "Change ange list style task",
     loginModalTitles: {
       title: "Login or register",
-      login: "Login",
+      login: "E-mail",
       loginText: "Enter email",
       password: "Password",
       passwordText: "Enter password",
@@ -73,7 +73,7 @@ export default {
     emptyText: "Укажите описание Вашей задачи",
     sorterTitle: "Сортировка задач по",
     filterTitles: ["Фильтр задач по важности", "Фильтр задач по завершенности"],
-    importances: ["все", "обычные", "важные", "очень важные"],
+    importances: ["все", "обычная", "важная", "очень важная"],
     displayMods: ["все", "текущие", "завершенные"],
     sorters: [
       "умолчанию",
@@ -104,7 +104,7 @@ export default {
     toggleTaskListStyleToggle: "Сменить стиль списка задач",
     loginModalTitles: {
       title: "Войти или зарегистрироваться",
-      login: "Логин",
+      login: "E-mail",
       loginText: "Введите email",
       password: "Пароль",
       passwordText: "Введите пароль",

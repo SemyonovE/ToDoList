@@ -35,59 +35,57 @@ class LoginModal extends React.Component {
   ) => (
     <Consumer>
       {({ LANG: { loginModalTitles } }) => (
-        <div>
-          <Modal.Dialog>
-            <Modal.Header>
-              <Modal.Title>{loginModalTitles.title}</Modal.Title>
-            </Modal.Header>
+        <Modal.Dialog>
+          <Modal.Header>
+            <Modal.Title>{loginModalTitles.title}</Modal.Title>
+          </Modal.Header>
 
-            <Modal.Body>
-              <FormGroup>
-                <ControlLabel>{loginModalTitles.login}</ControlLabel>
-                <FormControl
-                  autoFocus
-                  type="email"
-                  value={login}
-                  placeholder={loginModalTitles.loginTitle}
-                  onChange={ev => this.setState({ login: ev.target.value })}
-                />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>{loginModalTitles.password}</ControlLabel>
-                <FormControl
-                  type="password"
-                  value={password}
-                  placeholder={loginModalTitles.passwordTitle}
-                  onChange={ev => this.setState({ password: ev.target.value })}
-                  onKeyDown={ev => ev.key === "Enter" && this.checkAndComing()}
-                />
-              </FormGroup>
-              <Checkbox
-                onChange={ev => this.setState({ remember: ev.target.checked })}
-              >
-                {loginModalTitles.remember}
-              </Checkbox>
-            </Modal.Body>
+          <Modal.Body>
+            <FormGroup>
+              <ControlLabel>{loginModalTitles.login}</ControlLabel>
+              <FormControl
+                autoFocus
+                type="email"
+                value={login}
+                placeholder={loginModalTitles.loginTitle}
+                onChange={ev => this.setState({ login: ev.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>{loginModalTitles.password}</ControlLabel>
+              <FormControl
+                type="password"
+                value={password}
+                placeholder={loginModalTitles.passwordTitle}
+                onChange={ev => this.setState({ password: ev.target.value })}
+                onKeyDown={ev => ev.key === "Enter" && this.checkAndComing()}
+              />
+            </FormGroup>
+            <Checkbox
+              onChange={ev => this.setState({ remember: ev.target.checked })}
+            >
+              {loginModalTitles.remember}
+            </Checkbox>
+          </Modal.Body>
 
-            <Modal.Footer>
-              {error && (
-                <ErrorMessage>
-                  {loginModalTitles.error}: {error}
-                </ErrorMessage>
-              )}
-              <Button onClick={() => this.forgotPassword(loginModalTitles)}>
-                {loginModalTitles.forgot}
-              </Button>
-              <Button
-                bsStyle="primary"
-                {...loading && { disabled: true }}
-                onClick={() => this.checkAndComing()}
-              >
-                {loading ? loginModalTitles.loading : loginModalTitles.come}
-              </Button>
-            </Modal.Footer>
-          </Modal.Dialog>
-        </div>
+          <Modal.Footer>
+            {error && (
+              <ErrorMessage>
+                {loginModalTitles.error}: {error}
+              </ErrorMessage>
+            )}
+            <Button onClick={() => this.forgotPassword(loginModalTitles)}>
+              {loginModalTitles.forgot}
+            </Button>
+            <Button
+              bsStyle="primary"
+              {...loading && { disabled: true }}
+              onClick={() => this.checkAndComing()}
+            >
+              {loading ? loginModalTitles.loading : loginModalTitles.come}
+            </Button>
+          </Modal.Footer>
+        </Modal.Dialog>
       )}
     </Consumer>
   );
