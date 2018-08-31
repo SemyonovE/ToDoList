@@ -80,7 +80,7 @@ class LoginModal extends React.Component {
             <Button
               bsStyle="primary"
               {...loading && { disabled: true }}
-              onClick={() => this.checkAndComing()}
+              onClick={() => this.checkFields() && this.handleComing()}
             >
               {loading ? loginModalTitles.loading : loginModalTitles.come}
             </Button>
@@ -90,7 +90,7 @@ class LoginModal extends React.Component {
     </Consumer>
   );
 
-  checkAndComing = ({ login, password, remember } = this.state) => {
+  checkFields = ({ login, password } = this.state) => {
     if (!login || !password) return;
 
     const reg = /^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/;
@@ -98,7 +98,10 @@ class LoginModal extends React.Component {
       alert("Incorrect email!");
       return;
     }
+    return true;
+  };
 
+  handleComing = ({ login, password, remember } = this.state) => {
     const data = {
       email: login,
       password: password
@@ -108,12 +111,13 @@ class LoginModal extends React.Component {
   };
 
   forgotPassword = loginModalTitles => {
-    const email = prompt(loginModalTitles.forgotEmail, "");
+    const login = prompt(loginModalTitles.forgotEmail, "");
     const password = prompt(loginModalTitles.forgotPassword, "");
-    if (email && password) {
+    if (login && password) {
+      if (!this.checkFields({ login, password })) return;
       alert(loginModalTitles.forgotMessage);
       requestToServer({
-        email: email,
+        email: login,
         forget: password
       });
     }
